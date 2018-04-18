@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using NPSLCore.Contexts;
 using NPSLCore.Repository;
 
 namespace NPSLCore
@@ -19,6 +20,8 @@ namespace NPSLCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddDbContext<DataContext>(options =>
+             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddScoped<IUsersRepository, UsersRepository>();
             //services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddMvc();

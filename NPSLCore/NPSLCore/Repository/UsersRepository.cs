@@ -1,5 +1,7 @@
 ﻿using System.Collections.Generic;
+using System.Data.SqlClient;
 using System.Linq;
+using NPSLCore.Contexts;
 using NPSLCore.Models;
 
 namespace NPSLCore.Repository
@@ -21,7 +23,7 @@ namespace NPSLCore.Repository
 
         public IEnumerable<Users> GetAll()
         {
-            return UsersList;
+           return UsersList;
         }
 
         public void Remove(int UserId)
