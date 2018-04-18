@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using NPSLCore.Contexts;
+using NPSLCore.Models.DB;
 using NPSLCore.Repository;
 
 namespace NPSLCore
@@ -20,11 +20,15 @@ namespace NPSLCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<DataContext>(options =>
-             options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddScoped<IUsersRepository, UsersRepository>();
+           services.AddMvc();
+
+            services.AddDbContext<NPSLContext>(options => options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
+
+            //services.AddDbContext<DataContext>(options =>
+            // options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
+          // services.AddScoped<IDataRepository<Users, long>();
             //services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddMvc();
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

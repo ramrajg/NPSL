@@ -1,7 +1,10 @@
-﻿using NPSLCore.Models;
-using NPSLCore.Repository;
+﻿//using NPSLCore.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using NPSLCore.Models.DB;
+using Microsoft.EntityFrameworkCore;
+using System.Threading.Tasks;
+using NPSLCore.Repository;
 
 namespace NPSLCore.Controllers
 {
@@ -9,59 +12,40 @@ namespace NPSLCore.Controllers
     [Route("api/Users")]
     public class UsersController : Controller
     {
-        public IUsersRepository UsersRepo { get; set; }
-        public UsersController(IUsersRepository _repo)
+
+        private IDataRepository<Users, long> _iRepo;
+        public UsersController(IDataRepository<Users, long> repo)
         {
-            UsersRepo = _repo;
+            _iRepo = repo;
         }
         [HttpGet]
         public IEnumerable<Users> GetAll()
         {
-            return UsersRepo.GetAll();
+            return _iRepo.GetAll();
         }
 
-        [HttpGet("{id}", Name = "GetContacts")]
-        public IActionResult GetById(string id)
+        [HttpGet("{id}")]
+        public Users GetById(int id)
         {
-            var item = UsersRepo.Find(id);
-            if (item == null)
-            {
-                return NotFound();
-            }
-            return new ObjectResult(item);
+            return _iRepo.GetById(id);
         }
 
         [HttpPost]
-        public IActionResult Create([FromBody] Users item)
+        public void Post([FromBody] Users item)
         {
-            if (item == null)
-            {
-                return BadRequest();
-            }
-            UsersRepo.Add(item);
-            return CreatedAtRoute("GetContacts", new { Controller = "Contacts", id = item.MobilePhone }, item);
+             _iRepo.Add(item);
         }
 
-        [HttpPut("{id}")]
-        public IActionResult Update(string id, [FromBody] Users item)
+        [HttpPut]
+        public void  Update([FromBody] Users item)
         {
-            if (item == null)
-            {
-                return BadRequest();
-            }
-            var contactObj = UsersRepo.Find(id);
-            if (contactObj == null)
-            {
-                return NotFound();
-            }
-            UsersRepo.Update(item);
-            return new NoContentResult();
+            _iRepo.Update( item);
         }
 
         [HttpDelete("{id}")]
-        public void Delete(int id)
+        public long Delete(long id)
         {
-            UsersRepo.Remove(id);
+            return _iRepo.Delete(id);
         }
 
     }

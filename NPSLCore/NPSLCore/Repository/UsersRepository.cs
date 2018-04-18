@@ -1,41 +1,48 @@
-﻿using System.Collections.Generic;
-using System.Data.SqlClient;
+﻿using NPSLCore.Models.DB;
+using System.Collections.Generic;
 using System.Linq;
-using NPSLCore.Contexts;
-using NPSLCore.Models;
 
 namespace NPSLCore.Repository
 {
-    public class UsersRepository : IUsersRepository
+    public class UsersRepository : IDataRepository<Users, long>
     {
-        static List<Users> UsersList = new List<Users>();
+        NPSLContext _ctx;
+        public UsersRepository(NPSLContext ctx)
+        {
+            _ctx = ctx;
+        }
         public void Add(Users item)
         {
-            UsersList.Add(item);
+            _ctx.Add(item);
         }
 
-        public Users Find(string UserName)
+        public Users GetById(long UserId)
         {
-            return UsersList
-               .Where(e => e.FirstName.Equals(UserName))
+            return _ctx.Users
+               .Where(e => e.UserId.Equals(UserId))
                .SingleOrDefault();
         }
 
         public IEnumerable<Users> GetAll()
         {
-           return UsersList;
+            return _ctx.Users;
         }
 
-        public void Remove(int UserId)
+        public long Delete(long UserId)
         {
-            var itemToRemove = UsersList.SingleOrDefault(r => r.UserId == UserId);
+            int userID = 0;
+            var itemToRemove = _ctx.Users.SingleOrDefault(r => r.UserId == UserId);
             if (itemToRemove != null)
-                UsersList.Remove(itemToRemove);
+            {
+                _ctx.Remove(itemToRemove);
+                userID = _ctx.SaveChanges();
+            }
+            return userID;
         }
 
         public void Update(Users item)
         {
-            var itemToUpdate = UsersList.SingleOrDefault(r => r.UserId == item.UserId);
+            var itemToUpdate = _ctx.Users.SingleOrDefault(r => r.UserId == item.UserId);
             if (itemToUpdate != null)
             {
                 itemToUpdate.FirstName = item.FirstName;
