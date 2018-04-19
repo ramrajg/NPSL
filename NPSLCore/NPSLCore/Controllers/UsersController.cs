@@ -1,51 +1,56 @@
-﻿//using NPSLCore.Models;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using NPSLCore.Models.DB;
 using Microsoft.EntityFrameworkCore;
-using System.Threading.Tasks;
-using NPSLCore.Repository;
+using System.Linq;
 
 namespace NPSLCore.Controllers
 {
     [Produces("application/json")]
-    [Route("api/Users")]
     public class UsersController : Controller
     {
-
-        private IDataRepository<Users, long> _iRepo;
-        public UsersController(IDataRepository<Users, long> repo)
+        private readonly NPSLContext _ctx;
+        public UsersController(NPSLContext ctx)
         {
-            _iRepo = repo;
+            _ctx = ctx;
         }
+
         [HttpGet]
+        [Route("api/Users")]
         public IEnumerable<Users> GetAll()
         {
-            return _iRepo.GetAll();
+            List<Users> userLst = _ctx.Users
+                     .FromSql("P_GetUser").ToList();
+            return userLst;
         }
 
-        [HttpGet("{id}")]
-        public Users GetById(int id)
+        [HttpGet]
+        [Route("api/GetUserById")]
+        public IEnumerable<Users> GetUserById(int id)
         {
-            return _iRepo.GetById(id);
+            List<Users> userLst = _ctx.Users
+                    .FromSql("P_GetUser @p0", id).ToList();
+            return userLst;
         }
 
-        [HttpPost]
-        public void Post([FromBody] Users item)
-        {
-             _iRepo.Add(item);
-        }
+        //[HttpPost]
+        //public void Post([FromBody] Users item)
+        //{
+        //     _iRepo.Add(item);
+        //}
 
-        [HttpPut]
-        public void  Update([FromBody] Users item)
-        {
-            _iRepo.Update( item);
-        }
+        //[HttpPut]
+        //public void  Update([FromBody] Users item)
+        //{
+        //    _iRepo.Update( item);
+        //}
 
-        [HttpDelete("{id}")]
-        public long Delete(long id)
+        [HttpDelete]
+        [Route("api/DeleteUser")]
+        public void Delete(long id)
         {
-            return _iRepo.Delete(id);
+            _ctx.Database
+           .ExecuteSqlCommand("P_DELETEUSER @p0", id);
         }
 
     }

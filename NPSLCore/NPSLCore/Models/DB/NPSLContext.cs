@@ -12,24 +12,24 @@ namespace NPSLCore.Models.DB
 : base(options)
         { }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            modelBuilder.Entity<Users>(entity =>
-            {
-                entity.HasKey(e => e.UserId);
+        //protected override void OnModelCreating(ModelBuilder modelBuilder)
+        //{
+        //    modelBuilder.Entity<Users>(entity =>
+        //    {
+        //        entity.HasKey(e => e.UserId);
 
-                entity.Property(e => e.Email).IsRequired();
+        //        entity.Property(e => e.Email).IsRequired();
 
-                entity.Property(e => e.FirstName).IsRequired();
+        //        entity.Property(e => e.FirstName).IsRequired();
 
-                entity.Property(e => e.LastName).IsRequired();
+        //        entity.Property(e => e.LastName).IsRequired();
 
-                entity.Property(e => e.LoginId).IsRequired();
+        //        entity.Property(e => e.LoginId).IsRequired();
 
-                entity.Property(e => e.LoginPassword).IsRequired();
+        //        entity.Property(e => e.LoginPassword).IsRequired();
 
-                entity.Property(e => e.MobilePhone).IsRequired();
-            });
-        }
+        //        entity.Property(e => e.MobilePhone).IsRequired();
+        //    });
+        //}
     }
 }

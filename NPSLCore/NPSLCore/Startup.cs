@@ -4,7 +4,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using NPSLCore.Models.DB;
-using NPSLCore.Repository;
 
 namespace NPSLCore
 {
@@ -23,12 +22,12 @@ namespace NPSLCore
            services.AddMvc();
 
             services.AddDbContext<NPSLContext>(options => options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
+           // services.AddDbContext<BaseDataAccess>(options => options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
+            ////services.AddDbContext<DataContext>(options =>
+            //// options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
+            //services.AddScoped<IUserProcessor,UserProcessor>();
+            ////services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
-            //services.AddDbContext<DataContext>(options =>
-            // options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
-          // services.AddScoped<IDataRepository<Users, long>();
-            //services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
