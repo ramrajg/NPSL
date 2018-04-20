@@ -1,7 +1,7 @@
 ﻿using NPSLCore.Models.DB;
 using System.Collections.Generic;
 
-namespace NPSL.Repository.API.Core.User
+namespace NPSL.Repository.Core.User
 {
     public interface IUserRepository
     {

@@ -1,7 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-
-namespace NPSLCore.Models.DB
+﻿namespace NPSLCore.Models.DB
 {
     public partial class Users
     {

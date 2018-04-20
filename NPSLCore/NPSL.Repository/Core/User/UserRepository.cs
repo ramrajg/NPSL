@@ -2,40 +2,32 @@
 using System.Collections.Generic;
 using System.Data.Common;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
+using System.Reflection;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Configuration.Json;
+
 using NPSLCore.Models.DB;
 
-namespace NPSL.Repository.API.Core.User
-{
-    public class UserRepository : IUserRepository
-    {
-       // public NPSLContext _Context { get; set; }
 
-        private readonly NPSLContext _context;
-        public UserRepository(NPSLContext context)
+namespace NPSL.Repository.Core.User
+{
+    public class UserRepository :IUserRepository
+    {
+        private readonly BaseDataAccess _DataAccess;
+        public UserRepository(IConfiguration connectionstring)
         {
-            _context = context;
+            _DataAccess = new BaseDataAccess(connectionstring);
         }
         IEnumerable<Users> IUserRepository.GetUsers()
         {
-            List<Users> userLst = null;
-            //         .FromSql("P_GetUser").ToList();
-            //return userLst;
-
-            BaseDataAccess Data = new BaseDataAccess();
             var param = new List<DbParameter>
             {
                 //new SqlParameter("@MediaId ", mediaId),
                 //new SqlParameter("@AttachmentId",attachmentId)
             };
 
-            //AttachmentRpc attachment = new AttachmentRpc();
-            //MediaRpc media = new MediaRpc();
-
-            var result = Data.GetDataReader("[dbo].[P_GetUser]", param);
-            string attachmentMediaText = string.Empty;
+            List<Users> userLst = _DataAccess.ExecuteList<Users>("P_GetUser", param);
             return userLst;
         }
     }

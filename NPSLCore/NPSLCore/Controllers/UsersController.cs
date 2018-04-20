@@ -4,8 +4,7 @@ using NPSLCore.Models.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
 using System.Threading.Tasks;
-
-using NPSL.Repository.API.Core.User;
+using NPSL.Repository.Core.User;
 
 namespace NPSLCore.Controllers
 {

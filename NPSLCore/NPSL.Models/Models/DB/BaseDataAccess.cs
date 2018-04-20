@@ -1,26 +1,25 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
+using System.Reflection;
 
 namespace NPSLCore.Models.DB
 {
     public class BaseDataAccess : DbContext
     {
         protected string ConnectionString { get; set; }
+        private readonly IConfiguration _Connectionstring;
 
-        public BaseDataAccess()
+        public BaseDataAccess(IConfiguration connectionstring)
         {
+            _Connectionstring = connectionstring;
+            this.ConnectionString = _Connectionstring["ConnectionString:DBConnection"];
         }
-        public BaseDataAccess(DbContextOptions<BaseDataAccess> options)
-: base(options)
-        { }
-        public BaseDataAccess(string connectionString)
-        {
-            this.ConnectionString = connectionString;
-        }
+
 
         private SqlConnection GetConnection()
         {
@@ -65,6 +64,65 @@ namespace NPSLCore.Models.DB
             }
 
             return parameterObject;
+        }
+        public object ExecuteProcedure(string procedureName, List<DbParameter> parameters)
+        {
+            object returnObject = null;
+
+            try
+            {
+                using (SqlConnection connection = this.GetConnection())
+                {
+                    DbCommand cmd = this.GetCommand(connection, procedureName, CommandType.StoredProcedure);
+
+                    if (parameters != null && parameters.Count > 0)
+                    {
+                        cmd.Parameters.AddRange(parameters.ToArray());
+                    }
+
+                    returnObject = cmd.ExecuteReader();
+                }
+            }
+            catch (Exception ex)
+            {
+                //LogException("Failed to ExecuteNonQuery for " + procedureName, ex, parameters);  
+                throw;
+            }
+
+           
+            return returnObject;
+        }
+      
+        public List<T> ExecuteList<T>(string procedureName, List<DbParameter> parameters) where T : new()
+        {
+            List<T> objects = new List<T>();
+            object returnObject = null;
+
+            using (SqlConnection connection = this.GetConnection())
+            {
+                DbCommand cmd = this.GetCommand(connection, procedureName, CommandType.StoredProcedure);
+                if (parameters != null && parameters.Count > 0)
+                {
+                    cmd.Parameters.AddRange(parameters.ToArray());
+                }
+                returnObject = cmd.ExecuteReader();
+                IDataReader reader = (IDataReader)returnObject;
+                while (reader.Read())
+                {
+                    T tempObject = new T();
+                    for (int i = 0; i < reader.FieldCount; i++)
+                    {
+                        if (reader.GetValue(i) != DBNull.Value)
+                        {
+                            PropertyInfo propertyInfo = typeof(T).GetProperty(reader.GetName(i));
+                            propertyInfo.SetValue(tempObject, reader.GetValue(i), null);
+                        }
+                    }
+                    objects.Add(tempObject);
+                }
+                reader.Close();
+            }
+            return objects;
         }
 
         protected int ExecuteNonQuery(string procedureName, List<DbParameter> parameters, CommandType commandType = CommandType.StoredProcedure)
