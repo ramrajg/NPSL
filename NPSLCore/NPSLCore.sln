@@ -3,7 +3,11 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.27428.2037
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPSLCore", "NPSLCore\NPSLCore.csproj", "{C1DDE69E-F588-4C13-811F-8CBBDE2AB1D7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPSLCore", "NPSLCore\NPSLCore.csproj", "{C1DDE69E-F588-4C13-811F-8CBBDE2AB1D7}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPSL.Models", "NPSL.Modelss\NPSL.Models.csproj", "{CF24DB80-E28F-40EB-B30B-0135B52D4E30}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPSL.Repository", "NPSL.Repository\NPSL.Repository.csproj", "{53009392-18E6-46E7-B70C-3F0998C84FAF}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +19,14 @@ Global
 		{C1DDE69E-F588-4C13-811F-8CBBDE2AB1D7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1DDE69E-F588-4C13-811F-8CBBDE2AB1D7}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1DDE69E-F588-4C13-811F-8CBBDE2AB1D7}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CF24DB80-E28F-40EB-B30B-0135B52D4E30}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CF24DB80-E28F-40EB-B30B-0135B52D4E30}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CF24DB80-E28F-40EB-B30B-0135B52D4E30}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CF24DB80-E28F-40EB-B30B-0135B52D4E30}.Release|Any CPU.Build.0 = Release|Any CPU
+		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

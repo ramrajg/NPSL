@@ -1,0 +1,18 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="2.0.2" />
+    <PackageReference Include="System.Data.SqlClient" Version="4.4.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NPSL.Models">
+      <HintPath>..\NPSL.Models\bin\Debug\netcoreapp2.0\NPSL.Models.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+</Project>

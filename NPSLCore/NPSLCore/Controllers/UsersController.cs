@@ -3,35 +3,51 @@ using System.Collections.Generic;
 using NPSLCore.Models.DB;
 using Microsoft.EntityFrameworkCore;
 using System.Linq;
+using System.Threading.Tasks;
+
+using NPSL.Repository.API.Core.User;
 
 namespace NPSLCore.Controllers
 {
     [Produces("application/json")]
     public class UsersController : Controller
     {
-        private readonly NPSLContext _ctx;
-        public UsersController(NPSLContext ctx)
+        private readonly IUserRepository _user;
+        public UsersController(IUserRepository user)
         {
-            _ctx = ctx;
+            _user = user;
         }
 
         [HttpGet]
         [Route("api/Users")]
-        public IEnumerable<Users> GetAll()
+        public IEnumerable<Users> GetUsers()
         {
-            List<Users> userLst = _ctx.Users
-                     .FromSql("P_GetUser").ToList();
-            return userLst;
+            var records = _user.GetUsers();
+            if (!records.Any())
+            {
+                //throw new HttpException(204, "GetUsers");
+            }
+            return records;
         }
 
-        [HttpGet]
-        [Route("api/GetUserById")]
-        public IEnumerable<Users> GetUserById(int id)
-        {
-            List<Users> userLst = _ctx.Users
-                    .FromSql("P_GetUser @p0", id).ToList();
-            return userLst;
-        }
+
+        //[HttpGet]
+        //[Route("api/Users")]
+        //public IEnumerable<Usersssss> GetAll()
+        //{
+        //    List<Usersssss> userLst = _ctx.Users
+        //             .FromSql("P_GetUser").ToList();
+        //    return userLst;
+        //}
+
+        //[HttpGet]
+        //[Route("api/GetUserById")]
+        //public IEnumerable<Usersssss> GetUserById(int id)
+        //{
+        //    List<Usersssss> userLst = _ctx.Users
+        //            .FromSql("P_GetUser @p0", id).ToList();
+        //    return userLst;
+        //}
 
         //[HttpPost]
         //public void Post([FromBody] Users item)
@@ -45,13 +61,13 @@ namespace NPSLCore.Controllers
         //    _iRepo.Update( item);
         //}
 
-        [HttpDelete]
-        [Route("api/DeleteUser")]
-        public void Delete(long id)
-        {
-            _ctx.Database
-           .ExecuteSqlCommand("P_DELETEUSER @p0", id);
-        }
+        //[HttpDelete]
+        //[Route("api/DeleteUser")]
+        //public void Delete(long id)
+        //{
+        //    _ctx.Database
+        //   .ExecuteSqlCommand("P_DELETEUSER @p0", id);
+        //}
 
     }
 }
