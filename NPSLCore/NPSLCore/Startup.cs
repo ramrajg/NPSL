@@ -7,6 +7,9 @@ using NPSLCore.Models.DB;
 
 
 using NPSL.Repository.Core.User;
+using NPSL.Models.Models.DB;
+using NPSL.Extensions;
+using NPSL.Extentions.CustomException;
 
 namespace NPSLCore
 {
@@ -30,7 +33,8 @@ namespace NPSLCore
 
             // services.AddDbContext<BaseDataAccess>(options => options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
 
-            services.AddScoped<BaseDataAccess>();
+            
+            services.AddScoped<DatabaseContext>();
             services.AddScoped<IUserRepository, UserRepository>();
             ////services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
@@ -42,10 +46,13 @@ namespace NPSLCore
         {
             if (env.IsDevelopment())
             {
-                app.UseDeveloperExceptionPage();
-            }
+               app.UseDeveloperExceptionPage();
 
+            }
+            else { app.UseExceptionHandler(); }
+            app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
+           
         }
     }
 }

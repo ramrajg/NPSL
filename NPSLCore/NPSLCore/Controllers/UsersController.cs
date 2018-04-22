@@ -1,10 +1,13 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
 using NPSLCore.Models.DB;
-using Microsoft.EntityFrameworkCore;
 using System.Linq;
-using System.Threading.Tasks;
 using NPSL.Repository.Core.User;
+using System;
+using System.Net;
+using NPSL.Extensions;
+using NPSL.Extensions.CustomException;
+using NPSL.Extentions.CustomException;
 
 namespace NPSLCore.Controllers
 {
@@ -24,29 +27,24 @@ namespace NPSLCore.Controllers
             var records = _user.GetUsers();
             if (!records.Any())
             {
-                //throw new HttpException(204, "GetUsers");
+                const string msg = "User does not exsists";
+                throw new CustomException(msg);
             }
             return records;
         }
 
-
-        //[HttpGet]
-        //[Route("api/Users")]
-        //public IEnumerable<Usersssss> GetAll()
-        //{
-        //    List<Usersssss> userLst = _ctx.Users
-        //             .FromSql("P_GetUser").ToList();
-        //    return userLst;
-        //}
-
-        //[HttpGet]
-        //[Route("api/GetUserById")]
-        //public IEnumerable<Usersssss> GetUserById(int id)
-        //{
-        //    List<Usersssss> userLst = _ctx.Users
-        //            .FromSql("P_GetUser @p0", id).ToList();
-        //    return userLst;
-        //}
+        [HttpGet]
+        [Route("api/GetUserById")]
+        public IEnumerable<Users> GetUserById(int id)
+        {
+            var records = _user.GetUserById(id);
+            if (!records.Any())
+            {
+                const string msg = "User does not exsists";
+                throw new Exception(msg);
+            }
+            return records;
+        }
 
         //[HttpPost]
         //public void Post([FromBody] Users item)

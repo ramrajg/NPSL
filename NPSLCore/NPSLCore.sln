@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPSL.Models", "NPSL.Models\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "NPSL.Repository", "NPSL.Repository\NPSL.Repository.csproj", "{53009392-18E6-46E7-B70C-3F0998C84FAF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NPSL.Extentions", "NPSL.Extentions\NPSL.Extentions.csproj", "{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -41,6 +43,14 @@ Global
 		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Release|Any CPU.Build.0 = Release|Any CPU
 		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Release|x64.ActiveCfg = Release|x64
 		{53009392-18E6-46E7-B70C-3F0998C84FAF}.Release|x64.Build.0 = Release|x64
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Debug|x64.Build.0 = Debug|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Release|x64.ActiveCfg = Release|Any CPU
+		{374E65A3-35DD-417B-9A4F-F11BD1D2B3CA}.Release|x64.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
