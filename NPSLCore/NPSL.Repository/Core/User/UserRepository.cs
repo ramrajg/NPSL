@@ -30,5 +30,16 @@ namespace NPSL.Repository.Core.User
             List<Users> userLst = _DBContext.ExecuteTransactional<Users>("P_GetUser", param);
             return userLst;
         }
+        IEnumerable<Users> IUserRepository.GetUsersValidation(int userId, string password)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@UserId ", userId),
+                new SqlParameter("@Password ", password),
+            };
+
+            List<Users> userLst = _DBContext.ExecuteTransactional<Users>("P_GETUSERSVALIDATION", param);
+            return userLst;
+        }
     }
 }

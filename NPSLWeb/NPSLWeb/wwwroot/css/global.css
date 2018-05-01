@@ -75,5 +75,8 @@ body {
     }
 }
 
-
-
+.user {
+    font-family: Arabic typesetting;
+    font-size: 14px;
+    color: white;
+}

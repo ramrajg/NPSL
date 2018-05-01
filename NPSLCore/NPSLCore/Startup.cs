@@ -26,8 +26,17 @@ namespace NPSLCore
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-           services.AddMvc();
-
+            services.AddMvc();
+            services.AddCors(options =>
+            {
+                options.AddPolicy("AllowAllHeaders",
+                      builder =>
+                      {
+                          builder.AllowAnyOrigin()
+                                 .AllowAnyHeader()
+                                 .AllowAnyMethod();
+                      });
+            });
             services.AddDbContext<NPSLContext>(options => options.UseSqlServer(Configuration["ConnectionString:DBConnection"]));
             services.AddSingleton<IConfiguration>(Configuration);
 
@@ -50,6 +59,7 @@ namespace NPSLCore
 
             }
             else { app.UseExceptionHandler(); }
+            app.UseCors("AllowAllHeaders");
             app.UseMiddleware(typeof(ErrorHandlingMiddleware));
             app.UseMvc();
            

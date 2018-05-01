@@ -8,10 +8,12 @@ using System.Net;
 using NPSL.Extensions;
 using NPSL.Extensions.CustomException;
 using NPSL.Extentions.CustomException;
+using Microsoft.AspNetCore.Cors;
 
 namespace NPSLCore.Controllers
 {
     [Produces("application/json")]
+    [EnableCors("AllowAllHeaders")]
     public class UsersController : Controller
     {
         private readonly IUserRepository _user;
@@ -42,6 +44,19 @@ namespace NPSLCore.Controllers
             {
                 const string msg = "User does not exsists";
                 throw new Exception(msg);
+            }
+            return records;
+        }
+
+        [HttpGet]
+        [Route("api/GetUsersValidation")]
+        public IEnumerable<Users> GetUsersValidation(int userId,string password)
+        {
+            var records = _user.GetUsersValidation(userId, password);
+            if (!records.Any())
+            {
+                const string msg = "User does not exsists";
+                throw new CustomException(msg);
             }
             return records;
         }
