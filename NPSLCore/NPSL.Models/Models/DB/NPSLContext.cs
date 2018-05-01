@@ -23,10 +23,6 @@ namespace NPSLCore.Models.DB
 
                 entity.Property(e => e.LastName).IsRequired();
 
-                entity.Property(e => e.LoginId).IsRequired();
-
-                entity.Property(e => e.LoginPassword).IsRequired();
-
                 entity.Property(e => e.MobilePhone).IsRequired();
             });
         }

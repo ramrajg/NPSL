@@ -73,5 +73,18 @@ if (input !== null) {
 
     })
 };
-//});
+
+function typeWriter(elementId,txt,speed) {
+    if (i < txt.length) {
+        document.getElementById(elementId).innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    }
+}
+
+
+function setTextValue(elementId, txt) {
+    document.getElementById("erroMessage").innerHTML = txt;
+}
+
 

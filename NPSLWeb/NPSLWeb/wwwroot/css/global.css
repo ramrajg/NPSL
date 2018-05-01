@@ -12,7 +12,6 @@
     border: 1px solid #000000;
     padding: 50px 80px;
     margin-top: 50%;
-    /*width:100%;*/
     -webkit-box-shadow: 11px -9px 44px -2px rgba(0,0,0,0.81);
     -moz-box-shadow: 11px -9px 44px -2px rgba(0,0,0,0.81);
     box-shadow: 11px -9px 44px -2px rgba(0,0,0,0.81);
@@ -80,3 +79,35 @@ body {
     font-size: 14px;
     color: white;
 }
+
+.alert {
+    /*padding: 10px;*/
+    background-color: #f44336;
+    color: white;
+    height: 0px;
+}
+
+.btn {
+    font-size: 17px;
+    border-radius: 0px;
+}
+
+.closebtn {
+    margin-left: 15px;
+    color: white;
+    font-weight: bold;
+    float: right;
+    font-size: 22px;
+    line-height: 0px;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+    .closebtn:hover {
+        color: black;
+    }
+
+/*#erroMessage {
+    color: red;
+    font-size: 15px;
+}*/

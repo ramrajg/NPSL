@@ -50,15 +50,17 @@ namespace NPSLCore.Controllers
 
         [HttpGet]
         [Route("api/GetUsersValidation")]
-        public IEnumerable<Users> GetUsersValidation(int userId,string password)
+        public IEnumerable<Users> GetUsersValidation(int userId, string password)
         {
-            var records = _user.GetUsersValidation(userId, password);
-            if (!records.Any())
+            try
             {
-                const string msg = "User does not exsists";
-                throw new CustomException(msg);
+                var records = _user.GetUsersValidation(userId, password);
+                return records;
             }
-            return records;
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
         }
 
         //[HttpPost]
