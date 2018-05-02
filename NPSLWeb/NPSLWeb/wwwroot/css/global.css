@@ -17,15 +17,6 @@
     box-shadow: 11px -9px 44px -2px rgba(0,0,0,0.81);
 }
 
-body {
-    margin: 0;
-    padding: 0;
-    background: #fff;
-    color: #fff;
-    font-family: Arial;
-    font-size: 12px;
-}
-
 
 .header {
     position: absolute;
@@ -73,18 +64,10 @@ body {
         background-position: -400px 0;
     }
 }
-
 .user {
     font-family: Arabic typesetting;
     font-size: 14px;
     color: white;
-}
-
-.alert {
-    /*padding: 10px;*/
-    background-color: #f44336;
-    color: white;
-    height: 0px;
 }
 
 .btn {
@@ -106,8 +89,3 @@ body {
     .closebtn:hover {
         color: black;
     }
-
-/*#erroMessage {
-    color: red;
-    font-size: 15px;
-}*/

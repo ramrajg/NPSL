@@ -60,19 +60,6 @@ function AllowNumbersOnly(e) {
         e.preventDefault();
     }
 }
-var input = document.getElementById('userId');
-if (input !== null) {
-    input.addEventListener('keyup', function (e) {
-
-        if (input.value.length > 0) {
-            document.getElementById("userIdBlank").style.visibility = "hidden";
-        }
-        if (input.value.length == 0) {
-            searchHits.style.display = 'none';
-        }
-
-    })
-};
 
 function typeWriter(elementId,txt,speed) {
     if (i < txt.length) {
@@ -84,7 +71,7 @@ function typeWriter(elementId,txt,speed) {
 
 
 function setTextValue(elementId, txt) {
-    document.getElementById("erroMessage").innerHTML = txt;
+    document.getElementById(elementId).innerHTML = txt;
 }
 
 
