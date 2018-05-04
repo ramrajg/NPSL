@@ -35,6 +35,31 @@ function apiGetCall(serviceUrl, listDestination, isDisabled, callback, errorCall
     });
 }
 
+function apiGetCallController(controllerName, methodName, methodType, data, successCallBack, errorCallback) {
+    urlString = '/' + controllerName + '/' + methodName;
+    $(document).ready(function () {
+        $.ajax({
+            url: urlString,
+            type: 'GET',
+            dataType: 'json',
+            success: function (data) {
+                if (successCallBack && typeof (successCallBack) === "function")
+                    successCallBack();
+            },
+            failure: function (data) {
+                alert(data.responseText);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("The following error occurred: " + jqXHR.responseJSON.error);
+                console.log(errorThrown);
+                if (errorCallback && typeof (errorCallback) === "function") {
+                    errorCallback(jqXHR, textStatus, errorThrown);
+                }
+            }
+        });
+    });
+}
+
 function getNowDate() {
     var now = new Date(),
         month = '' + (now.getMonth() + 1),
@@ -61,7 +86,7 @@ function AllowNumbersOnly(e) {
     }
 }
 
-function typeWriter(elementId,txt,speed) {
+function typeWriter(elementId, txt, speed) {
     if (i < txt.length) {
         document.getElementById(elementId).innerHTML += txt.charAt(i);
         i++;
