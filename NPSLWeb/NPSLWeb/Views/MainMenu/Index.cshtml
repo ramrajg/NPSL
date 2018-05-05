@@ -9,6 +9,14 @@
     <link href="~/css/Dashboard.css" rel="stylesheet" />
 </head>
 <body>
+    @{
+        var loginSession = new Byte[20];
+        bool nameOK = Context.Session.TryGetValue("LoginSession", out loginSession);
+        if (!nameOK)
+        {
+            Context.Response.Redirect("/Login/Index");
+        }
+    }
     <div class="container">
         <div class="tile job">
             <div class="header">

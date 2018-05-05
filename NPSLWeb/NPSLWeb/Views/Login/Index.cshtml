@@ -34,14 +34,14 @@
                         <label class="user">User Id</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i> </span>
-                            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "User Id", onkeypress = "return AllowNumbersOnly(event)", required = "required", oninvalid = "this.setCustomValidity('Please Enter User Id')" ,oninput = "setCustomValidity('')" })
+                            @Html.TextBoxFor(m => m.UserId, new { @class = "form-control", placeholder = "User Id", onkeypress = "return AllowNumbersOnly(event)", required = "required", oninvalid = "this.setCustomValidity('Please Enter User Id')", oninput = "setCustomValidity('')" })
                         </div>
                     </div>
                     <div class="form-group">
                         <label class="user">Password</label>
                         <div class="input-group">
                             <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i> </span>
-                            @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", placeholder = "Password",  required = "required", oninvalid = "this.setCustomValidity('Please Enter Password')", oninput = "setCustomValidity('')" })
+                            @Html.PasswordFor(m => m.UserPassword, new { @class = "form-control", placeholder = "Password", required = "required", oninvalid = "this.setCustomValidity('Please Enter Password')", oninput = "setCustomValidity('')" })
                         </div>
                     </div>
                     <div class="form-group">
@@ -55,8 +55,7 @@
             </div>
         </div>
     </div>
-
-</body>
+ </body>
 </html>
 @section AppScriptsPreBinding {
     <script type="text/javascript">

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using System.Linq;
 
 namespace NPSLWeb.Controllers
 {
@@ -23,8 +24,8 @@ namespace NPSLWeb.Controllers
             try
             {
                 var uriString = string.Format("api/GetUsersValidation?userId={0}&password={1}", usersModel.UserId, usersModel.UserPassword);
-                result = CustomUtility.GetSingleRecord<Users>(uriString);
-                HttpContext.Session.SetString("Test", "Session Value");
+                result = CustomUtility.GetSingleRecord<Users>(uriString); 
+                HttpContext.Session.SetString("LoginSession",result.FirstOrDefault().FirstName);
             }
             catch (Exception ex)
             {
