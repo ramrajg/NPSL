@@ -40,8 +40,10 @@ function apiGetCallController(controllerName, methodName, methodType, data, succ
     $(document).ready(function () {
         $.ajax({
             url: urlString,
-            type: 'GET',
-            dataType: 'json',
+            type: methodType,
+            data: data,
+            //dataType: 'json',
+            //contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 if (successCallBack && typeof (successCallBack) === "function")
                     successCallBack();
@@ -51,9 +53,9 @@ function apiGetCallController(controllerName, methodName, methodType, data, succ
             },
             error: function (jqXHR, textStatus, errorThrown) {
                 console.log("The following error occurred: " + jqXHR.responseJSON.error);
-                console.log(errorThrown);
+                console.log(jqXHR, textStatus, errorThrown);
                 if (errorCallback && typeof (errorCallback) === "function") {
-                    errorCallback(jqXHR, textStatus, errorThrown);
+                    errorCallback(jQuery.parseJSON(jqXHR.responseJSON).error);
                 }
             }
         });

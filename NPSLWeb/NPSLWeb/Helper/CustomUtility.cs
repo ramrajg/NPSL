@@ -1,36 +1,61 @@
 ﻿using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
-using System.Net;
 using System.Net.Http;
-using System.Net.Http.Headers;
 using System.Threading.Tasks;
 
 namespace NPSLWeb.Helper
 {
-    public class CustomUtility
+    public static class CustomUtility
     {
         static HttpClient client = new HttpClient();
+        static string UrlHostingPath = "http://localhost:50704/";
 
-        private async Task<T> GetAsync<T>(string uri)
+        public static T GetAsync<T>(string uri) where T : new()
         {
-         
-           HttpResponseMessage response = await client.GetAsync(uri);
+            //try
+            //{
+            T tempObject = new T();
+            uri = UrlHostingPath + uri;
+            HttpResponseMessage response = client.GetAsync(uri).Result;
+            string readAsStringAsync = response.Content.ReadAsStringAsync().Result;
             if (response.IsSuccessStatusCode)
             {
-                 t = JsonConvert.DeserializeObject<T>(response.Content.ToString());
+                tempObject = JsonConvert.DeserializeObject<T>(readAsStringAsync);
+                //tempObject = resp.Deserialize<T>();
             }
-            return t;
+            //}
+            //catch (Exception ex)
+            //{
+            //    statusDescription = ex.Message;
+            //}
+            return tempObject;
         }
-        static async Task<List<T>> GetProductAsync<T>(string path)
+
+        public static List<T> GetSingleRecord<T>(string uri) where T : new()
         {
-            var client = new RestClient(url);
-            HttpResponseMessage response = await client.GetAsync(path);
-            if (response.IsSuccessStatusCode)
+            List<T> tempObject = new List<T>();
+            try
             {
-                T = await response.Content.ReadAsAsync<List<T>>();
+                uri = UrlHostingPath + uri;
+                HttpResponseMessage response = client.GetAsync(uri).Result;
+                string readAsStringAsync = response.Content.ReadAsStringAsync().Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    tempObject = readAsStringAsync.Deserialize<T>();
+                }
+                else { throw new Exception(readAsStringAsync); }
             }
-            return T;
+            catch (Exception ex)
+            {
+                throw new Exception(ex.Message.ToString());
+            }
+            return tempObject;
+        }
+        public static List<T> Deserialize<T>(this string SerializedJSONString)
+        {
+            var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
+            return stuff;
         }
     }
 }

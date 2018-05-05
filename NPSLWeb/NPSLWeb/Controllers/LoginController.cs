@@ -1,23 +1,38 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Mvc;
+using NPSLWeb.Helper;
+using NPSLCore.Models.DB;
+using System.Web;
+using System;
 using System.Collections.Generic;
-using System.Linq;
-using Microsoft.AspNetCore.Mvc;
-using System.Net.Http;
-using System.Net.Http.Headers;
+using System.Net;
+using Microsoft.AspNetCore.Http;
+
 namespace NPSLWeb.Controllers
 {
     public class LoginController : Controller
     {
         public ActionResult Index()
         {
+           
             return View();
         }
         [HttpGet]
-        public ActionResult GetUserDetails()
+        public JsonResult GetUserDetails(Users usersModel)
         {
-            HttpClient client = new HttpClient();
-            HttpResponseMessage response =  client.GetAsync(path);
-            return View();
+            List<Users> result = new List<Users>();
+            try
+            {
+                var uriString = string.Format("api/GetUsersValidation?userId={0}&password={1}", usersModel.UserId, usersModel.UserPassword);
+                result = CustomUtility.GetSingleRecord<Users>(uriString);
+                HttpContext.Session.SetString("Test", "Session Value");
+            }
+            catch (Exception ex)
+            {
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(ex.Message.ToString());
+        
+            }
+            return Json(result);
         }
     }
 }

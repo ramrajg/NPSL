@@ -14,32 +14,15 @@
         //var serviceUrl = '/api/GetUsersValidation?userId=' + userId.value + '&password=' + userPassword.value;
         //apiGetCallController('LoginController', 'GetUserDetails', 'GET', 'json', null, null);
 
-        var serviceUrl = '/api/GetUsersValidation?userId=' + userId.value + '&password=' + userPassword.value;
-        apiGetCallController('Login', 'GetUserDetails', 'GET', 'json', function () {
+        //var serviceUrl = '/api/GetUsersValidation?userId=' + userId.value + '&password=' + userPassword.value;
+        var data = $(loginForm).serialize();
+        apiGetCallController('Login', 'GetUserDetails', 'GET', data, function () {
             window.location.href = '/MainMenu/Index';
-        }, function (jqXHR, textStatus, errorThrown) {
-            $.notify(jqXHR.responseJSON.error, 'danger');
+        }, function (responseText) {
+            $.notify(responseText, 'danger');
             return false;
         });
         return false;
-
-
-
-        //    apiGetCallController(LoginController, GetUserDetails, 'GET', 'json',
-        //        function () {
-        //            window.location.href = '/MainMenu/Index';
-        //        }
-
-        //        ,
-        //        function (jqXHR, textStatus, errorThrown) {
-        //            $.notify(jqXHR.responseJSON.error, 'danger');
-        //            return false;
-        //        });
-
-
-
-        //    );
-        //return false;
     });
 });
 
