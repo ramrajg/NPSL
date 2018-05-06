@@ -35,5 +35,10 @@ namespace NPSLWeb.Controllers
             }
             return Json(result);
         }
+        public ActionResult LogOut()
+        {
+            HttpContext.Session.Clear();
+            return RedirectToAction("Index", "Login");
+        }
     }
 }
