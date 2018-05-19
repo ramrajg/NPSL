@@ -41,5 +41,16 @@ namespace NPSL.Repository.Core.User
             List<Users> userLst = _DBContext.ExecuteTransactional<Users>("P_GETUSERSVALIDATION", param);
             return userLst;
         }
+
+        IEnumerable<MenuModels> IUserRepository.GetUsersMenuModel(int roleId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@RoleID ", roleId),
+            };
+
+            List<MenuModels> userMenu = _DBContext.ExecuteTransactional<MenuModels>("P_GETMENUBYROLEID", param);
+            return userMenu;
+        }
     }
 }

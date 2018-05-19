@@ -10,6 +10,6 @@
         public string Company { get; set; }
         public string Email { get; set; }
         public string MobilePhone { get; set; }
-        public string UserType { get; set; }
+        public int RoleId { get; set; }
     }
 }

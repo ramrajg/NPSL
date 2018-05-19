@@ -6,6 +6,7 @@ namespace NPSLCore.Models.DB
     public partial class NPSLContext : DbContext
     {
         public virtual DbSet<Users> Users { get; set; }
+        public virtual DbSet<MenuModels> MenuModels { get; set; }
 
         public NPSLContext(DbContextOptions<NPSLContext> options)
 : base(options)
@@ -24,6 +25,17 @@ namespace NPSLCore.Models.DB
                 entity.Property(e => e.LastName).IsRequired();
 
                 entity.Property(e => e.MobilePhone).IsRequired();
+            });
+
+            modelBuilder.Entity<MenuModels>(entity =>
+            {
+                entity.HasKey(e => e.RoleId);
+
+                entity.Property(e => e.MainMenuName).IsRequired();
+
+                entity.Property(e => e.SubMenuName).IsRequired();
+
+            
             });
         }
     }

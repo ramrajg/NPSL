@@ -62,6 +62,20 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+        [HttpGet]
+        [Route("api/GetUsersMenuModel")]
+        public IEnumerable<MenuModels> GetUsersMenuModel(int roleId)
+        {
+            try
+            {
+                var records = _user.GetUsersMenuModel(roleId);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
 
         //[HttpPost]
         //public void Post([FromBody] Users item)
