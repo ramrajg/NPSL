@@ -9,6 +9,7 @@ using NPSL.Extensions;
 using NPSL.Extensions.CustomException;
 using NPSL.Extentions.CustomException;
 using Microsoft.AspNetCore.Cors;
+using System.Reflection;
 
 namespace NPSLCore.Controllers
 {
@@ -64,7 +65,7 @@ namespace NPSLCore.Controllers
         }
         [HttpGet]
         [Route("api/GetUsersMenuModel")]
-        public IEnumerable<MenuModels> GetUsersMenuModel(int roleId)
+        public IEnumerable<UsersMenuModels> GetUsersMenuModel(int roleId)
         {
             try
             {
@@ -76,6 +77,22 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+
+        //[HttpGet]
+        //[Route("api/GetUsersValidationMenuModel")]
+        //public IEnumerable<UsersMenuModels> GetUsersValidationMenuModel(int userId, string password)
+        //{
+        //    try
+        //    {
+        //        var records = _user.GetUsersValidationMenuModel(userId, password);
+        //        return records;
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        throw new CustomException(ex.Message.ToString());
+        //    }
+        //}
+     
 
         //[HttpPost]
         //public void Post([FromBody] Users item)

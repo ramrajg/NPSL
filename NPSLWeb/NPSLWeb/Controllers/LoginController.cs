@@ -23,9 +23,13 @@ namespace NPSLWeb.Controllers
             List<Users> result = new List<Users>();
             try
             {
-                var uriString = string.Format("api/GetUsersValidation?userId={0}&password={1}", usersModel.UserId, usersModel.UserPassword);
-                result = CustomUtility.GetSingleRecord<Users>(uriString); 
-                HttpContext.Session.SetString("LoginSession",result.FirstOrDefault().FirstName);
+                var userInfo = string.Format("api/GetUsersValidation?userId={0}&password={1}", usersModel.UserId, usersModel.UserPassword);
+                var userInforResult = CustomUtility.GetSingleRecord<Users>(userInfo);
+                var menuInfo = string.Format("api/GetUsersMenuModel?roleId={0}", userInforResult.FirstOrDefault().RoleId);
+                List<MenuModels> menuInforResult = CustomUtility.GetSingleRecord<MenuModels>(menuInfo);
+                HttpContext.Session.SetString("LoginSession", userInforResult.FirstOrDefault().FirstName);
+                ViewData["menuModel"] = menuInforResult;
+                HttpContext.Session.SetObjectAsJson("MenuSession", menuInforResult);
             }
             catch (Exception ex)
             {

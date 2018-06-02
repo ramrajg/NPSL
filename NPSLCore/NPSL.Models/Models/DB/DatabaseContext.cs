@@ -71,5 +71,51 @@ namespace NPSL.Models.Models.DB
                 }
             }
         }
+        public  IEnumerable<IDataRecord> ExecuteTransactional(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
+        {
+            using (var command = _DataAccess.Database.GetDbConnection().CreateCommand())
+            {
+                command.CommandText = commandName;
+                command.CommandType = CommandType.StoredProcedure;
+                if (parameters != null)
+                {
+                    command.Parameters.AddRange(parameters.ToArray());
+                }
+                _DataAccess.Database.GetDbConnection().Open();
+                var trans = _DataAccess.Database.GetDbConnection().BeginTransaction(IsolationLevel.ReadUncommitted);
+                try
+                {
+                    command.Transaction = trans;
+                    using (var reader = command.ExecuteReader())
+                    {
+                        if (reader.HasRows)
+                        {
+                            while (reader.Read())
+                            {
+
+                                while (reader.Read())
+                                {
+                                    yield return reader;
+                                }
+
+                            }
+                        }
+                    }
+                }
+                finally
+                {
+                    try
+                    {
+                        trans.Commit();
+                    }
+                    catch (InvalidOperationException)
+                    {
+                        // transaction was already closed or disposed... moving along...
+                        // TODO: this was always happening when calling from ClipFunctions.GetClipsFromMaterial. Could not find out why...
+                    }
+                    _DataAccess.Database.GetDbConnection().Close();
+                }
+            }
+        }
     }
 }

@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
-using System.Data.Common;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
 using NPSL.Models.Models.DB;
 using NPSLCore.Models.DB;
 
@@ -11,6 +9,7 @@ namespace NPSL.Repository.Core.User
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _DBContext;
+      
         public UserRepository(DatabaseContext dbcontext)
         {
             _DBContext = dbcontext;
@@ -41,15 +40,15 @@ namespace NPSL.Repository.Core.User
             List<Users> userLst = _DBContext.ExecuteTransactional<Users>("P_GETUSERSVALIDATION", param);
             return userLst;
         }
-
-        IEnumerable<MenuModels> IUserRepository.GetUsersMenuModel(int roleId)
+ 
+        IEnumerable<UsersMenuModels> IUserRepository.GetUsersMenuModel(int roleId)
         {
             var param = new List<SqlParameter>
             {
                 new SqlParameter("@RoleID ", roleId),
             };
 
-            List<MenuModels> userMenu = _DBContext.ExecuteTransactional<MenuModels>("P_GETMENUBYROLEID", param);
+            List<UsersMenuModels> userMenu = _DBContext.ExecuteTransactional<UsersMenuModels>("P_GETMENUBYROLEID", param);
             return userMenu;
         }
     }
