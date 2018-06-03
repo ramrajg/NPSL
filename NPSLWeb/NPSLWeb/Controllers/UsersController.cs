@@ -16,5 +16,29 @@ namespace NPSLWeb.Controllers
         {
             return View();
         }
+        public ActionResult Addrecord()
+
+        {
+
+            ViewBag.Message = "Add User Detail";
+
+            return PartialView("Addrecord");
+
+        }
+        [HttpPost]
+
+        public ActionResult Addrecord(Users userDetail)
+
+        {
+
+            Users usr = new Users();
+
+            usr.FirstName = userDetail.FirstName;
+
+            usr.LastName = userDetail.LastName;
+
+            return RedirectToAction("EmployeeDetails", "Employee");
+
+        }
     }
 }
