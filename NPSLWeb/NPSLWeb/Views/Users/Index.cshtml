@@ -1,0 +1,92 @@
+﻿@model List<NPSLCore.Models.DB.Users>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>@ViewData["Title"] - NPSLWeb</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="~/lib/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet" />
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script src="//rawgit.com/vitalets/x-editable/master/dist/bootstrap3-editable/js/bootstrap-editable.js"></script>
+</head>
+<body>
+
+    <div class="container">
+        <h2>User Management</h2>
+        <p>List of Active Users </p>
+        <table class="table" id="table" data-toggle="table" data-pagination="true" data-show-export="true">
+            <thead>
+                <tr>
+                    <th data-field="name" data-editable="true" data-sortable="true">Login Id</th>
+                    <th data-field="name" data-editable="true" data-sortable="true">First Name</th>
+                    <th>Last Name</th>
+                    <th>Company</th>
+                    <th>Email</th>
+                    <th>Mobile Number</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Edit</th>
+                    <th>Delete</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                @foreach (var userList in @Model)
+                {
+                    <tr class="active">
+                        <td>@userList.UserId</td>
+                        <td>@userList.FirstName</td>
+                        <td>@userList.LastName</td>
+                        <td>@userList.Company</td>
+                        <td>@userList.Email</td>
+                        <td>@userList.MobilePhone</td>
+                        <td>@userList.RoleName</td>
+                        @if (@userList.IsActive == true)
+                        {
+                            <td><span class="label label-success">Active</span></td>
+                        }
+                        else
+                        {
+                            <td><span class="label label-danger">Not Active</span></td>
+                        }
+                        <td><button class="btn btn-primary btn-xs" onclick()="@Url.Action("Edit","Users")"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                        <td> <button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
+                    </tr>
+                }
+
+
+
+
+                @*<tr class="success">
+                        <td>Success</td>
+                        <td>Doe</td>
+                        <td>john@example.com</td>
+                    </tr>
+                    <tr class="danger">
+                        <td>Danger</td>
+                        <td>Moe</td>
+                        <td>mary@example.com</td>
+                    </tr>
+                    <tr class="info">
+                        <td>Info</td>
+                        <td>Dooley</td>
+                        <td>july@example.com</td>
+                    </tr>
+                    <tr class="warning">
+                        <td>Warning</td>
+                        <td>Refs</td>
+                        <td>bo@example.com</td>
+                    </tr>
+                    <tr class="active">
+                        <td>Active</td>
+                        <td>Activeson</td>
+                        <td>act@example.com</td>
+                    </tr>*@
+            </tbody>
+        </table>
+    </div>
+
+
+</body>
+</html>

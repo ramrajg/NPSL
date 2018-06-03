@@ -11,5 +11,6 @@
         public string Email { get; set; }
         public string MobilePhone { get; set; }
         public int RoleId { get; set; }
+        public string RoleName { get; set; }
     }
 }

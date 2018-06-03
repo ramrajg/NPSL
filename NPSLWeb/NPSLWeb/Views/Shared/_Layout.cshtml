@@ -41,7 +41,7 @@
                                 <ul class="dropdown-menu">
                                     @foreach (var SubMenuList in MenuList)
                                     {
-                                        <li><a href="#">@SubMenuList.SubMenuName</a></li>
+                                        <li><a href="@Url.Action(@SubMenuList.ActionName,@SubMenuList.ControllerName)">@SubMenuList.SubMenuName</a></li>
                                     }
                                 </ul>
                             </li>
