@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using NPSLCore.Models.DB;
 using NPSLWeb.Helper;
+using System.Collections.Generic;
 
 namespace NPSLWeb.Controllers
 {
@@ -19,9 +21,20 @@ namespace NPSLWeb.Controllers
         public ActionResult Addrecord()
 
         {
-
+            List<SelectListItem> roleList = new List<SelectListItem>();
+            roleList.Add(new SelectListItem()
+            {
+                Text = "Manager",
+                        Value = "1",
+                        Selected = true  });
+            roleList.Add(new SelectListItem()
+            {
+                Text = "Admin",
+                Value = "2",
+                Selected = false
+            });
             ViewBag.Message = "Add User Detail";
-
+            ViewBag.RoleList = roleList;
             return PartialView("Addrecord");
 
         }
