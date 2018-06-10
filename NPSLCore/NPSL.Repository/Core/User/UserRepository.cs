@@ -78,5 +78,14 @@ namespace NPSL.Repository.Core.User
 
             var Data = _DBContext.ExecuteTransactional("P_SaveUsers", param);
         }
+        void IUserRepository.DeleteUser(int userId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@pUserId ", userId),
+            };
+            var Data = _DBContext.ExecuteTransactional("P_DELETEUSER", param);
+        }
+        
     }
 }

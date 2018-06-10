@@ -45,6 +45,21 @@ namespace NPSLWeb.Controllers
             return RedirectToAction("Index", "Users");
 
         }
-     
+        [HttpPost]
+        public void DeleteUser(int Id)
+
+        {
+            bool isSuccessStatusCode = false;
+            if (ModelState.IsValid)
+            {
+                var delUserResult = CustomUtility.PostDataOfType("api/DeleteUser", Id, out isSuccessStatusCode);
+            }
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
+
+        }
+
     }
 }

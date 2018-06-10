@@ -12,5 +12,6 @@ namespace NPSL.Repository.Core.User
         IEnumerable<UsersMenuModels> GetUsersMenuModel(int roleId);
         IEnumerable<Roles> GetRoleById(int roleId);
         void SaveUser(DataTable userItems);
+        void DeleteUser(int userId);
     }
 }

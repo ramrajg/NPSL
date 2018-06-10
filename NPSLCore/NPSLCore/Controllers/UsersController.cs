@@ -158,13 +158,12 @@ namespace NPSLCore.Controllers
         //    _iRepo.Update( item);
         //}
 
-        //[HttpDelete]
-        //[Route("api/DeleteUser")]
-        //public void Delete(long id)
-        //{
-        //    _ctx.Database
-        //   .ExecuteSqlCommand("P_DELETEUSER @p0", id);
-        //}
+        [HttpPost]
+        [Route("api/DeleteUser")]
+        public void DeleteUser(int id)
+        {
+            _user.DeleteUser(id);
+        }
 
     }
 }
