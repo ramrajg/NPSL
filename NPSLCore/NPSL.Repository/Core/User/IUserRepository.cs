@@ -9,5 +9,7 @@ namespace NPSL.Repository.Core.User
         IEnumerable<Users> GetUserById(int id);
         IEnumerable<Users> GetUsersValidation(int userId, string password);
         IEnumerable<UsersMenuModels> GetUsersMenuModel(int roleId);
+        IEnumerable<Roles> GetRoleById(int roleId);
+        
     }
 }

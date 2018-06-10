@@ -5,6 +5,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="wwwroot\lib\bootstrap\dist\css\NewFolder\**" />
+    <Content Remove="wwwroot\lib\bootstrap\dist\css\NewFolder\**" />
+    <EmbeddedResource Remove="wwwroot\lib\bootstrap\dist\css\NewFolder\**" />
+    <None Remove="wwwroot\lib\bootstrap\dist\css\NewFolder\**" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.All" Version="2.0.6" />
     <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.0.2" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="2.0.3" />
@@ -22,6 +29,18 @@
     <Reference Include="NPSL.Models">
       <HintPath>..\..\NPSLCore\NPSL.Models\bin\Debug\netcoreapp2.0\NPSL.Models.dll</HintPath>
     </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\cerulean-theme - Copy.css.map">
+      <DependentUpon>cerulean-theme - Copy.css</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\cerulean-theme - Copy.min.css">
+      <DependentUpon>cerulean-theme - Copy.css</DependentUpon>
+    </Content>
+    <Content Update="wwwroot\lib\bootstrap\dist\css\cerulean-theme - Copy.min.css.map">
+      <DependentUpon>cerulean-theme - Copy.min.css</DependentUpon>
+    </Content>
   </ItemGroup>
 
 </Project>

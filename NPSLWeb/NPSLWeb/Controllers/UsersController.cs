@@ -21,21 +21,27 @@ namespace NPSLWeb.Controllers
         public ActionResult Addrecord()
 
         {
-            List<SelectListItem> roleList = new List<SelectListItem>();
-            roleList.Add(new SelectListItem()
-            {
-                Text = "Manager",
-                        Value = "1",
-                        Selected = true  });
-            roleList.Add(new SelectListItem()
-            {
-                Text = "Admin",
-                Value = "2",
-                Selected = false
-            });
-            ViewBag.Message = "Add User Detail";
-            ViewBag.RoleList = roleList;
-            return PartialView("Addrecord");
+            var roleInfo = string.Format("api/GetRoleById");
+            var roleInfoResult = CustomUtility.GetSingleRecord<Roles>(roleInfo);
+
+            //List<SelectListItem> roleList = new List<SelectListItem>();
+
+
+            //roleList.Add(new SelectListItem()
+            //{
+            //    Text = "Manager",
+            //            Value = "1",
+            //            Selected = true  });
+            //roleList.Add(new SelectListItem()
+            //{
+            //    Text = "Admin",
+            //    Value = "2",
+            //    Selected = false
+            //});
+            ViewBag.Message = "Registration";
+            //ViewBag.RoleList = roleList;
+            ViewBag.RoleList = new SelectList(roleInfoResult, "RoleId", "RoleName").Items;
+            return PartialView("UserRegistration");
 
         }
         [HttpPost]

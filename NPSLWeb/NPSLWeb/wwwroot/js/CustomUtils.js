@@ -98,7 +98,6 @@ function typeWriter(elementId, txt, speed) {
 
 
 function setTextValue(elementId, txt) {
-    document.getElementById(elementId).innerHTML = txt;
+    document.getElementById(elementId).value = txt;
 }
-
 

@@ -78,6 +78,21 @@ namespace NPSLCore.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/GetRoleById")]
+        public IEnumerable<Roles> GetRoleById(int roleId)
+        {
+            try
+            {
+                var records = _user.GetRoleById(roleId);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
         //[HttpGet]
         //[Route("api/GetUsersValidationMenuModel")]
         //public IEnumerable<UsersMenuModels> GetUsersValidationMenuModel(int userId, string password)
@@ -92,7 +107,7 @@ namespace NPSLCore.Controllers
         //        throw new CustomException(ex.Message.ToString());
         //    }
         //}
-     
+
 
         //[HttpPost]
         //public void Post([FromBody] Users item)
