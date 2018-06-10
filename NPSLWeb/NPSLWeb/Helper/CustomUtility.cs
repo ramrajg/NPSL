@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Net.Http;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace NPSLWeb.Helper
@@ -56,6 +57,25 @@ namespace NPSLWeb.Helper
         {
             var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
             return stuff;
+        }
+        public static string PostDataOfType(string apiCall, object objectToPost, out bool isSuccessStatusCode)
+        {
+            return PostData( apiCall, objectToPost, out isSuccessStatusCode);
+        }
+        public static string PostData(string apiCall, object objectToPost, out bool isSuccessStatusCode)
+        {
+            var stringContent = new StringContent(JsonConvert.SerializeObject(objectToPost), Encoding.UTF8, "application/json");
+            var response = Post(UrlHostingPath + apiCall, stringContent, apiCall);
+            isSuccessStatusCode = response.IsSuccessStatusCode;
+            var readAsStringAsync = response.Content.ReadAsStringAsync();
+            var resp = readAsStringAsync.Result;
+            string loggingMessage = string.Format("Log = API Request:{0} API Response:{1}", stringContent.ReadAsStringAsync().Result, resp);
+            return resp;
+        }
+        private static HttpResponseMessage Post(string requestUri, HttpContent content, string uri)
+        {
+            HttpResponseMessage obj = client.PostAsync(requestUri, content).Result;
+            return obj;
         }
     }
 }

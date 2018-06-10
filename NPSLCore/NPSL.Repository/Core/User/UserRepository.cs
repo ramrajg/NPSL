@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using NPSL.Models.Models.DB;
 using NPSLCore.Models.DB;
@@ -9,7 +10,7 @@ namespace NPSL.Repository.Core.User
     public class UserRepository : IUserRepository
     {
         private readonly DatabaseContext _DBContext;
-      
+
         public UserRepository(DatabaseContext dbcontext)
         {
             _DBContext = dbcontext;
@@ -40,7 +41,7 @@ namespace NPSL.Repository.Core.User
             List<Users> userLst = _DBContext.ExecuteTransactional<Users>("P_GETUSERSVALIDATION", param);
             return userLst;
         }
- 
+
         IEnumerable<UsersMenuModels> IUserRepository.GetUsersMenuModel(int roleId)
         {
             var param = new List<SqlParameter>
@@ -61,6 +62,21 @@ namespace NPSL.Repository.Core.User
 
             List<Roles> roleById = _DBContext.ExecuteTransactional<Roles>("P_GETROLEBYID", param);
             return roleById;
+        }
+
+        void IUserRepository.SaveUser(DataTable userItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pUser",
+                SqlDbType = SqlDbType.Structured,
+                Value = userItems,
+                TypeName = "udt_users"
+            }
+            };
+
+            var Data = _DBContext.ExecuteTransactional("P_SaveUsers", param);
         }
     }
 }

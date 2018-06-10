@@ -2,7 +2,9 @@
 using Microsoft.AspNetCore.Mvc.Rendering;
 using NPSLCore.Models.DB;
 using NPSLWeb.Helper;
+using System;
 using System.Collections.Generic;
+using System.Data;
 
 namespace NPSLWeb.Controllers
 {
@@ -23,41 +25,26 @@ namespace NPSLWeb.Controllers
         {
             var roleInfo = string.Format("api/GetRoleById");
             var roleInfoResult = CustomUtility.GetSingleRecord<Roles>(roleInfo);
-
-            //List<SelectListItem> roleList = new List<SelectListItem>();
-
-
-            //roleList.Add(new SelectListItem()
-            //{
-            //    Text = "Manager",
-            //            Value = "1",
-            //            Selected = true  });
-            //roleList.Add(new SelectListItem()
-            //{
-            //    Text = "Admin",
-            //    Value = "2",
-            //    Selected = false
-            //});
             ViewBag.Message = "Registration";
-            //ViewBag.RoleList = roleList;
             ViewBag.RoleList = new SelectList(roleInfoResult, "RoleId", "RoleName").Items;
             return PartialView("UserRegistration");
-
         }
         [HttpPost]
-
         public ActionResult Addrecord(Users userDetail)
 
         {
-
-            Users usr = new Users();
-
-            usr.FirstName = userDetail.FirstName;
-
-            usr.LastName = userDetail.LastName;
-
-            return RedirectToAction("EmployeeDetails", "Employee");
+            bool isSuccessStatusCode = false;
+            if (ModelState.IsValid)
+            {
+                var roleInfoResult = CustomUtility.PostDataOfType("api/SaveUser", userDetail, out isSuccessStatusCode);
+            }
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
+            return RedirectToAction("Index", "Users");
 
         }
+     
     }
 }

@@ -18,7 +18,7 @@ namespace NPSL.Models.Models.DB
         {
             _DataAccess = dataaccess;
         }
-        public List<T> ExecuteTransactional<T>(string commandName, List<SqlParameter> parameters = null,string outputPara = "") where T : new()
+        public List<T> ExecuteTransactional<T>(string commandName, List<SqlParameter> parameters = null, string outputPara = "") where T : new()
         {
             List<T> objects = new List<T>();
             using (var command = _DataAccess.Database.GetDbConnection().CreateCommand())
@@ -50,7 +50,7 @@ namespace NPSL.Models.Models.DB
                                     }
                                 }
                                 objects.Add(tempObject);
-                             
+
                             }
                         }
                     }
@@ -71,7 +71,7 @@ namespace NPSL.Models.Models.DB
                 }
             }
         }
-        public  IEnumerable<IDataRecord> ExecuteTransactional(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
+        public IEnumerable<IDataRecord> ExecuteTransactional(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
         {
             using (var command = _DataAccess.Database.GetDbConnection().CreateCommand())
             {
@@ -116,6 +116,11 @@ namespace NPSL.Models.Models.DB
                     _DataAccess.Database.GetDbConnection().Close();
                 }
             }
+        }
+        public void Add<T>(T newItem) where T : class
+        {
+            _DataAccess.Set<T>().Add(newItem);
+            _DataAccess.SaveChanges();
         }
     }
 }
