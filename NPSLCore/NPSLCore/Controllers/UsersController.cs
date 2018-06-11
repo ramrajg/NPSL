@@ -160,9 +160,9 @@ namespace NPSLCore.Controllers
 
         [HttpPost]
         [Route("api/DeleteUser")]
-        public void DeleteUser(int id)
+        public void DeleteUser(int Id)
         {
-            _user.DeleteUser(id);
+            _user.DeleteUser(Id);
         }
 
     }

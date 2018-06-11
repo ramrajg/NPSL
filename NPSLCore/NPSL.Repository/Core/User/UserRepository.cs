@@ -76,7 +76,7 @@ namespace NPSL.Repository.Core.User
             }
             };
 
-            var Data = _DBContext.ExecuteTransactional("P_SaveUsers", param);
+            var Data = _DBContext.ExecuteDBContext("P_SaveUsers", param);
         }
         void IUserRepository.DeleteUser(int userId)
         {
@@ -84,7 +84,7 @@ namespace NPSL.Repository.Core.User
             {
                 new SqlParameter("@pUserId ", userId),
             };
-            var Data = _DBContext.ExecuteTransactional("P_DELETEUSER", param);
+            var Data = _DBContext.ExecuteDBContext("P_DELETEUSER", param);
         }
         
     }
