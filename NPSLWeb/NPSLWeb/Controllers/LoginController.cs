@@ -28,7 +28,7 @@ namespace NPSLWeb.Controllers
                 var menuInfo = string.Format("api/GetUsersMenuModel?roleId={0}", userInforResult.FirstOrDefault().RoleId);
                 List<MenuModels> menuInforResult = CustomUtility.GetSingleRecord<MenuModels>(menuInfo);
                 HttpContext.Session.SetString("LoginSession", userInforResult.FirstOrDefault().FirstName);
-                HttpContext.Session.SetInt32("LoginUserId", userInforResult.FirstOrDefault().UserId);
+                HttpContext.Session.SetString("LoginUserId", userInforResult.FirstOrDefault().UserId.ToString());
                 ViewData["menuModel"] = menuInforResult;
                 HttpContext.Session.SetObjectAsJson("MenuSession", menuInforResult);
             }

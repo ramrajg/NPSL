@@ -1,6 +1,7 @@
 ﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using NPSLWeb.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace NPSLWeb.Controllers
 {
@@ -29,5 +30,27 @@ namespace NPSLWeb.Controllers
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
+        public ActionResult StyleSheet(string themeName)
+        {
+            Response.ContentType = "text/css";
+            if (themeName == "Simplex")
+            {
+                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/simplex-theme.css");
+            }
+            else if (themeName == "Cerulean")
+            {
+                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/cerulean-theme.css");
+            }
+            else if (themeName == "Slate")
+            {
+                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/slate-theme.css");
+            }
+            else if (themeName == "Yeti")
+            {
+                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/yeti-theme.css");
+            }
+            return Redirect(Request.Headers["Referer"].ToString());
+        }
+
     }
 }
