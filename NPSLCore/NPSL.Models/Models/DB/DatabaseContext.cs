@@ -7,6 +7,7 @@ using System.Linq;
 using System.Data;
 using System;
 using System.Reflection;
+using System.Threading.Tasks;
 
 namespace NPSL.Models.Models.DB
 {
@@ -71,9 +72,8 @@ namespace NPSL.Models.Models.DB
                 }
             }
         }
-        public IEnumerable<IDataRecord> ExecuteDBContext(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
+        public async Task ExecuteTransactionalNonQueryAsync(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
         {
-           
             using (var command = _DataAccess.Database.GetDbConnection().CreateCommand())
             {
                 command.CommandText = commandName;
@@ -81,26 +81,18 @@ namespace NPSL.Models.Models.DB
                 if (parameters != null)
                 {
                     command.Parameters.AddRange(parameters.ToArray());
+
                 }
-                _DataAccess.Database.GetDbConnection().Open();
+             
+                if (command.Connection.State != ConnectionState.Open)
+                {
+                    command.Connection.Open();
+                }
                 var trans = _DataAccess.Database.GetDbConnection().BeginTransaction(IsolationLevel.ReadUncommitted);
                 try
                 {
                     command.Transaction = trans;
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-                                while (reader.Read())
-                                {
-                                    yield return reader;
-                                }
-
-                            }
-                        }
-                    }
+                    await command.ExecuteNonQueryAsync();
                 }
                 finally
                 {
@@ -117,7 +109,7 @@ namespace NPSL.Models.Models.DB
                 }
             }
         }
-        public IEnumerable<IDataRecord> ExecuteTransactional(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
+        public int  ExecuteTransactionalNonQuery(string commandName, List<SqlParameter> parameters = null, string outputPara = "")
         {
             using (var command = _DataAccess.Database.GetDbConnection().CreateCommand())
             {
@@ -133,21 +125,7 @@ namespace NPSL.Models.Models.DB
                 try
                 {
                     command.Transaction = trans;
-                    using (var reader = command.ExecuteReader())
-                    {
-                        if (reader.HasRows)
-                        {
-                            while (reader.Read())
-                            {
-
-                                while (reader.Read())
-                                {
-                                    yield return reader;
-                                }
-
-                            }
-                        }
-                    }
+                    return command.ExecuteNonQuery();
                 }
                 finally
                 {
@@ -164,6 +142,6 @@ namespace NPSL.Models.Models.DB
                 }
             }
         }
-       
+
     }
 }

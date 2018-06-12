@@ -58,6 +58,10 @@ namespace NPSLWeb.Helper
             var stuff = JsonConvert.DeserializeObject<List<T>>(SerializedJSONString);
             return stuff;
         }
+        public static void Post( string apiCall, string message)
+        {
+            var response = Post(UrlHostingPath + apiCall, message != null ? new StringContent(message, Encoding.UTF8, "application/json") : null, apiCall);
+        }
         public static string PostDataOfType(string apiCall, object objectToPost, out bool isSuccessStatusCode)
         {
             return PostData( apiCall, objectToPost, out isSuccessStatusCode);
