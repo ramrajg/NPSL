@@ -60,6 +60,18 @@ namespace NPSLWeb.Controllers
             }
 
         }
+      
+      
+        public ActionResult EditUser(int Id)
+
+        {
+            var userInfo = string.Format("api/GetUserById?Id=" + Id);
+            var userInfoResult = CustomUtility.GetSingleRecord<Users>(userInfo);
+            var roleInfo = string.Format("api/GetRoleById");
+            var roleInfoResult = CustomUtility.GetSingleRecord<Roles>(roleInfo);
+            ViewBag.RoleList = new SelectList(roleInfoResult, "RoleId", "RoleName").Items;
+            return PartialView("UserEdit", userInfoResult[0]);
+        }
 
     }
 }

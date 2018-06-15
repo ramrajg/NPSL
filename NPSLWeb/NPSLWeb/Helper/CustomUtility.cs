@@ -10,7 +10,7 @@ namespace NPSLWeb.Helper
     public static class CustomUtility
     {
         static HttpClient client = new HttpClient();
-        static string UrlHostingPath = "http://localhost:50704/";
+        static string UrlHostingPath = "http://localhost:50411/";
 
         public static T GetAsync<T>(string uri) where T : new()
         {

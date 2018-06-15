@@ -15,9 +15,6 @@
     <Reference Include="NPSL.Models">
       <HintPath>..\NPSL.Models\bin\Debug\netcoreapp2.0\NPSL.Models.dll</HintPath>
     </Reference>
-    <Reference Include="NPSL.Topography">
-      <HintPath>..\NPSL.Topography\bin\Debug\netcoreapp2.0\NPSL.Topography.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>

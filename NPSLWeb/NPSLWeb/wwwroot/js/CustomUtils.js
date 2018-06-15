@@ -2,7 +2,7 @@
 //var pub = {};
 
 function apiGetCall(serviceUrl, listDestination, isDisabled, callback, errorCallback) {
-    serviceUrl = 'http://localhost:50704' + serviceUrl;
+    serviceUrl = 'http://localhost:50411' + serviceUrl;
     listDestination([]);
     $(document).ready(function () {
 

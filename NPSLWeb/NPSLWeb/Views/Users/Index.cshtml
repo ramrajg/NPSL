@@ -32,7 +32,7 @@
                             <h2 class="panel-title">User <b>Management</b></h2>
                         </div>
                         <div class="col col-xs-6 text-right">
-                            <input type="button" class="btn-bootstrap-dialog btn btn-success pull-right" title="Add Employee Detail" data-url="@Url.Action("Addrecord", "Users", new { title = "Add Employee Detail" })" value="Create New" data-toggle="modal" />
+                            <input type="button" class="btn-bootstrap-dialog btn btn-success pull-right" title="Add Employee Detail" data-url="@Url.Action("Addrecord", "Users", new { title = "Add Employee Detail" })" value="Create New" data-toggle="modal"  />
                         </div>
                     </div>
                 </div>
@@ -75,12 +75,12 @@
                                         }
                                         @if (@userList.UserId == @LoginIDsession)
                                         {
-                                            <td><button disabled class="btn btn-primary btn-xs" onclick()="@Url.Action("Edit", "Users")"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                            <td><button disabled class="btn btn-primary btn-xs" onclick()="@Url.Action("EditUser", "Users")"><span class="glyphicon glyphicon-pencil"></span></button></td>
                                             <td><button disabled class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
                                         }
                                         else
                                         {
-                                            <td><button class="btn btn-primary btn-xs" onclick()="@Url.Action("Edit", "Users")"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                            <td><button class="btn-bootstrap-dialog btn btn-primary btn-xs" data-url="@Url.Action("EditUser", "Users", new { Id=1002})"  data-title="Edit" data-toggle="modal" ><span class="glyphicon glyphicon-pencil"></span></button></td>
                                             <td><button class="btn btn-danger btn-xs" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
                                         }
                                     </tr>
@@ -107,7 +107,7 @@
         </div>
     </div>
     <div class="modal fade" id="bootstrapDialog" tabindex="-1" role="dialog" aria-labelledby="myModal-label" aria-hidden="true"></div>
-    <div class="modal fade" id="myModal1" role="dialog">
+    <div class="modal fade" id="delModel" role="dialog">
         <div class="modal-dialog">
             <!-- Modal content-->
             <div class="modal-content">

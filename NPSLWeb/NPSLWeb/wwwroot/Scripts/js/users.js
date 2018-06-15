@@ -20,16 +20,16 @@ $(document).ready(function () {
     });
 
     $('.btn-danger').click(function () {
-        $('#myModal1').modal({
+        $('#delModel').modal({
             backdrop: 'static',
             keyboard: false
         })
             .on('click', '#confirmOk', function (e) {
                 var userId = parseInt(oTable.rows('.selected').data()[0][0]);
-                var data = {Id: userId }
+                var data = { Id: userId }
                 apiGetCallController('Users', 'DeleteUser', 'POST', data, function () {
                     window.location.reload();
-                    $('#myModal ').modal('hide');
+                    $('#delModel ').modal('hide');
                     //$.notify("Deleted Sucessfully", 'danger');
                 }, function (responseText) {
                     $.notify(responseText, 'danger');
@@ -38,8 +38,5 @@ $(document).ready(function () {
             });
 
     });
+
 });
-function editDeleteButton() {
-
-
-}
