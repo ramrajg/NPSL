@@ -76,7 +76,21 @@ namespace NPSL.Repository.Core.User
             }
             };
 
-            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveUsers", param);
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SAVEUSERS", param);
+        }
+        void IUserRepository.UpdateUser(DataTable userItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pUser",
+                SqlDbType = SqlDbType.Structured,
+                Value = userItems,
+                TypeName = "udt_users"
+            }
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_UPDATEUSERS", param);
         }
         void IUserRepository.DeleteUser(int userId)
         {

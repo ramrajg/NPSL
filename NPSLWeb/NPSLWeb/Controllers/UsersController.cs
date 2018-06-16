@@ -63,7 +63,6 @@ namespace NPSLWeb.Controllers
       
       
         public ActionResult EditUser(int Id)
-
         {
             var userInfo = string.Format("api/GetUserById?Id=" + Id);
             var userInfoResult = CustomUtility.GetSingleRecord<Users>(userInfo);
@@ -71,6 +70,20 @@ namespace NPSLWeb.Controllers
             var roleInfoResult = CustomUtility.GetSingleRecord<Roles>(roleInfo);
             ViewBag.RoleList = new SelectList(roleInfoResult, "RoleId", "RoleName").Items;
             return PartialView("UserEdit", userInfoResult[0]);
+        }
+        [HttpPost]
+        public ActionResult EditUser(Users userDetail)
+        {
+            bool isSuccessStatusCode = false;
+           
+                var roleInfoResult = CustomUtility.PostDataOfType("api/UpdateUser", userDetail, out isSuccessStatusCode);
+            
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
+            return RedirectToAction("Index", "Users");
+
         }
 
     }

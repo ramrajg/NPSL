@@ -18,6 +18,7 @@
         <hr>
         <div class="form-group">
             <div class="row">
+                    @Html.TextBoxFor(model => model.UserId,  new { @class = "hidden" })
                 <div class="col-xs-offset-1 col-xs-5">
                     @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "First Name", required = "required" })
                     @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
@@ -68,77 +69,10 @@
             <div class="form-group">
                 <div class="col-xs-offset-right-1">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" id="confirmok1" value="Save changes" />
+                    <input type="submit" class="btn btn-primary" id="updateOk" value="Update changes" />
                 </div>
             </div>
         </div>
          }
     </div>
 </div>
-
-
-@*<script type="text/javascript">
-
-            $(document).ready(function () {
-
-                $('.btn-primary').click(function () {
-
-                    var std = $(this).attr('id');
-
-                    var title = $(this).attr('title');
-
-
-
-                    //var Id = $(this).attr('id');
-
-                    $('#myModal').modal({
-
-                        backdrop: 'static',
-
-                        keyboard: false
-
-                    })
-
-                        .on('click', '#confirmok1', function (e) {
-
-                            $.ajax({
-
-                                type: "POST",
-
-                                url: '@Url.Action("AddUserrecord")',
-
-                                data: '{StudentId: ' + JSON.stringify(std) + '}',
-
-                                dataType: "json",
-
-                                contentType: "application/json; charset=utf-8",
-
-                                success: function (response) {
-
-                                    window.location.reload();
-
-
-
-                                    $('#myModal').modal('hide');
-
-                                },
-
-                                error: function (XMLHttpRequest, textStatus, errorThrown) {
-
-                                    alert('oops, something bad happened')
-
-                                }
-
-                            });
-
-                        });
-
-                });
-
-
-
-            });
-
-
-
-    </script>*@

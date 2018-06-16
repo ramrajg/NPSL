@@ -130,35 +130,47 @@ namespace NPSLCore.Controllers
             }
         }
 
-        //[HttpGet]
-        //[Route("api/GetUsersValidationMenuModel")]
-        //public IEnumerable<UsersMenuModels> GetUsersValidationMenuModel(int userId, string password)
-        //{
-        //    try
-        //    {
-        //        var records = _user.GetUsersValidationMenuModel(userId, password);
-        //        return records;
-        //    }
-        //    catch (Exception ex)
-        //    {
-        //        throw new CustomException(ex.Message.ToString());
-        //    }
-        //}
-
-
-        //[HttpPost]
-        //public void Post([FromBody] Users item)
-        //{
-        //     _iRepo.Add(item);
-        //}
-
-        //[HttpPut]
-        //public void  Update([FromBody] Users item)
-        //{
-        //    _iRepo.Update( item);
-        //}
-
         [HttpPost]
+        [Route("api/UpdateUser")]
+        public void UpdateUser([FromBody] Users userDetail)
+        {
+            try
+            {
+                var usr = new DataTable();
+                usr.Columns.Add("FirstName", typeof(string));
+                usr.Columns.Add("LastName", typeof(string));
+                usr.Columns.Add("IsActive", typeof(bool));
+                usr.Columns.Add("Company", typeof(string));
+                usr.Columns.Add("LoginId", typeof(int));
+                usr.Columns.Add("LoginPassword", typeof(string));
+                usr.Columns.Add("Email", typeof(string));
+                usr.Columns.Add("MobilePhone", typeof(string));
+                usr.Columns.Add("RoleId", typeof(int));
+
+                DataRow newRow = usr.Rows.Add();
+                newRow["FirstName"] = userDetail.FirstName;
+                newRow["LastName"] = userDetail.LastName;
+                newRow["IsActive"] = userDetail.IsActive;
+                newRow["Company"] = userDetail.Company;
+                newRow["LoginId"] = userDetail.UserId;
+                newRow["LoginPassword"] = userDetail.UserPassword;
+                newRow["Email"] = userDetail.Email;
+                newRow["MobilePhone"] = userDetail.MobilePhone;
+                newRow["RoleId"] = userDetail.RoleId;
+
+
+                _user.UpdateUser(usr);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+        
+
+
+
+       [HttpPost]
         [Route("api/DeleteUser")]
         public void DeleteUser([FromBody] int Id)
         {
