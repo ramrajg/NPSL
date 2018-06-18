@@ -1,0 +1,45 @@
+﻿INSERT INTO Reconsile_Template (
+[Template_Name],
+[Source_Folder_Path] ,
+[Source_File_Extention] ,
+[Source_Completion_Path] ,
+[Source_Substring_Value] ,
+[Destination_Folder_Path],
+[Destination_File_Extention],
+[Destination_Completion_Path],
+[Destination_Substring_Value])
+VALUES(
+'TESTSAMPLE',
+'F:\Sachine_Prj\FinalFiles\',
+'.mklp',
+'F:\Sachine_Prj\MovePath\MoveToComplete\',
+'9, 12|157, 6|166, 15',
+'F:\Sachine_Prj\FinalFiles\',
+'.rc',
+'F:\Sachine_Prj\MovePath\MoveToComplete\',
+'25, 12|129, 6|114, 15')
+
+SET ANSI_NULLS ON
+GO
+
+SET QUOTED_IDENTIFIER ON
+GO
+
+create TABLE [dbo].[Reconsile_Template](
+	[Reconsile_Template_Id] [int] IDENTITY(1,1) NOT NULL,
+	[Template_Name] [nvarchar](max) NOT NULL,
+	[Source_Folder_Path] [nvarchar](max) NOT NULL,
+	[Source_File_Extention] [nvarchar](15) NOT NULL,
+	[Source_Completion_Path] [nvarchar](max) NOT NULL,
+	[Source_Substring_Value] [nvarchar](max) NOT NULL,
+	[Destination_Folder_Path] [nvarchar](max) NOT NULL,
+	[Destination_File_Extention] [nvarchar](15) NOT NULL,
+	[Destination_Completion_Path] [nvarchar](max) NOT NULL,
+	[Destination_Substring_Value] [nvarchar](max) NOT NULL,
+	[Is_Active] Bit not null default 1,
+	[LastUpdate] [datetime2](7) NULL,
+	[CreatedDate] [datetime2](7) NULL
+) ON [PRIMARY]
+GO
+
+
