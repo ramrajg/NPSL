@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
+using System.Threading;
 
 namespace ReconsileProcess
 {
@@ -20,11 +21,19 @@ namespace ReconsileProcess
         {
             while (KeepGoing)
             {
-                string MoveFilepath = @"F:\\Sachine_Prj\\MovePath\\MoveToComplete\\";
-                string FromFilepath = @"F:\\Sachine_Prj\\FinalFiles\\";
+                string MoveFilepath = @"D:\\WorkStuff_Project\\RND\\MoveToComplete\\";
+                string FromFilepath = @"D:\\WorkStuff_Project\\RND\\FinalFiles\\";
                 string[] files = Directory.GetFiles(FromFilepath, "*.*", SearchOption.AllDirectories);
                 string fileName = Path.GetRandomFileName();
-                string path = @"F:\\Sachine_Prj\\MovePath\\FileToInsert\\InsertRecord_" + fileName + ".txt";
+                string path = @"D:\\WorkStuff_Project\\RND\\FileToInsert\\InsertRecord_" + fileName + ".txt";
+
+
+                //string MoveFilepath = @"F:\\Sachine_Prj\\MovePath\\MoveToComplete\\";
+                //string FromFilepath = @"F:\\Sachine_Prj\\FinalFiles\\";
+                //string[] files = Directory.GetFiles(FromFilepath, "*.*", SearchOption.AllDirectories);
+                //string fileName = Path.GetRandomFileName();
+                //string path = @"F:\\Sachine_Prj\\MovePath\\FileToInsert\\InsertRecord_" + fileName + ".txt";
+
 
                 string RRN;
                 string Date;
@@ -49,10 +58,13 @@ namespace ReconsileProcess
                                 String line;
                                 while ((line = streamReader.ReadLine()) != null)
                                 {
-                                    RRN = line.Substring(9, 12);
-                                    Date = line.Substring(157, 6);
-                                    Amount = line.Substring(167, 15);
-                                    File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
+                                    if (line != "")
+                                    {
+                                        RRN = line.Substring(9, 12);
+                                        Date = line.Substring(157, 6);
+                                        Amount = line.Substring(166, 15);
+                                        File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
+                                    }
                                 }
                             }
                             Console.WriteLine("MOVING MKLP FILE.......");
@@ -78,10 +90,13 @@ namespace ReconsileProcess
                                 String line;
                                 while ((line = streamReader.ReadLine()) != null)
                                 {
-                                    RRN = line.Substring(25, 12);
-                                    Date = line.Substring(129, 6);
-                                    Amount = line.Substring(114, 15);
-                                    File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
+                                    if (line != "")
+                                    {
+                                        RRN = line.Substring(25, 12);
+                                        Date = line.Substring(129, 6);
+                                        Amount = line.Substring(114, 15);
+                                        File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
+                                    }
                                 }
 
                             }
@@ -100,10 +115,11 @@ namespace ReconsileProcess
                 }
                 if (File.Exists(path))
                 {
-                    Console.WriteLine("INSERTING INTO DB.......");
-                    InsertToDB(path);
-                    File.Delete(path);
+                    Console.WriteLine("INSERTING INTO DB......." + path);
+                    //InsertToDB(path);
+                    //File.Delete(path);
                 }
+                Thread.Sleep(10000);
             }
         }
         static void InsertToDB(string path)
