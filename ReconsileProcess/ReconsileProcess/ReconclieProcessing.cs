@@ -46,85 +46,9 @@ namespace ReconsileProcess
                             string[] Destinationfiles = Directory.GetFiles(DestinationFromFilepath, "*" + reader["Destination_File_Extention"].ToString(), SearchOption.AllDirectories);
                             string DestinationSubstringValue = reader["Destination_Substring_Value"].ToString();
                             string fileName = Path.GetRandomFileName();
-                            string path = reader["Source_Completion_Path"].ToString() + fileName + ".txt";
-
-
+                            string path = SourceMoveFilepath + fileName + ".txt";
                             CreateReconcileFile(Sourcefiles, path, SourceMoveFilepath, SourceSubstringValue);
                             CreateReconcileFile(Destinationfiles, path, DestinationMoveFilepath, DestinationSubstringValue);
-                            //foreach (string dirFile in Sourcefiles)
-                            //{
-                            //    const Int32 BufferSize = 128;
-                            //    string ext = Path.GetExtension(dirFile).ToLower();
-                            //    if (!File.Exists(path))
-                            //    {
-                            //        File.Create(path).Dispose();
-                            //    }
-                            //    if (ext == ".mklp")
-                            //    {
-                            //        if (!IsFileLocked(new FileInfo(dirFile)))
-                            //        {
-                            //            Console.WriteLine("READING MKLP File");
-                            //            using (var fileStream = File.OpenRead(dirFile))
-                            //            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
-                            //            {
-                            //                String line;
-                            //                while ((line = streamReader.ReadLine()) != null)
-                            //                {
-                            //                    if (line != "")
-                            //                    {
-                            //                        RRN = line.Substring(9, 12);
-                            //                        Date = line.Substring(157, 6);
-                            //                        Amount = line.Substring(166, 15);
-                            //                        File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
-                            //                    }
-                            //                }
-                            //            }
-                            //            Console.WriteLine("MOVING MKLP FILE.......");
-                            //            if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
-                            //            {
-                            //                File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
-                            //            }
-                            //            else
-                            //            {
-                            //                File.Delete(dirFile);
-                            //            }
-                            //        }
-
-                            //    }
-                            //    else if (ext == ".rc")
-                            //    {
-                            //        if (!IsFileLocked(new FileInfo(dirFile)))
-                            //        {
-                            //            Console.WriteLine("READING RC File");
-                            //            using (var fileStream = File.OpenRead(dirFile))
-                            //            using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
-                            //            {
-                            //                String line;
-                            //                while ((line = streamReader.ReadLine()) != null)
-                            //                {
-                            //                    if (line != "")
-                            //                    {
-                            //                        RRN = line.Substring(25, 12);
-                            //                        Date = line.Substring(129, 6);
-                            //                        Amount = line.Substring(114, 15);
-                            //                        File.AppendAllText(path, RRN + "," + Date + "," + Amount + "\n");
-                            //                    }
-                            //                }
-
-                            //            }
-                            //            Console.WriteLine("MOVING MKLP FILE.......");
-                            //            if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
-                            //            {
-                            //                File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
-                            //            }
-                            //            else
-                            //            {
-                            //                File.Delete(dirFile);
-                            //            }
-
-                            //        }
-                            //    }
-                            //}
                             reader.Close();
                             con.Close();
                             if (File.Exists(path))
@@ -142,6 +66,7 @@ namespace ReconsileProcess
 
         static void CreateReconcileFile(string[] Files, string Filepath,string MoveFilepath,string SubstringValue)
         {
+            string substring = "";
             foreach (string dirFile in Files)
             {
                 const Int32 BufferSize = 128;
@@ -161,7 +86,14 @@ namespace ReconsileProcess
                         {
                             if (line != "")
                             {
-                                File.AppendAllText(Filepath, line.Substring(SubstringValue.Split('|')[0].Split(',')[0], SubstringValue.Split('|')[0].Split(',')[1] )+ "," + line.Substring(SubstringValue.Split('|')[1]) + "," + line.Substring(SubstringValue.Split('|')[2]) + "\n");
+                                substring = "";
+                                string[] strArr = SubstringValue.Split('|');
+                                for (int i = 0; i < strArr.Length; i++)
+                                {
+                                    var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
+                                    substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                }
+                                File.AppendAllText(Filepath, substring.TrimEnd(',') + "\n");
                             }
                         }
                     }
