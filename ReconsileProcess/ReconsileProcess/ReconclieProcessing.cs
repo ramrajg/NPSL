@@ -27,7 +27,7 @@ namespace ReconsileProcess
                 //string fileName = Path.GetRandomFileName();
                 //string path = @"D:\\WorkStuff_Project\\RND\\FileToInsert\\InsertRecord_" + fileName + ".txt";
 
-                string Query = "select [Template_Name],[Source_Folder_Path] ,[Source_File_Extention] ,[Source_Completion_Path] ,[Source_Substring_Value] ,[Destination_Folder_Path],[Destination_File_Extention],[Destination_Completion_Path],[Destination_Substring_Value],[Destination_Delimiter],[Source_Delimiter] from Reconsile_Template";
+                string Query = "select [RECONSILE_TEMPLATE_ID],[Template_Name],[Source_Folder_Path] ,[Source_File_Extention] ,[Source_Completion_Path] ,[Source_Substring_Value] ,[Destination_Folder_Path],[Destination_File_Extention],[Destination_Completion_Path],[Destination_Substring_Value],[Destination_Delimiter],[Source_Delimiter] from Reconsile_Template";
                 string oConnString = "Data Source=RAMRAJ;Initial Catalog=NPSL;Integrated Security=True";
                 using (SqlConnection con = new SqlConnection(oConnString))
                 {
@@ -38,6 +38,7 @@ namespace ReconsileProcess
                         while (reader.Read())
                         {
                             int NumberofColumns = 0;
+                            int RECOMSILE_TEMPLATE_ID = Int32.Parse(reader["RECONSILE_TEMPLATE_ID"].ToString());
                             string SourceMoveFilepath = reader["Source_Completion_Path"].ToString();
                             string SourceFromFilepath = reader["Source_Folder_Path"].ToString();
                             string[] Sourcefiles = Directory.GetFiles(SourceFromFilepath, "*" + reader["Source_File_Extention"].ToString(), SearchOption.AllDirectories);
@@ -62,7 +63,7 @@ namespace ReconsileProcess
                             if (File.Exists(path))
                             {
                                 Console.WriteLine("INSERTING INTO DB......." + path);
-                                InsertToDB(path, NumberofColumns);
+                                InsertToDB(path, NumberofColumns, RECOMSILE_TEMPLATE_ID);
                                 File.Delete(path);
                             }
                         }
@@ -82,6 +83,7 @@ namespace ReconsileProcess
             {
                 const Int32 BufferSize = 128;
                 string ext = Path.GetExtension(dirFile).ToLower();
+                string fileName = Path.GetFileNameWithoutExtension(dirFile).ToLower();
                 if (!File.Exists(Filepath))
                 {
                     File.Create(Filepath).Dispose();
@@ -114,7 +116,7 @@ namespace ReconsileProcess
                                         substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
                                     }
                                 }
-                                File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "\n");
+                                File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileName + "\n");
                             }
                         }
                     }
@@ -130,16 +132,17 @@ namespace ReconsileProcess
                 }
             }
         }
-        static void InsertToDB(string path,int NumberofColumns)
+        static void InsertToDB(string path,int NumberofColumns,int TemplateId)
         {
             string oConnString = "Data Source=RAMRAJ;Initial Catalog=NPSL;Integrated Security=True";
             using (SqlConnection con = new SqlConnection(oConnString))
             {
-                using (SqlCommand cmd = new SqlCommand("P_INSERTRECONSILEDATA_New", con))
+                using (SqlCommand cmd = new SqlCommand("P_INSERTRECONSILEDATA", con))
                 {
                     cmd.CommandType = CommandType.StoredProcedure;
                     cmd.Parameters.Add("@FILEPATH", SqlDbType.VarChar).Value = path;
-                    cmd.Parameters.Add("@NumberOfColumns", SqlDbType.Int).Value = NumberofColumns;
+                    cmd.Parameters.Add("@NUMBEROFCOLUMNS", SqlDbType.Int).Value = NumberofColumns;
+                    cmd.Parameters.Add("@TEMPLATEID", SqlDbType.Int).Value = TemplateId;
                     con.Open();
                     cmd.ExecuteNonQuery();
                 }
