@@ -46,6 +46,8 @@ namespace ReconsileProcess
                         }
                         if (File.Exists(path))
                         {
+                           
+                            Console.ForegroundColor = ConsoleColor.Blue;
                             Console.WriteLine("INSERTING INTO DB......." + path);
                             var param = new List<SqlParameter>
                             {
@@ -55,11 +57,16 @@ namespace ReconsileProcess
                             };
                             var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
                             File.Delete(path);
-
+                            //Console.BackgroundColor = ConsoleColor.Green;
+                            //Console.ForegroundColor = ConsoleColor.Black;
+                            Console.ForegroundColor = ConsoleColor.Green;
+                            Console.WriteLine("Sucessfully Reconsiled - Template Name " + item.TemplateName + " on : " + DateTime.Now);
                         }
                     }
                     catch (Exception ex)
                     {
+                        Console.BackgroundColor = ConsoleColor.Red;
+                        Console.ForegroundColor = ConsoleColor.White;
                         Console.WriteLine("Error : " + ex.Message.ToString());
                     }
                 }
@@ -87,6 +94,8 @@ namespace ReconsileProcess
                     }
                     if (!IsFileLocked(new FileInfo(dirFile)))
                     {
+                      
+                        Console.ForegroundColor = ConsoleColor.Gray;
                         Console.WriteLine("READING " + fileName + " File");
                         using (var fileStream = File.OpenRead(dirFile))
                         using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
@@ -133,7 +142,7 @@ namespace ReconsileProcess
                                 }
                             }
                         }
-                        Console.WriteLine("MOVING " + fileName + " FILE.......");
+                       // Console.WriteLine("MOVING " + fileName + " FILE.......");
                         if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
                         {
                             File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
@@ -146,7 +155,7 @@ namespace ReconsileProcess
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine("MOVING " + fileName + " FILE TO DIDNOTPROCESS (FILE READING)");
+                  //  Console.WriteLine("MOVING " + fileName + " FILE TO DIDNOTPROCESS (FILE READING)");
                     string DidNotProcessFolder = CreateDirectory(MoveFilepath + "DIDNOTPROCESS\\");
                     if (!File.Exists(DidNotProcessFolder + Path.GetFileName(dirFile)))
                     {
