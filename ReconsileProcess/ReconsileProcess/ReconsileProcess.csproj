@@ -6,8 +6,16 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.Configuration" Version="2.1.1" />
+    <PackageReference Include="System.Configuration.ConfigurationManager" Version="4.5.0" />
     <PackageReference Include="System.Data.Common" Version="4.3.0" />
     <PackageReference Include="System.Data.SqlClient" Version="4.5.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="NPSL.Models">
+      <HintPath>..\..\NPSLCore\NPSL.Models\bin\Debug\netcoreapp2.0\NPSL.Models.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
 </Project>

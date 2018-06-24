@@ -1,4 +1,8 @@
-﻿INSERT INTO Reconsile_Template (
+﻿SELECT * FROM Reconsile_Template
+
+--delete from Reconsile_Template where Reconsile_Template_id = 5
+
+INSERT INTO Reconsile_Template (
 [Template_Name],
 [Source_Folder_Path] ,
 [Source_File_Extention] ,
@@ -7,9 +11,11 @@
 [Destination_Folder_Path],
 [Destination_File_Extention],
 [Destination_Completion_Path],
-[Destination_Substring_Value])
+[Destination_Substring_Value],
+[Destination_Delimiter],
+[Source_Delimiter])
 VALUES(
-'TESTSAMPLE',
+'SUBSTRIING',
 'F:\Sachine_Prj\FinalFiles\',
 '.mklp',
 'F:\Sachine_Prj\MovePath\MoveToComplete\',
@@ -17,7 +23,103 @@ VALUES(
 'F:\Sachine_Prj\FinalFiles\',
 '.rc',
 'F:\Sachine_Prj\MovePath\MoveToComplete\',
-'25, 12|129, 6|114, 15')
+'25, 12|129, 6|114, 15',
+'SS',
+'SS')
+
+
+
+INSERT INTO Reconsile_Template (
+[Template_Name],
+[Source_Folder_Path] ,
+[Source_File_Extention] ,
+[Source_Completion_Path] ,
+[Source_Substring_Value] ,
+[Destination_Folder_Path],
+[Destination_File_Extention],
+[Destination_Completion_Path],
+[Destination_Substring_Value],
+[Destination_Delimiter],
+[Source_Delimiter])
+VALUES(
+'COMMA',
+'F:\Sachine_Prj\FinalFiles_Comma\',
+'.mklp',
+'F:\Sachine_Prj\MovePath\MoveToComplete\',
+'0|2',
+'F:\Sachine_Prj\FinalFiles_Comma\',
+'.rc',
+'F:\Sachine_Prj\MovePath\MoveToComplete\',
+'0|2',
+',',
+',')
+
+
+
+update Reconsile_Template set Source_Substring_Value = '0|1|2' ,Destination_Substring_Value = '0|1|2' where Reconsile_Template_id = 2
+
+
+--nach--
+INSERT INTO Reconsile_Template (
+[Template_Name],
+[Source_Folder_Path] ,
+[Source_File_Extention] ,
+[Source_Completion_Path] ,
+[Source_Substring_Value] ,
+[Destination_Folder_Path],
+[Destination_File_Extention],
+[Destination_Completion_Path],
+[Destination_Substring_Value],
+[Destination_Delimiter],
+[Source_Delimiter],
+[Source_HasHeader],
+[Destination_HasHeader])
+VALUES(
+'NACH',
+'F:\Sachine_Prj\NACHFiles\',
+'.txt',
+'F:\Sachine_Prj\MovePath\MoveToComplete\NACHFiles\',
+'87,20||120,13|133,10|143,10|171,15',
+'F:\Sachine_Prj\NACHFiles\',
+'.csv',
+'F:\Sachine_Prj\MovePath\MoveToComplete\NACHFiles\',
+'5||6|7|8|10',
+',',
+'SS',
+0,1)
+
+
+
+--rtgs
+INSERT INTO Reconsile_Template (
+[Template_Name],
+[Source_Folder_Path] ,
+[Source_File_Extention] ,
+[Source_Completion_Path] ,
+[Source_Substring_Value] ,
+[Destination_Folder_Path],
+[Destination_File_Extention],
+[Destination_Completion_Path],
+[Destination_Substring_Value],
+[Destination_Delimiter],
+[Source_Delimiter],
+[Source_HasHeader],
+[Destination_HasHeader])
+VALUES(
+'RTGS',
+'F:\Sachine_Prj\FILES\RTGS\SOURCE\',
+'.csv',
+'F:\Sachine_Prj\MovePath\MoveToComplete\NACHFiles\',
+'7|1|10|5|8',
+'F:\Sachine_Prj\FILES\RTGS\DESTINATION\',
+'.csv',
+'F:\Sachine_Prj\MovePath\MoveToComplete\NACHFiles\',
+'6|3|12|8|16',
+',',
+',',
+1,1)
+
+
 
 SET ANSI_NULLS ON
 GO
@@ -42,4 +144,49 @@ create TABLE [dbo].[Reconsile_Template](
 ) ON [PRIMARY]
 GO
 
+
+
+USE [NPSL]
+GO
+/****** Object:  Trigger [dbo].[UPDATEUSERS]    Script Date: 6/24/2018 2:28:26 AM ******/
+SET ANSI_NULLS ON
+GO
+SET QUOTED_IDENTIFIER ON
+GO
+
+
+create TRIGGER [dbo].[UPDATERECONSILERAWDATA]
+ON [dbo].[RECONSILEDDATA]
+AFTER UPDATE, INSERT, DELETE
+AS
+
+
+--IF EXISTS(SELECT * FROM INSERTED) AND EXISTS (SELECT * FROM DELETED)
+--BEGIN
+--	UPDATE DBO.[RECONSILERAWDATA] SET DATE = REPLACE(CONVERT(CHAR(10), getdate(), 103), '/', '')
+--	FROM INSERTED I
+--	WHERE DBO.[RECONSILERAWDATA].ID = I.ID and I.DATE = '' or I.DATE IS NULL
+--END
+
+IF EXISTS (SELECT * FROM INSERTED) AND NOT EXISTS(SELECT * FROM DELETED)
+BEGIN
+    UPDATE DBO.[RECONSILERAWDATA] SET ISRECONSILED = 1
+	FROM INSERTED I
+	WHERE DBO.[RECONSILERAWDATA].RRN = I.RRN 
+	and DBO.[RECONSILERAWDATA].DATE  = I.DATE 
+	AND DBO.[RECONSILERAWDATA].AMOUNT  = I.AMOUNT
+	AND DBO.[RECONSILERAWDATA].[RECOCOL4] 	 = I.RECOCOL4
+	AND DBO.[RECONSILERAWDATA].[RECOCOL5] 	 = I.RECOCOL5
+	AND DBO.[RECONSILERAWDATA].[RECOCOL6] 	 = I.RECOCOL6
+	AND DBO.[RECONSILERAWDATA].[RECOCOL7] 	 = I.RECOCOL7
+    AND DBO.[RECONSILERAWDATA].[RECOCOL8] 	 = I.RECOCOL8
+	AND DBO.[RECONSILERAWDATA].[RECOCOL9] 	 = I.RECOCOL9
+	AND DBO.[RECONSILERAWDATA].[RECOCOL10]	 = I.RECOCOL10
+	AND DBO.[RECONSILERAWDATA].[RECOCOL11]	 = I.RECOCOL11
+	AND DBO.[RECONSILERAWDATA].[RECOCOL12]	 = I.RECOCOL12
+	AND DBO.[RECONSILERAWDATA].[RECOCOL13]	 = I.RECOCOL13
+	AND DBO.[RECONSILERAWDATA].[RECOCOL14]	 = I.RECOCOL14
+	AND DBO.[RECONSILERAWDATA].[RECOCOL15]	 = I.RECOCOL15
+	AND DBO.[RECONSILERAWDATA].[RECOCOL16]	 = I.RECOCOL16			   
+END	
 

@@ -5,6 +5,9 @@ using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Threading;
+using System.Collections.Generic;
+using NPSLCore.Models.DB;
+using NPSL.Models.Models;
 
 namespace ReconsileProcess
 {
@@ -26,55 +29,41 @@ namespace ReconsileProcess
                 //string[] files = Directory.GetFiles(FromFilepath, "*.*", SearchOption.AllDirectories);
                 //string fileName = Path.GetRandomFileName();
                 //string path = @"D:\\WorkStuff_Project\\RND\\FileToInsert\\InsertRecord_" + fileName + ".txt";
+                List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
 
-                string Query = "select [RECONSILE_TEMPLATE_ID],[Template_Name],[Source_Folder_Path] ,[Source_File_Extention] ,[Source_Completion_Path] ,[Source_Substring_Value] ,[Destination_Folder_Path],[Destination_File_Extention],[Destination_Completion_Path],[Destination_Substring_Value],[Destination_Delimiter],[Source_Delimiter] from Reconsile_Template";
-                string oConnString = "Data Source=RAMRAJ;Initial Catalog=NPSL;Integrated Security=True";
-                using (SqlConnection con = new SqlConnection(oConnString))
+                foreach (var item in ReconsileTemplateLst)
                 {
-                    using (SqlCommand cmd = new SqlCommand(Query, con))
+                    int NumberofColumns = 0;
+                    string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
+                    string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
+                    string fileName = Path.GetRandomFileName();
+                    string path = item.SourceCompletionPath + fileName + ".txt";
+                    if (Sourcefiles.Length > 0)
                     {
-                        con.Open();
-                        SqlDataReader reader = cmd.ExecuteReader();
-                        while (reader.Read())
-                        {
-                            int NumberofColumns = 0;
-                            int RECOMSILE_TEMPLATE_ID = Int32.Parse(reader["RECONSILE_TEMPLATE_ID"].ToString());
-                            string SourceMoveFilepath = reader["Source_Completion_Path"].ToString();
-                            string SourceFromFilepath = reader["Source_Folder_Path"].ToString();
-                            string[] Sourcefiles = Directory.GetFiles(SourceFromFilepath, "*" + reader["Source_File_Extention"].ToString(), SearchOption.AllDirectories);
-                            string SourceSubstringValue = reader["Source_Substring_Value"].ToString();
-                            string SourceDelimeter = reader["Source_Delimiter"].ToString();
-
-                            string DestinationMoveFilepath = reader["Destination_Completion_Path"].ToString();
-                            string DestinationFromFilepath = reader["Destination_Folder_Path"].ToString();
-                            string[] Destinationfiles = Directory.GetFiles(DestinationFromFilepath, "*" + reader["Destination_File_Extention"].ToString(), SearchOption.AllDirectories);
-                            string DestinationSubstringValue = reader["Destination_Substring_Value"].ToString();
-                            string DestinationDelimeter = reader["Destination_Delimiter"].ToString();
-                            string fileName = Path.GetRandomFileName();
-                            string path = SourceMoveFilepath + fileName + ".txt";
-                            if(Sourcefiles.Length > 0)
+                        CreateReconcileFile(Sourcefiles, path, item.SourceCompletionPath, item.SourceSubstringValue, item.SourceDelimiter, item.SourceHasHeader, out NumberofColumns);
+                    }
+                    if (Destinationfiles.Length > 0)
+                    {
+                        CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath, item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
+                    }
+                    if (File.Exists(path))
+                    {
+                        Console.WriteLine("INSERTING INTO DB......." + path);
+                        var param = new List<SqlParameter>
                             {
-                                CreateReconcileFile(Sourcefiles, path, SourceMoveFilepath, SourceSubstringValue, SourceDelimeter,out  NumberofColumns);
-                            }
-                            if (Destinationfiles.Length > 0)
-                            {
-                                CreateReconcileFile(Destinationfiles, path, DestinationMoveFilepath, DestinationSubstringValue, DestinationDelimeter,out  NumberofColumns);
-                            }
-                            if (File.Exists(path))
-                            {
-                                Console.WriteLine("INSERTING INTO DB......." + path);
-                                InsertToDB(path, NumberofColumns, RECOMSILE_TEMPLATE_ID);
-                                File.Delete(path);
-                            }
-                        }
-                        con.Close();
+                                new SqlParameter("@FILEPATH", path),
+                                new SqlParameter("@NUMBEROFCOLUMNS", NumberofColumns),
+                                new SqlParameter("@TEMPLATEID", item.TemplateId),
+                            };
+                        var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
+                        File.Delete(path);
                     }
                 }
                 Thread.Sleep(10000);
             }
         }
 
-        static void CreateReconcileFile(string[] Files, string Filepath, string MoveFilepath, string SubstringValue, string Delimeter, out int NumberofColumns)
+        static void CreateReconcileFile(string[] Files, string Filepath, string MoveFilepath, string SubstringValue, string Delimeter, bool? HasHeader, out int NumberofColumns)
         {
             string substring = "";
             string[] strArr = SubstringValue.Split('|');
@@ -90,10 +79,11 @@ namespace ReconsileProcess
                 }
                 if (!IsFileLocked(new FileInfo(dirFile)))
                 {
-                    Console.WriteLine("READING MKLP File");
+                    Console.WriteLine("READING " + fileName + " File");
                     using (var fileStream = File.OpenRead(dirFile))
                     using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
                     {
+                        if (HasHeader == true) streamReader.ReadLine();
                         String line;
                         while ((line = streamReader.ReadLine()) != null)
                         {
@@ -104,8 +94,15 @@ namespace ReconsileProcess
                                 {
                                     for (int i = 0; i < strArr.Length; i++)
                                     {
-                                        var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
-                                        substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                        if (strArr[i] != "")
+                                        {
+                                            var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
+                                            substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                        }
+                                        else
+                                        {
+                                            substring = substring + ",";
+                                        }
                                     }
                                 }
                                 else
@@ -113,14 +110,22 @@ namespace ReconsileProcess
                                     var columnValue = line.Split(Delimeter).ToList();
                                     for (int i = 0; i < strArr.Length; i++)
                                     {
-                                        substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                        if (strArr[i] != "")
+                                        {
+                                            substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                        }
+                                        else
+                                        {
+                                            substring = substring + ",";
+                                        }
+
                                     }
                                 }
                                 File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileName + "\n");
                             }
                         }
                     }
-                    Console.WriteLine("MOVING MKLP FILE.......");
+                    Console.WriteLine("MOVING " + fileName + " FILE.......");
                     if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
                     {
                         File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
@@ -129,22 +134,6 @@ namespace ReconsileProcess
                     {
                         File.Delete(dirFile);
                     }
-                }
-            }
-        }
-        static void InsertToDB(string path,int NumberofColumns,int TemplateId)
-        {
-            string oConnString = "Data Source=RAMRAJ;Initial Catalog=NPSL;Integrated Security=True";
-            using (SqlConnection con = new SqlConnection(oConnString))
-            {
-                using (SqlCommand cmd = new SqlCommand("P_INSERTRECONSILEDATA", con))
-                {
-                    cmd.CommandType = CommandType.StoredProcedure;
-                    cmd.Parameters.Add("@FILEPATH", SqlDbType.VarChar).Value = path;
-                    cmd.Parameters.Add("@NUMBEROFCOLUMNS", SqlDbType.Int).Value = NumberofColumns;
-                    cmd.Parameters.Add("@TEMPLATEID", SqlDbType.Int).Value = TemplateId;
-                    con.Open();
-                    cmd.ExecuteNonQuery();
                 }
             }
         }

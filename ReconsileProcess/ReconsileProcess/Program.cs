@@ -1,5 +1,9 @@
-﻿using System;
+﻿using Microsoft.Extensions.Configuration;
+using System;
+using System.Configuration;
+using System.IO;
 using System.Threading;
+
 
 namespace ReconsileProcess
 {
@@ -7,6 +11,15 @@ namespace ReconsileProcess
     {
         static void Main(string[] args)
         {
+            //var builder = new ConfigurationBuilder().SetBasePath(Directory.GetCurrentDirectory())
+            //     .AddJsonFile("appsettings.json", optional: true, reloadOnChange: true);
+
+            //IConfigurationRoot configuration = builder.Build();
+
+            //Console.WriteLine(ConfigurationManager.AppSettings["test"]);
+            //Console.WriteLine(ConfigurationManager.ConnectionStrings["CharityManagement"].ConnectionString);
+            //Console.ReadLine();
+
             ReconclieProcessing processing = new ReconclieProcessing();
             Thread t = new Thread(processing.ProcessFile);
             t.IsBackground = true;
@@ -23,7 +36,7 @@ namespace ReconsileProcess
             }
             t.Join();
         }
-       
+
     }
     
 }
