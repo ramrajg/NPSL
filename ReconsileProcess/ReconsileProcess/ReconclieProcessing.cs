@@ -27,30 +27,40 @@ namespace ReconsileProcess
                 List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
                 foreach (var item in ReconsileTemplateLst)
                 {
-                    int NumberofColumns = 0;
-                    string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
-                    string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
-                    string fileName = Path.GetRandomFileName();
-                    string path = item.SourceCompletionPath + fileName + ".txt";
-                    if (Sourcefiles.Length > 0)
+                    string fileName = "";
+                    try
                     {
-                        CreateReconcileFile(Sourcefiles, path, item.SourceCompletionPath, item.SourceSubstringValue, item.SourceDelimiter, item.SourceHasHeader, out NumberofColumns);
-                    }
-                    if (Destinationfiles.Length > 0)
-                    {
-                        CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath, item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
-                    }
-                    if (File.Exists(path))
-                    {
-                        Console.WriteLine("INSERTING INTO DB......." + path);
-                        var param = new List<SqlParameter>
+                        string DateofProcessing = DateTime.Now.ToString("ddMMyyyy");
+                        int NumberofColumns = 0;
+                        string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
+                        string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
+                        fileName = Path.GetRandomFileName();
+                        string path = item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\" + fileName + ".txt";
+                        if (Sourcefiles.Length > 0)
+                        {
+                            CreateReconcileFile(Sourcefiles, path, item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.SourceSubstringValue, item.SourceDelimiter, item.SourceHasHeader, out NumberofColumns);
+                        }
+                        if (Destinationfiles.Length > 0)
+                        {
+                            CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
+                        }
+                        if (File.Exists(path))
+                        {
+                            Console.WriteLine("INSERTING INTO DB......." + path);
+                            var param = new List<SqlParameter>
                             {
                                 new SqlParameter("@FILEPATH", path),
                                 new SqlParameter("@NUMBEROFCOLUMNS", NumberofColumns),
                                 new SqlParameter("@TEMPLATEID", item.TemplateId),
                             };
-                        var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
-                        File.Delete(path);
+                            var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
+                            File.Delete(path);
+
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine("Error : " + ex.Message.ToString());
                     }
                 }
                 Thread.Sleep(10000);
@@ -60,76 +70,98 @@ namespace ReconsileProcess
         static void CreateReconcileFile(string[] Files, string Filepath, string MoveFilepath, string SubstringValue, string Delimeter, bool? HasHeader, out int NumberofColumns)
         {
             string substring = "";
+            string fileName = "";
             string[] strArr = SubstringValue.Split('|');
             NumberofColumns = strArr.Length;
+            CreateDirectory(MoveFilepath);
             foreach (string dirFile in Files)
             {
-                const Int32 BufferSize = 128;
-                string ext = Path.GetExtension(dirFile).ToLower();
-                string fileName = Path.GetFileNameWithoutExtension(dirFile).ToLower();
-                if (!File.Exists(Filepath))
+                try
                 {
-                    File.Create(Filepath).Dispose();
-                }
-                if (!IsFileLocked(new FileInfo(dirFile)))
-                {
-                    Console.WriteLine("READING " + fileName + " File");
-                    using (var fileStream = File.OpenRead(dirFile))
-                    using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
+                    const Int32 BufferSize = 128;
+                    string ext = Path.GetExtension(dirFile).ToLower();
+                    fileName = Path.GetFileNameWithoutExtension(dirFile).ToLower();
+                    if (!File.Exists(Filepath))
                     {
-                        if (HasHeader == true) streamReader.ReadLine();
-                        String line;
-                        while ((line = streamReader.ReadLine()) != null)
+                        File.Create(Filepath).Dispose();
+                    }
+                    if (!IsFileLocked(new FileInfo(dirFile)))
+                    {
+                        Console.WriteLine("READING " + fileName + " File");
+                        using (var fileStream = File.OpenRead(dirFile))
+                        using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
                         {
-                            if (line != "")
+                            if (HasHeader == true) streamReader.ReadLine();
+                            String line;
+                            while ((line = streamReader.ReadLine()) != null)
                             {
-                                substring = "";
-                                if (Delimeter == "SS")
+                                if (line != "")
                                 {
-                                    for (int i = 0; i < strArr.Length; i++)
+                                    substring = "";
+                                    if (Delimeter == "SS")
                                     {
-                                        if (strArr[i] != "")
+                                        for (int i = 0; i < strArr.Length; i++)
                                         {
-                                            var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
+                                            if (strArr[i] != "")
+                                            {
+                                                var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
                                             substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
-                                        }
-                                        else
-                                        {
-                                            substring = substring + ",";
+                                            }
+                                            else
+                                            {
+                                                substring = substring + ",";
+                                            }
                                         }
                                     }
-                                }
-                                else
-                                {
-                                    var columnValue = line.Split(Delimeter).ToList();
-                                    for (int i = 0; i < strArr.Length; i++)
+                                    else
                                     {
-                                        if (strArr[i] != "")
+                                        var columnValue = line.Split(Delimeter).ToList();
+                                        for (int i = 0; i < strArr.Length; i++)
                                         {
-                                            substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
-                                        }
-                                        else
-                                        {
-                                            substring = substring + ",";
-                                        }
+                                            if (strArr[i] != "")
+                                            {
+                                                substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                            }
+                                            else
+                                            {
+                                                substring = substring + ",";
+                                            }
 
+                                        }
                                     }
+                                    File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileName + "\n");
                                 }
-                                File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileName + "\n");
                             }
                         }
+                        Console.WriteLine("MOVING " + fileName + " FILE.......");
+                        if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
+                        {
+                            File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
+                        }
+                        else
+                        {
+                            File.Delete(dirFile);
+                        }
                     }
-                    Console.WriteLine("MOVING " + fileName + " FILE.......");
-                    if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine("MOVING " + fileName + " FILE TO DIDNOTPROCESS (FILE READING)");
+                    string DidNotProcessFolder = CreateDirectory(MoveFilepath + "DIDNOTPROCESS\\");
+                    if (!File.Exists(DidNotProcessFolder + Path.GetFileName(dirFile)))
                     {
-                        File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
+                        File.Move(dirFile, DidNotProcessFolder + Path.GetFileName(dirFile));
                     }
                     else
                     {
-                        File.Delete(dirFile);
+                        File.Delete(DidNotProcessFolder + Path.GetFileName(dirFile));
+                        File.Move(dirFile, DidNotProcessFolder + Path.GetFileName(dirFile));
                     }
+                   
+                    throw new Exception(ex.Message.ToString());
                 }
             }
+
         }
         static bool IsFileLocked(FileInfo file)
         {
@@ -148,6 +180,14 @@ namespace ReconsileProcess
                     stream.Close();
             }
             return false;
+        }
+        static string CreateDirectory(string DirectoryName)
+        {
+            if (!Directory.Exists(DirectoryName))
+            {
+                Directory.CreateDirectory(DirectoryName);
+            }
+            return DirectoryName;
         }
     }
 }
