@@ -190,3 +190,19 @@ BEGIN
 	AND DBO.[RECONSILERAWDATA].[RECOCOL16]	 = I.RECOCOL16			   
 END	
 
+
+ public void RefreshCacheList()
+        {
+            ReconsileTemplateLstCache = new List<ReconsileTemplate>();
+            var provider = new Microsoft.Extensions.DependencyInjection.ServiceCollection()
+               .AddMemoryCache()
+               .BuildServiceProvider();
+            var cache = provider.GetService<IMemoryCache>();
+
+            List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
+            cache.Set("ReconsileTemplateLst", ReconsileTemplateLst, new MemoryCacheEntryOptions().SetAbsoluteExpiration(TimeSpan.FromDays(3)));
+            cache.TryGetValue("ReconsileTemplateLst", out List<ReconsileTemplate> ReconsileTemplate);
+            ReconsileTemplateLstCache = ReconsileTemplate;
+        }
+
+		 // Thread t = new Thread(() => processing.ProcessFile(ReconsileTemplateCache));

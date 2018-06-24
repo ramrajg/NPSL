@@ -1,32 +1,40 @@
 ﻿using System;
-using System.Data;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Data.SqlClient;
 using System.Threading;
 using System.Collections.Generic;
-using NPSLCore.Models.DB;
 using NPSL.Models.Models;
 
 namespace ReconsileProcess
 {
+
     class ReconclieProcessing
     {
         public bool KeepGoing { get; set; }
+        public List<ReconsileTemplate> ReconsileTemplateLstCache;
 
         public ReconclieProcessing()
         {
             KeepGoing = true;
         }
+        public void RefreshCacheList()
+        {
+            ReconsileTemplateLstCache = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
+        }
 
         public void ProcessFile()
         {
+            if(ReconsileTemplateLstCache == null) {
+                RefreshCacheList();
+            }
             while (KeepGoing)
             {
-                List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
-                foreach (var item in ReconsileTemplateLst)
+               //List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
+                foreach (var item in ReconsileTemplateLstCache)
                 {
+                    Console.ForegroundColor = ConsoleColor.Gray;
                     string fileName = "";
                     try
                     {
@@ -172,6 +180,7 @@ namespace ReconsileProcess
             }
 
         }
+
         static bool IsFileLocked(FileInfo file)
         {
             FileStream stream = null;
