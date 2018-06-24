@@ -24,13 +24,7 @@ namespace ReconsileProcess
         {
             while (KeepGoing)
             {
-                //string MoveFilepath = @"D:\\WorkStuff_Project\\RND\\MoveToComplete\\";
-                //string FromFilepath = @"D:\\WorkStuff_Project\\RND\\FinalFiles\\";
-                //string[] files = Directory.GetFiles(FromFilepath, "*.*", SearchOption.AllDirectories);
-                //string fileName = Path.GetRandomFileName();
-                //string path = @"D:\\WorkStuff_Project\\RND\\FileToInsert\\InsertRecord_" + fileName + ".txt";
                 List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
-
                 foreach (var item in ReconsileTemplateLst)
                 {
                     int NumberofColumns = 0;
