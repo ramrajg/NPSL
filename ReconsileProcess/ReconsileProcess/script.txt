@@ -206,3 +206,17 @@ END
         }
 
 		 // Thread t = new Thread(() => processing.ProcessFile(ReconsileTemplateCache));
+
+
+USE [NPSL]
+GO
+
+/****** Object:  ServiceQueue [ListenerQueue_1]    Script Date: 6/29/2018 11:43:20 PM ******/
+CREATE QUEUE [dbo].[ListenerQueue_1] WITH STATUS = ON , RETENTION = OFF , POISON_MESSAGE_HANDLING (STATUS = ON)  ON [PRIMARY] 
+GO
+
+
+/****** Object:  BrokerService [ListenerService_1]    Script Date: 6/29/2018 11:41:48 PM ******/
+CREATE SERVICE [ListenerService_1]  ON QUEUE [dbo].[ListenerQueue_1] ([DEFAULT])
+GO
+
