@@ -10,7 +10,7 @@ namespace ReconsileProcess
     {
         static void Main(string[] args)
         {
-            var listener = new SqlDependencyEx(ConfigurationManager.ConnectionStrings["ReconsileConnection"].ConnectionString, "NPSL", "Reconsile_Template");
+            var listener = new SqlDependencyEx(ConfigurationManager.ConnectionStrings["ReconsileConnection"].ConnectionString, ConfigurationManager.AppSettings["DatabaeName"], ConfigurationManager.AppSettings["TableName"]);
             ReconclieProcessing processing = new ReconclieProcessing();
             listener.TableChanged += (o, e) => processing.RefreshCacheList();
             listener.Start();

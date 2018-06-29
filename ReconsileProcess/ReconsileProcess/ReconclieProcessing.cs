@@ -21,6 +21,8 @@ namespace ReconsileProcess
         }
         public void RefreshCacheList()
         {
+            Console.ForegroundColor = ConsoleColor.Blue;
+            Console.WriteLine("Refresh Data");
             ReconsileTemplateLstCache = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
         }
 
