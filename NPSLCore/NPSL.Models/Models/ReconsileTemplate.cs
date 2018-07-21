@@ -1,4 +1,5 @@
-﻿namespace NPSL.Models.Models
+﻿
+namespace NPSLCore.Models.DB
 {
     public partial class ReconsileTemplate
     {

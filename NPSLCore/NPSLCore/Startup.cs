@@ -10,6 +10,7 @@ using NPSL.Repository.Core.User;
 using NPSL.Models.Models.DB;
 using NPSL.Extensions;
 using NPSL.Extentions.CustomException;
+using NPSL.Repository.Core.Template;
 
 namespace NPSLCore
 {
@@ -45,6 +46,8 @@ namespace NPSLCore
             
             services.AddScoped<DatabaseContext>();
             services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IReconsileTemplateRepository, ReconsileTemplateRepository>();
+
             ////services.AddDbContext<TrainingDatabaseContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
 
         }
