@@ -18,8 +18,22 @@ namespace NPSL.Repository.Core.Template
 
         public IEnumerable<FileExtension> GetFileExtenstion(int id)
         {
-            List<FileExtension> FileExtensionLst = _DBContext.ExecuteTransactional<FileExtension>("P_GETFILEEXTENSION");
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@EXTENSTIONID ", id),
+            };
+            List<FileExtension> FileExtensionLst = _DBContext.ExecuteTransactional<FileExtension>("P_GETFILEEXTENSION", param);
             return FileExtensionLst;
+        }
+
+        public IEnumerable<Delimiter> GetDelimeterValue(int id)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@DELIMITERID ", id),
+            };
+            List<Delimiter> DelimeterValueLst = _DBContext.ExecuteTransactional<Delimiter>("P_GETDELIMETERVALUE", param);
+            return DelimeterValueLst;
         }
 
         public IEnumerable<ReconsileTemplate> GetTemplatesById(int id)

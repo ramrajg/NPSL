@@ -49,5 +49,19 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+        [HttpGet]
+        [Route("api/GetDelimeterValue")]
+        public IEnumerable<Delimiter> GetDelimeterValue(int id)
+        {
+            try
+            {
+                var records = _template.GetDelimeterValue(id);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
     }
 }

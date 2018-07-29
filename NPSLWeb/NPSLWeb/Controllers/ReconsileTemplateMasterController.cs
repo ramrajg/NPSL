@@ -23,8 +23,10 @@ namespace NPSLWeb.Controllers
 
         {
             var ExtensionInfoResult = CustomUtility.GetSingleRecord<FileExtension>(string.Format("api/GetFileExtension"));
+            var DelimeterValue = CustomUtility.GetSingleRecord<Delimiter>(string.Format("api/GetDelimeterValue"));
             ViewBag.Message = "Template Master";
             ViewBag.ExtensionList = new SelectList(ExtensionInfoResult, "FileExtensionId", "FileextensionName").Items;
+            ViewBag.DelimeterValueList = new SelectList(DelimeterValue, "DelimiterId", "DelimiterValue").Items;
             return PartialView("TemplateAdd");
         }
         //[HttpPost]
@@ -65,7 +67,7 @@ namespace NPSLWeb.Controllers
             var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateById?Id=" + Id));
             return PartialView("TemplateEdit", TemplateResult);
         }
-        //[HttpPost]
+              //[HttpPost]
         //public ActionResult EditUser(Users userDetail)
         //{
         //    bool isSuccessStatusCode = false;

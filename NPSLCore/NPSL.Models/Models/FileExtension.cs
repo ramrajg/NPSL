@@ -6,4 +6,9 @@
         public string FileextensionName { get; set; }
     
     }
+    public partial class Delimiter
+    {
+        public int DelimiterId { get; set; }
+        public string DelimiterValue { get; set; }
+    }
 }

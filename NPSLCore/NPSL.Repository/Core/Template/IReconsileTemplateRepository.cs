@@ -9,5 +9,6 @@ namespace NPSL.Repository.Core.Template
     {
         IEnumerable<ReconsileTemplate> GetTemplatesById(int id);
         IEnumerable<FileExtension> GetFileExtenstion(int id);
+        IEnumerable<Delimiter> GetDelimeterValue(int id);
     }
 }
