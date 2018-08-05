@@ -1,6 +1,7 @@
 ﻿using NPSLCore.Models.DB;
 using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Text;
 
 namespace NPSL.Repository.Core.Template
@@ -10,5 +11,6 @@ namespace NPSL.Repository.Core.Template
         IEnumerable<ReconsileTemplate> GetTemplatesById(int id);
         IEnumerable<FileExtension> GetFileExtenstion(int id);
         IEnumerable<Delimiter> GetDelimeterValue(int id);
+        void SaveTemplate(DataTable templateItems);
     }
 }

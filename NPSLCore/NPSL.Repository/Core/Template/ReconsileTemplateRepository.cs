@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Data.SqlClient;
 using System.Text;
 using NPSL.Models.Models.DB;
@@ -45,5 +46,19 @@ namespace NPSL.Repository.Core.Template
             List<ReconsileTemplate> ReconsileTemplateLst = _DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETTEMPLATE", param);
             return ReconsileTemplateLst;
         }
+        void IReconsileTemplateRepository.SaveTemplate(DataTable templateItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pTemplate",
+                SqlDbType = SqlDbType.Structured,
+                Value = templateItems,
+                TypeName = "udt_template"
+            }
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveTemplate", param);
+        }
+
     }
 }

@@ -1,78 +1,151 @@
-﻿@model NPSLCore.Models.DB.Users
+﻿@model NPSLCore.Models.DB.ReconsileTemplate
 
 
+<script src="~/Scripts/js/reconsileTemplate.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
-<script src="~/js/CustomUtils.js"></script>
 
 <div class="modal-dialog" id="ModalPopUp">
 
     <div class="modal-content">
-        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "userEditForm" }))
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "templateEditForm" }))
 
-            {
-        <h2 style="margin:15px">Edit User</h2>
-        <p style="margin:15px">Please fill in this form to edit an account!</p>
-        <hr>
-        <div class="form-group">
-            <div class="row">
-                    @Html.TextBoxFor(model => model.UserId,  new { @class = "hidden" })
-                <div class="col-xs-offset-1 col-xs-5">
-                    @Html.TextBoxFor(model => model.FirstName, new { @class = "form-control", placeholder = "First Name", required = "required" })
-                    @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-xs-offset-0 col-xs-5">
-                    @Html.TextBoxFor(model => model.LastName, new { @class = "form-control", placeholder = "Last Name", required = "required" })
-                    @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-                </div>
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-1 col-xs-offset-right-1">
-                @Html.TextBoxFor(model => model.Company, new { @class = "form-control", placeholder = "Company" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-1 col-xs-offset-right-1">
-                @Html.TextBoxFor(model => model.Email, new { @class = "form-control", placeholder = "Email", required = "required", oninvalid = "this.setCustomValidity('Please Enter Email Id')", oninput = "setCustomValidity('')" })
-                @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="col-xs-offset-1 col-xs-offset-right-1">
-                @Html.TextBoxFor(model => model.MobilePhone, new { @class = "form-control", placeholder = "Mobile Number", onkeypress = "return AllowNumbersOnly(event)" })
-            </div>
-        </div>
-        <div class="form-group">
-            <div class="row">
-                <div class="col-xs-offset-1 col-xs-5">
-                    @Html.DropDownListFor(model => model.RoleId, new SelectList(ViewBag.RoleList, "RoleId", "RoleName"), "Select Role", new { @class = "form-control", required = "required" })
-                    @Html.ValidationMessageFor(model => model.RoleId, "", new { @class = "text-danger" })
-                </div>
-                <div class="col-xs-offset-0 col-xs-5">
-                    @Html.DropDownListFor(model => model.IsActive,
-                                                                                              new SelectList(new List<SelectListItem>
-                                                                                                  {
-                                                                                                                                    new SelectListItem { Text = "Active" , Value = "True"},
-                                                                                                                                    new SelectListItem { Text = "InActive", Value = "False" }
-                                                                                                  },
-                                                                                                  "Value", // property to be set as Value of dropdown item
-                                                                                                  "Text",  // property to be used as text of dropdown item
-                                                                                                  "True"), // value that should be set selected of dropdown
-                                                                                                  new { @class = "form-control" })
-                </div>
-            </div>
-        </div>
-        <div class="modal-footer" style="padding:5px">
+        {
+            <h2 style="margin:15px">Edit Reconsile Template</h2>
+            <p style="margin:15px">Please fill in this form to edit Reconsile Template!</p>
+            <hr>
             <div class="form-group">
-                <div class="col-xs-offset-right-1">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    <input type="submit" class="btn btn-primary" id="updateOk" value="Update changes" />
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-5">
+                        @Html.HiddenFor(model => model.SourceSubstringValue)
+                        @Html.HiddenFor(model => model.TemplateId)
+                        @Html.TextBoxFor(model => model.TemplateName, new { @class = "form-control", placeholder = "Template Name", required = "required" })
+                        @Html.ValidationMessageFor(model => model.TemplateName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-offset-0 col-xs-5">
+                        @Html.DropDownListFor(model => model.SourceExtention, new SelectList(ViewBag.ExtensionList, "FileExtensionId", "FileextensionName"), "Select File Extension", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.SourceExtention, "", new { @class = "text-danger" })
+                    </div>
                 </div>
             </div>
-        </div>
-         }
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-5">
+                        @Html.DropDownListFor(model => model.SourceDelimiter, new SelectList(ViewBag.DelimeterValueList, "DelimiterId", "DelimiterValue"), "Select Delimiter", new { @class = "form-control", required = "required" })
+                        @Html.ValidationMessageFor(model => model.SourceDelimiter, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="col-xs-offset-0 col-xs-5">
+                        @Html.DropDownListFor(model => model.SourceHasHeader,
+                                                                                                                                                                                          new SelectList(new List<SelectListItem>
+                                                                                                                                                                                              {
+                                                                                                                                                                                                                                                                                                    new SelectListItem { Text = "Has Header" , Value = "True"},
+                                                                                                                                                                                                                                                                                                    new SelectListItem { Text = "No Header", Value = "False" }
+                                                                                                                                                                                              },
+                                                                                                                                                                                              "Value", // property to be set as Value of dropdown item
+                                                                                                                                                                                              "Text",  // property to be used as text of dropdown item
+                                                                                                                                                                                              "False"), // value that should be set selected of dropdown
+                                                                                                                                                                                              new { @class = "form-control" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-offset-right-1">
+                    @Html.TextBoxFor(model => model.SourceFolder, new { @class = "form-control", placeholder = "Folder Path", required = "required" })
+                    @Html.ValidationMessageFor(model => model.SourceFolder, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="col-xs-offset-1 col-xs-offset-right-1">
+                    @Html.TextBoxFor(model => model.SourceCompletionPath, new { @class = "form-control", placeholder = "Move Folder Path", required = "required" })
+                    @Html.ValidationMessageFor(model => model.SourceCompletionPath, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-5">
+                        @Html.DropDownListFor(model => model.IsActive,
+                                                                                                                                                                                                    new SelectList(new List<SelectListItem>
+                                                                                                                                                                                                        {
+                                                                                                                                                                                                                                                                                                                            new SelectListItem { Text = "Active" , Value = "True"},
+                                                                                                                                                                                                                                                                                                                            new SelectListItem { Text = "InActive", Value = "False" }
+                                                                                                                                                                                                        },
+                                                                                                                                                                                                        "Value", // property to be set as Value of dropdown item
+                                                                                                                                                                                                        "Text",  // property to be used as text of dropdown item
+                                                                                                                                                                                                        "True"), // value that should be set selected of dropdown
+                                                                                                                                                                                                        new { @class = "form-control" })
+                    </div>
+                    <div></div>
+                    <div class="col-xs-offset-0 col-xs-5">
+                        <button id="addButton" type="button" class="btn btn-success">Add Parameters</button>
+                    </div>
+                </div>
+
+            </div>
+
+
+            var templateParamters = Model.SourceSubstringValue.Split('|');
+
+            <div class="form-horizontal">
+                <div class="form-group" id="form-group-1">
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-xs-5">
+                            <span class="input-group-addon">RNA Parameter 1: </span>
+                        </div>
+                        <div class="col-xs-offset-0 col-xs-5">
+                            <input id="Parameter1" type="text" class="form-control" value=@templateParamters[0]>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="form-group-2">
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-xs-5">
+                            <span class="input-group-addon">Date Parameter 2: </span>
+                        </div>
+                        <div class="col-xs-offset-0 col-xs-5">
+                            <input id="Parameter2" type="text" class="form-control" value=@templateParamters[1]>
+                        </div>
+                    </div>
+                </div>
+                <div class="form-group" id="form-group-3">
+                    <div class="row">
+                        <div class="col-xs-offset-1 col-xs-5">
+                            <span class="input-group-addon">Amount Parameter 3: </span>
+                        </div>
+                        <div class="col-xs-offset-0 col-xs-5">
+                            <input id="Parameter3" type="text" class="form-control" value=@templateParamters[2]>
+                        </div>
+                    </div>
+                </div>
+                @if (templateParamters.Length > 2)
+                {
+                    for (int i = 3; i < templateParamters.Length; i++)
+                    {
+                        <div class="form-group" id="form-group-@(@i+1)">
+                            <div class="row">
+                                <div class="col-xs-offset-1 col-xs-5">
+                                    <span class="input-group-addon">Parameter @(@i + 1): </span>
+                                </div>
+                                <div class="col-xs-offset-0 col-xs-5">
+                                    <div class="input-group">
+                                        <input id="Parameter@(@i+1)" type="text" class="form-control" value=@templateParamters[i]>
+                                        <span class="input-group-btn"><button id="removeParameter@(@i+1)" class="btn btn-danger remove-me" type="button">X</button></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </div>
+            <div class="modal-footer" style="padding:5px">
+                <div class="form-group">
+                    <div class="col-xs-offset-right-1">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="confirmok1" value="Save changes" />
+                    </div>
+                </div>
+            </div>
+        }
     </div>
 </div>

@@ -15,10 +15,6 @@ namespace NPSLWeb.Controllers
             var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateById"));
             return View(TemplateResult);
         }
-        //public ActionResult Edit(int? id)
-        //{
-        //    return View();
-        //}
         public ActionResult Addrecord()
 
         {
@@ -29,22 +25,22 @@ namespace NPSLWeb.Controllers
             ViewBag.DelimeterValueList = new SelectList(DelimeterValue, "DelimiterId", "DelimiterValue").Items;
             return PartialView("TemplateAdd");
         }
-        //[HttpPost]
-        //public ActionResult Addrecord(Users userDetail)
+        [HttpPost]
+        public ActionResult Addrecord(ReconsileTemplate templateDetail)
 
-        //{
-        //    bool isSuccessStatusCode = false;
-        //    if (ModelState.IsValid)
-        //    {
-        //        var roleInfoResult = CustomUtility.PostDataOfType("api/SaveUser", userDetail, out isSuccessStatusCode);
-        //    }
-        //    if (!isSuccessStatusCode)
-        //    {
-        //        //  throw new CustomException(responseString);
-        //    }
-        //    return RedirectToAction("Index", "Users");
+        {
+            bool isSuccessStatusCode = false;
+            if (ModelState.IsValid)
+            {
+                var roleInfoResult = CustomUtility.PostDataOfType("api/SaveReconsileTemplate", templateDetail, out isSuccessStatusCode);
+            }
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
+            return RedirectToAction("Index", "ReconsileTemplateMaster");
 
-        //}
+        }
         //[HttpPost]
         //public void DeleteUser(int Id)
 
@@ -65,22 +61,26 @@ namespace NPSLWeb.Controllers
         public ActionResult EditTemplate(int Id)
         {
             var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateById?Id=" + Id));
-            return PartialView("TemplateEdit", TemplateResult);
+            var ExtensionInfoResult = CustomUtility.GetSingleRecord<FileExtension>(string.Format("api/GetFileExtension"));
+            var DelimeterValue = CustomUtility.GetSingleRecord<Delimiter>(string.Format("api/GetDelimeterValue"));
+            ViewBag.ExtensionList = new SelectList(ExtensionInfoResult, "FileExtensionId", "FileextensionName").Items;
+            ViewBag.DelimeterValueList = new SelectList(DelimeterValue, "DelimiterId", "DelimiterValue").Items;
+            return PartialView("TemplateEdit", TemplateResult[0]);
         }
-              //[HttpPost]
-        //public ActionResult EditUser(Users userDetail)
-        //{
-        //    bool isSuccessStatusCode = false;
+        [HttpPost]
+        public ActionResult EditTemplate(ReconsileTemplate templateDetail)
+        {
+            //bool isSuccessStatusCode = false;
 
-        //        var roleInfoResult = CustomUtility.PostDataOfType("api/UpdateUser", userDetail, out isSuccessStatusCode);
+            //var roleInfoResult = CustomUtility.PostDataOfType("api/UpdateUser", userDetail, out isSuccessStatusCode);
 
-        //    if (!isSuccessStatusCode)
-        //    {
-        //        //  throw new CustomException(responseString);
-        //    }
-        //    return RedirectToAction("Index", "Users");
+            //if (!isSuccessStatusCode)
+            //{
+            //    //  throw new CustomException(responseString);
+            //}
+            return RedirectToAction("Index", "ReconsileTemplateMaster");
 
-        //}
+        }
 
     }
 }

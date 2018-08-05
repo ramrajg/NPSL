@@ -18,54 +18,76 @@
         //console.log(row);
     });
 
-    $('.btn-danger').click(function () {
-        $('#delModel').modal({
-            backdrop: 'static',
-            keyboard: false
-        })
-            .on('click', '#confirmOk', function (e) {
-                var userId = parseInt(oTable.rows('.selected').data()[0][0]);
-                var data = { Id: userId }
-                apiGetCallController('Users', 'DeleteUser', 'POST', data, function () {
-                    window.location.reload();
-                    $('#delModel ').modal('hide');
-                    //$.notify("Deleted Sucessfully", 'danger');
-                }, function (responseText) {
-                    $.notify(responseText, 'danger');
-                    return false;
-                });
-            });
+    //$('.btn-danger').click(function () {
+    //    $('#delModel').modal({
+    //        backdrop: 'static',
+    //        keyboard: false
+    //    })
+    //        .on('click', '#confirmOk', function (e) {
+    //            var userId = parseInt(oTable.rows('.selected').data()[0][0]);
+    //            var data = { Id: userId }
+    //            apiGetCallController('Users', 'DeleteUser', 'POST', data, function () {
+    //                window.location.reload();
+    //                $('#delModel ').modal('hide');
+    //                //$.notify("Deleted Sucessfully", 'danger');
+    //            }, function (responseText) {
+    //                $.notify(responseText, 'danger');
+    //                return false;
+    //            });
+    //        });
 
-    });
-    //$(document).on('click', '#addButton', function (ev) {
-    //    if (($('.form-horizontal .form-group').length + 1) > 10) {
-
-    //        alert("Only 10 Parameters are allowed");
-    //        return false;
-    //    }
-    //    $('#addButton').unbind('click');
-    //    var id = ($('.form-horizontal .form-group').length + 1).toString();
-    //    $('.form-horizontal').append('<div class="form-group" id="form-group' + id + '"><div class= "row" ><div class="col-xs-offset-1 col-xs-5"><span class="input-group-addon">Parameter ' + id + ': </span></div><div class="col-xs-offset-0 col-xs-5"><div class="input-group"><input id="Parameter' + id + '" type="text" class="form-control" placeholder="Parameter ' + id + '"><span class="input-group-btn"><button class="btn btn-info" type="button">X</button></span></div></div></div></div>');
     //});
     $(document).unbind('click.addParameters').on('click.addParameters', '#addButton', function (ev) {
         if (($('.form-horizontal .form-group').length + 1) > 10) {
-     
-        alert("Only 10 Parameters are allowed");
+
+            alert("Only 10 Parameters are allowed");
             return false;
         }
         var id = ($('.form-horizontal .form-group').length + 1).toString();
-        $('.form-horizontal').append('<div class="form-group" id="form-group' + id + '"><div class= "row" ><div class="col-xs-offset-1 col-xs-5"><span class="input-group-addon">Parameter ' + id + ': </span></div><div class="col-xs-offset-0 col-xs-5"><div class="input-group"><input id="Parameter' + id + '" type="text" class="form-control" placeholder="Parameter ' + id + '"><span class="input-group-btn"><button class="btn btn-info" type="button">X</button></span></div></div></div></div>');
-       
+        $('.form-horizontal').append('<div class="form-group" id="form-group-' + id + '"><div class= "row" ><div class="col-xs-offset-1 col-xs-5"><span class="input-group-addon">Parameter ' + id + ': </span></div><div class="col-xs-offset-0 col-xs-5"><div class="input-group"><input id="Parameter' + id + '" type="text" class="form-control" placeholder="Parameter ' + id + '"><span class="input-group-btn"><button id ="removeParameter' + id + '" class="btn btn-danger remove-me" type="button">X</button></span></div></div></div></div>');
+
     });
 
 
-    //$('#addButton').click(function () {
-    //    if ($('.form-horizontal .control-group').length == 1) {
-    //        alert("No more textbox to remove");
-    //        return false;
-    //    }
+    $(document).unbind('click.removeParameters').on('click.removeParameters', '.remove-me', function (e) {
+        e.preventDefault();
+        var fieldNum = this.id.charAt(this.id.length - 1);
+        var fieldID = "#form-group-" + fieldNum;
+        $(this).remove();
+        $(fieldID).remove();
+    });
 
-    //    $(".form-horizontal .control-group:last").remove();
-    //});
+
+    $('#TemplateAddForm').submit(function (event) {
+        var i;
+        var parameterValue = "";
+        for (i = 0; i < $('.form-horizontal .form-group').length; i++) {
+            var fieldID = "#Parameter" + $('.form-horizontal .form-group')[i].id.split('-')[2];
+            if (i == 0) {
+                parameterValue = $(fieldID).val();
+            }
+            else {
+                parameterValue = parameterValue + "|" + $(fieldID).val();
+            }
+        }
+        alert(parameterValue);
+        document.getElementById('SourceSubstringValue').value = parameterValue;
+    });
+
+    $('#templateEditForm').submit(function (event) {
+        var i;
+        var parameterValue = "";
+        for (i = 0; i < $('.form-horizontal .form-group').length; i++) {
+            var fieldID = "#Parameter" + $('.form-horizontal .form-group')[i].id.split('-')[2];
+            if (i == 0) {
+                parameterValue = $(fieldID).val();
+              
+            }
+            else {
+                parameterValue = parameterValue + "|" + $(fieldID).val();
+            }
+        }
+        document.getElementById('SourceSubstringValue').value = parameterValue;
+    });
 
 });
