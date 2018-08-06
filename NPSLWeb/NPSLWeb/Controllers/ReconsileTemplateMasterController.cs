@@ -20,9 +20,11 @@ namespace NPSLWeb.Controllers
         {
             var ExtensionInfoResult = CustomUtility.GetSingleRecord<FileExtension>(string.Format("api/GetFileExtension"));
             var DelimeterValue = CustomUtility.GetSingleRecord<Delimiter>(string.Format("api/GetDelimeterValue"));
+            var TemplateGroupValue = CustomUtility.GetSingleRecord<TemplateGroup>(string.Format("api/GetTemplateGroupValue"));
             ViewBag.Message = "Template Master";
             ViewBag.ExtensionList = new SelectList(ExtensionInfoResult, "FileExtensionId", "FileextensionName").Items;
             ViewBag.DelimeterValueList = new SelectList(DelimeterValue, "DelimiterId", "DelimiterValue").Items;
+            ViewBag.TemplateGroupValue = new SelectList(TemplateGroupValue, "TemplateGroupId", "TemplateGroupName").Items;
             return PartialView("TemplateAdd");
         }
         [HttpPost]
@@ -41,21 +43,21 @@ namespace NPSLWeb.Controllers
             return RedirectToAction("Index", "ReconsileTemplateMaster");
 
         }
-        //[HttpPost]
-        //public void DeleteUser(int Id)
+        [HttpPost]
+        public void DeleteTemplate(int Id)
 
-        //{
-        //    bool isSuccessStatusCode = false;
-        //    if (ModelState.IsValid)
-        //    {
-        //        var delUserResult = CustomUtility.PostDataOfType("api/DeleteUser", Id, out isSuccessStatusCode);
-        //    }
-        //    if (!isSuccessStatusCode)
-        //    {
-        //        //  throw new CustomException(responseString);
-        //    }
+        {
+            bool isSuccessStatusCode = false;
+            if (ModelState.IsValid)
+            {
+                var delTemplateResult = CustomUtility.PostDataOfType("api/DeleteTemplate", Id, out isSuccessStatusCode);
+            }
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
 
-        //}
+        }
 
 
         public ActionResult EditTemplate(int Id)
@@ -63,21 +65,23 @@ namespace NPSLWeb.Controllers
             var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateById?Id=" + Id));
             var ExtensionInfoResult = CustomUtility.GetSingleRecord<FileExtension>(string.Format("api/GetFileExtension"));
             var DelimeterValue = CustomUtility.GetSingleRecord<Delimiter>(string.Format("api/GetDelimeterValue"));
+            var TemplateGroupValue = CustomUtility.GetSingleRecord<TemplateGroup>(string.Format("api/GetTemplateGroupValue"));
             ViewBag.ExtensionList = new SelectList(ExtensionInfoResult, "FileExtensionId", "FileextensionName").Items;
             ViewBag.DelimeterValueList = new SelectList(DelimeterValue, "DelimiterId", "DelimiterValue").Items;
+            ViewBag.TemplateGroupValue = new SelectList(TemplateGroupValue, "TemplateGroupId", "TemplateGroupName").Items;
             return PartialView("TemplateEdit", TemplateResult[0]);
         }
         [HttpPost]
         public ActionResult EditTemplate(ReconsileTemplate templateDetail)
         {
-            //bool isSuccessStatusCode = false;
+            bool isSuccessStatusCode = false;
 
-            //var roleInfoResult = CustomUtility.PostDataOfType("api/UpdateUser", userDetail, out isSuccessStatusCode);
+            var templateInfoResult = CustomUtility.PostDataOfType("api/UpdateTemplate", templateDetail, out isSuccessStatusCode);
 
-            //if (!isSuccessStatusCode)
-            //{
-            //    //  throw new CustomException(responseString);
-            //}
+            if (!isSuccessStatusCode)
+            {
+                //  throw new CustomException(responseString);
+            }
             return RedirectToAction("Index", "ReconsileTemplateMaster");
 
         }

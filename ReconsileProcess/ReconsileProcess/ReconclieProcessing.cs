@@ -6,6 +6,7 @@ using System.Data.SqlClient;
 using System.Threading;
 using System.Collections.Generic;
 using NPSL.Models.Models;
+using NPSLCore.Models.DB;
 
 namespace ReconsileProcess
 {
@@ -21,6 +22,7 @@ namespace ReconsileProcess
         }
         public void RefreshCacheList()
         {
+            Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.DarkMagenta;
             Console.WriteLine("Refresh Data");
             ReconsileTemplateLstCache = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
@@ -33,9 +35,9 @@ namespace ReconsileProcess
             }
             while (KeepGoing)
             {
-               //List<ReconsileTemplate> ReconsileTemplateLst = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
                 foreach (var item in ReconsileTemplateLstCache)
                 {
+                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.Gray;
                     string fileName = "";
                     try
@@ -43,17 +45,17 @@ namespace ReconsileProcess
                         string DateofProcessing = DateTime.Now.ToString("ddMMyyyy");
                         int NumberofColumns = 0;
                         string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
-                        string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
+                        //string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
                         fileName = Path.GetRandomFileName();
                         string path = item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\" + fileName + ".txt";
                         if (Sourcefiles.Length > 0)
                         {
                             CreateReconcileFile(Sourcefiles, path, item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.SourceSubstringValue, item.SourceDelimiter, item.SourceHasHeader, out NumberofColumns);
                         }
-                        if (Destinationfiles.Length > 0)
-                        {
-                            CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
-                        }
+                        //if (Destinationfiles.Length > 0)
+                        //{
+                        //    CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
+                        //}
                         if (File.Exists(path))
                         {
                            
@@ -67,8 +69,6 @@ namespace ReconsileProcess
                             };
                             var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
                             File.Delete(path);
-                            //Console.BackgroundColor = ConsoleColor.Green;
-                            //Console.ForegroundColor = ConsoleColor.Black;
                             Console.ForegroundColor = ConsoleColor.Green;
                             Console.WriteLine("Sucessfully Reconsiled - Template Name " + item.TemplateName + " on : " + DateTime.Now);
                         }
@@ -152,7 +152,6 @@ namespace ReconsileProcess
                                 }
                             }
                         }
-                       // Console.WriteLine("MOVING " + fileName + " FILE.......");
                         if (!File.Exists(MoveFilepath + Path.GetFileName(dirFile)))
                         {
                             File.Move(dirFile, MoveFilepath + Path.GetFileName(dirFile));
@@ -165,7 +164,6 @@ namespace ReconsileProcess
                 }
                 catch (Exception ex)
                 {
-                  //  Console.WriteLine("MOVING " + fileName + " FILE TO DIDNOTPROCESS (FILE READING)");
                     string DidNotProcessFolder = CreateDirectory(MoveFilepath + "DIDNOTPROCESS\\");
                     if (!File.Exists(DidNotProcessFolder + Path.GetFileName(dirFile)))
                     {

@@ -64,13 +64,29 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+
+        [HttpGet]
+        [Route("api/GetTemplateGroupValue")]
+        public IEnumerable<TemplateGroup> GetTemplateGroupValue(int id,int OnlyActive)
+        {
+            try
+            {
+                var records = _template.GetTemplateGroupValue(id, OnlyActive);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
         [HttpPost]
         [Route("api/SaveReconsileTemplate")]
-        public void SaveUser([FromBody] ReconsileTemplate templateDetail)
+        public void SaveTemplate([FromBody] ReconsileTemplate templateDetail)
         {
             try
             {
                 var template = new DataTable();
+                template.Columns.Add("TemplateId", typeof(int));
                 template.Columns.Add("TemplateName", typeof(string));
                 template.Columns.Add("SourceFolder", typeof(string));
                 template.Columns.Add("SourceExtention", typeof(string));
@@ -78,10 +94,14 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("SourceSubstringValue", typeof(string));
                 template.Columns.Add("SourceDelimiter", typeof(string));
                 template.Columns.Add("SourceHasHeader", typeof(bool));
+                template.Columns.Add("NumberOfParameters", typeof(int));
+                template.Columns.Add("TemplateGroupId", typeof(int));
+                template.Columns.Add("TemplateGroupStatus", typeof(bool));
                 template.Columns.Add("IsActive", typeof(bool));
 
 
                 DataRow newRow = template.Rows.Add();
+                newRow["TemplateId"] = 0;
                 newRow["TemplateName"] = templateDetail.TemplateName;
                 newRow["SourceFolder"] = templateDetail.SourceFolder;
                 newRow["SourceExtention"] = templateDetail.SourceExtention;
@@ -89,8 +109,11 @@ namespace NPSLCore.Controllers
                 newRow["SourceSubstringValue"] = templateDetail.SourceSubstringValue;
                 newRow["SourceDelimiter"] = templateDetail.SourceDelimiter;
                 newRow["SourceHasHeader"] = templateDetail.SourceHasHeader;
+                newRow["NumberOfParameters"] = templateDetail.NumberOfParameters;
+                newRow["TemplateGroupId"] = templateDetail.TemplateGroupId;
+                newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
                 newRow["IsActive"] = templateDetail.IsActive;
-           
+
 
                 _template.SaveTemplate(template);
             }
@@ -99,5 +122,119 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+        [HttpPost]
+        [Route("api/UpdateTemplate")]
+        public void UpdateUser([FromBody] ReconsileTemplate templateDetail)
+        {
+            try
+            {
+                var template = new DataTable();
+                template.Columns.Add("TemplateId", typeof(int));
+                template.Columns.Add("TemplateName", typeof(string));
+                template.Columns.Add("SourceFolder", typeof(string));
+                template.Columns.Add("SourceExtention", typeof(string));
+                template.Columns.Add("SourceCompletionPath", typeof(string));
+                template.Columns.Add("SourceSubstringValue", typeof(string));
+                template.Columns.Add("SourceDelimiter", typeof(string));
+                template.Columns.Add("SourceHasHeader", typeof(bool));
+                template.Columns.Add("NumberOfParameters", typeof(int));
+                template.Columns.Add("TemplateGroupId", typeof(int));
+                template.Columns.Add("TemplateGroupStatus", typeof(bool));
+                template.Columns.Add("IsActive", typeof(bool));
+
+                DataRow newRow = template.Rows.Add();
+                newRow["TemplateId"] = templateDetail.TemplateId;
+                newRow["TemplateName"] = templateDetail.TemplateName;
+                newRow["SourceFolder"] = templateDetail.SourceFolder;
+                newRow["SourceExtention"] = templateDetail.SourceExtention;
+                newRow["SourceCompletionPath"] = templateDetail.SourceCompletionPath;
+                newRow["SourceSubstringValue"] = templateDetail.SourceSubstringValue;
+                newRow["SourceDelimiter"] = templateDetail.SourceDelimiter;
+                newRow["SourceHasHeader"] = templateDetail.SourceHasHeader;
+                newRow["NumberOfParameters"] = templateDetail.NumberOfParameters;
+                newRow["TemplateGroupId"] = templateDetail.TemplateGroupId;
+                newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
+                newRow["IsActive"] = templateDetail.IsActive;
+
+
+                _template.UpdateTemplate(template);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("api/DeleteTemplate")]
+        public void DeleteTemplate([FromBody] int Id)
+        {
+            _template.DeleteTemplate(Id);
+        }
+
+        [HttpPost]
+        [Route("api/SaveTemplateGroup")]
+        public void SaveTemplateGroup([FromBody] TemplateGroup templateGroupDetail)
+        {
+            try
+            {
+                var templateGroup = new DataTable();
+                templateGroup.Columns.Add("TemplateGroupId", typeof(int));
+                templateGroup.Columns.Add("TemplateGroupName", typeof(string));
+                templateGroup.Columns.Add("IsTemplateGroupActive", typeof(bool));
+
+
+                DataRow newRow = templateGroup.Rows.Add();
+                newRow["TemplateGroupId"] = 0;
+                newRow["TemplateGroupName"] = templateGroupDetail.TemplateGroupName;
+                newRow["IsTemplateGroupActive"] = templateGroupDetail.IsTemplateGroupActive;
+
+
+                _template.SaveTemplateGroup(templateGroup);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+        [HttpPost]
+        [Route("api/UpdateTemplateGroup")]
+        public void UpdateTemplateGroup([FromBody] TemplateGroup templateGroupDetail)
+        {
+            try
+            {
+                var templateGroup = new DataTable();
+                templateGroup.Columns.Add("TemplateGroupId", typeof(int));
+                templateGroup.Columns.Add("TemplateGroupName", typeof(string));
+                templateGroup.Columns.Add("IsTemplateGroupActive", typeof(bool));
+
+
+                DataRow newRow = templateGroup.Rows.Add();
+                newRow["TemplateGroupId"] = templateGroupDetail.TemplateGroupId;
+                newRow["TemplateGroupName"] = templateGroupDetail.TemplateGroupName;
+                newRow["IsTemplateGroupActive"] = templateGroupDetail.IsTemplateGroupActive;
+
+
+                _template.UpdateTemplateGroup(templateGroup);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+
+
+
+        [HttpPost]
+        [Route("api/DeleteTemplateGroup")]
+        public void DeleteTemplateGroup([FromBody] int Id)
+        {
+            _template.DeleteTemplateGroup(Id);
+        }
+
     }
 }

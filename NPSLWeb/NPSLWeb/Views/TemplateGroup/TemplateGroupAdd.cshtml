@@ -1,0 +1,50 @@
+﻿@model NPSLCore.Models.DB.TemplateGroup
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
+<script src="~/js/CustomUtils.js"></script>
+
+<div class="modal-dialog" id="ModalPopUp">
+
+    <div class="modal-content">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "templateGroupAdd" }))
+
+        {
+            <h2 style="margin:15px">@ViewBag.Message</h2>
+            <p style="margin:15px">Please fill in this form to create a Template Group!</p>
+            <hr>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-5">
+                        @Html.TextBoxFor(model => model.TemplateGroupName, new { @class = "form-control", placeholder = "Template Group Name", required = "required" })
+                        @Html.ValidationMessageFor(model => model.TemplateGroupName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="col-xs-offset-0 col-xs-5">
+                            @Html.DropDownListFor(model => model.IsTemplateGroupActive,
+                            new SelectList(new List<SelectListItem>
+                                {
+                                                                                        new SelectListItem { Text = "Active" , Value = "True"},
+                                                                                        new SelectListItem { Text = "InActive", Value = "False" }
+                                },
+                                "Value", // property to be set as Value of dropdown item
+                                "Text",  // property to be used as text of dropdown item
+                                "True"), // value that should be set selected of dropdown
+                                new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:5px">
+                <div class="form-group">
+                    <div class="col-xs-offset-right-1">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="confirmok1" value="Save changes" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

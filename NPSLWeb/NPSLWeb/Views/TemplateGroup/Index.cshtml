@@ -1,13 +1,13 @@
-﻿@model List<NPSLCore.Models.DB.ReconsileTemplate>
+﻿@model List<NPSLCore.Models.DB.TemplateGroup>
 @{
-    ViewData["Title"] = "Template Master";
+    ViewData["Title"] = "Template Group Master";
 }
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="~/js/CustomUtils.js"></script>
     <link href="https://cdn.datatables.net/1.10.16/css/dataTables.bootstrap.min.css" rel="stylesheet" />
-    <script src="~/Scripts/js/reconsileTemplate.js"></script>
+    <script src="~/Scripts/js/templateGroup.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
     <script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap.min.js"></script>
     <link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
@@ -29,24 +29,20 @@
                 <div class="panel-heading">
                     <div class="row">
                         <div class="col col-xs-6">
-                            <h2 class="panel-title">Template <b>Management</b></h2>
+                            <h2 class="panel-title">Template Group <b>Management</b></h2>
                         </div>
                         <div class="col col-xs-6 text-right">
-                            <input type="button" class="btn-bootstrap-dialog btn btn-success pull-right" title="Add Template Detail" data-url="@Url.Action("Addrecord", "ReconsileTemplateMaster", new { title = "Add Template Detail" })" value="Create New Template" data-toggle="modal" />
+                            <input type="button" class="btn-bootstrap-dialog btn btn-success pull-right" title="Add Employee Detail" data-url="@Url.Action("Addrecord", "TemplateGroup", new { title = "Add Template Group" })" value="Create New Template Group" data-toggle="modal" />
                         </div>
                     </div>
                 </div>
                 <div class="panel-body">
                     <div class="table-responsive">
-                        <table id="reconsileDatatable" class="table table-striped table-bordered">
+                        <table id="templateGroupData" class="table table-striped table-bordered">
                             <thead>
                                 <tr>
-                                    <th style="display:none;">Template Id</th>
-                                    <th>Name</th>
-                                    <th>Folder</th>
-                                    <th>Ext</th>
-                                    <th>Completion Path</th>
-                                    <th>Template Group</th>
+                                    <th>Template Group Id</th>
+                                    <th>Template Group Name</th>
                                     <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
@@ -54,16 +50,12 @@
                             </thead>
                             <tbody>
 
-                                @foreach (var templateList in @Model)
+                                @foreach (var templateGroupList in @Model)
                                 {
                                     <tr class="active">
-                                        <td style="display:none;"> @templateList.TemplateId</td>
-                                        <td>@templateList.TemplateName</td>
-                                        <td>@templateList.SourceFolder</td>
-                                        <td>@templateList.SourceExtention</td>
-                                        <td>@templateList.SourceCompletionPath</td>
-                                        <td>@templateList.TemplateGroupName</td>
-                                        @if (@templateList.IsActive == true)
+                                        <td>@templateGroupList.TemplateGroupId</td>
+                                        <td>@templateGroupList.TemplateGroupName</td>
+                                        @if (@templateGroupList.IsTemplateGroupActive == true)
                                         {
                                             <td><span class="label label-success">Active</span></td>
                                         }
@@ -72,9 +64,8 @@
                                             <td><span class="label label-danger">Not Active</span></td>
                                         }
 
-                                        <td><button class="btn-bootstrap-dialog btn btn-primary btn-xs" data-url="@Url.Action("EditTemplate", "ReconsileTemplateMaster", new {Id = @templateList.TemplateId})" data-title="Edit" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span></button></td>
-                                        <td><button class="btn btn-danger btn-xs delete-template1" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
-
+                                        <td><button class="btn-bootstrap-dialog btn btn-primary btn-xs" data-url="@Url.Action("EditTemplateGroup", "TemplateGroup", new {Id = @templateGroupList.TemplateGroupId})" data-title="Edit" data-toggle="modal"><span class="glyphicon glyphicon-pencil"></span></button></td>
+                                        <td><button class="btn btn-danger btn-xs delete-templateGroup" data-title="Delete" data-toggle="modal" data-target="#delete"><span class="glyphicon glyphicon-trash"></span></button></td>
                                     </tr>
                                 }
                             </tbody>
@@ -87,7 +78,7 @@
     <div class="modal fade" id="bootstrapDialog" tabindex="-1" role="dialog" aria-labelledby="myModal-label" aria-hidden="true"></div>
     <div class="modal fade" id="delModel" role="dialog">
         <div class="modal-dialog">
-            Modal content
+            <!-- Modal content-->
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>

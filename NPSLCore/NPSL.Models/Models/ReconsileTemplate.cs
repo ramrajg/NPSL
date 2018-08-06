@@ -18,6 +18,10 @@ namespace NPSLCore.Models.DB
         [Required(ErrorMessage = "Delimiter is required")]
         public string SourceDelimiter { get; set; }
         public bool? SourceHasHeader { get; set; }
+        public int NumberOfParameters { get; set; }
         public bool? IsActive { get; set; }
+        public int TemplateGroupId { get; set; }
+        public bool? TemplateGroupStatus { get; set; }
+        public string TemplateGroupName { get; set; }
     }
 }

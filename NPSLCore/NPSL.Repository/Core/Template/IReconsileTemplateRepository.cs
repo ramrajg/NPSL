@@ -11,6 +11,12 @@ namespace NPSL.Repository.Core.Template
         IEnumerable<ReconsileTemplate> GetTemplatesById(int id);
         IEnumerable<FileExtension> GetFileExtenstion(int id);
         IEnumerable<Delimiter> GetDelimeterValue(int id);
+        IEnumerable<TemplateGroup> GetTemplateGroupValue(int id,int OnlyActive);
         void SaveTemplate(DataTable templateItems);
+        void UpdateTemplate(DataTable templateItems);
+        void DeleteTemplate(int templateId);
+        void SaveTemplateGroup(DataTable templateGroupItems);
+        void UpdateTemplateGroup(DataTable templateGroupItems);
+        void DeleteTemplateGroup(int templateGroupId);
     }
 }

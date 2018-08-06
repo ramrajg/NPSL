@@ -37,6 +37,18 @@ namespace NPSL.Repository.Core.Template
             return DelimeterValueLst;
         }
 
+
+        public IEnumerable<TemplateGroup> GetTemplateGroupValue(int id, int OnlyActive)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@TEMPLATEGROUPID", id),
+                new SqlParameter("@OnlyActive", OnlyActive),
+            };
+            List<TemplateGroup> TemplateGroupValueLst = _DBContext.ExecuteTransactional<TemplateGroup>("P_GETTEMPLATEGROUPVALUE", param);
+            return TemplateGroupValueLst;
+        }
+
         public IEnumerable<ReconsileTemplate> GetTemplatesById(int id)
         {
             var param = new List<SqlParameter>
@@ -60,5 +72,65 @@ namespace NPSL.Repository.Core.Template
             var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveTemplate", param);
         }
 
+        public void UpdateTemplate(DataTable templateItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pTemplate",
+                SqlDbType = SqlDbType.Structured,
+                Value = templateItems,
+                TypeName = "udt_template"
+            }
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_UpdateTemplate", param);
+        }
+
+        public void DeleteTemplate(int templateId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@pTemplateId ", templateId),
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETETEMPLATE", param);
+        }
+        void IReconsileTemplateRepository.SaveTemplateGroup(DataTable templateGroupItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pTemplateGroup",
+                SqlDbType = SqlDbType.Structured,
+                Value = templateGroupItems,
+                TypeName = "udt_templateGroup"
+            }
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveTemplateGroup", param);
+        }
+
+        public void UpdateTemplateGroup(DataTable templateGroupItems)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pTemplateGroup",
+                SqlDbType = SqlDbType.Structured,
+                Value = templateGroupItems,
+                TypeName = "udt_templateGroup"
+            }
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_UpdateTemplateGroup", param);
+        }
+
+        public void DeleteTemplateGroup(int templateGroupId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@pTemplateGroupId ", templateGroupId),
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETETEMPLATEGroup", param);
+        }
     }
 }

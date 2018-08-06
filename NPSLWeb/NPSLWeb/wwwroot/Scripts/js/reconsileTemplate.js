@@ -13,30 +13,32 @@
         $(this).toggleClass('selected');
         var pos = oTable.row(this).index();
         var row = oTable.row(pos).data();
-        $('#btnHeader-label').html("Delete User Id: " + "<b>" + row[0] + "</b>");
-        $('#pMsg').html("Are you sure you want to delete user : " + "<b>" + row[1] + " " + row[2] + "</b>");
+        $('#btnHeader-label').html("Delete Template Id: " + "<b>" + row[0] + "</b>");
+        $('#pMsg').html("Are you sure you want to delete Tempate Name : " + "<b>" + row[1] + "</b>");
         //console.log(row);
     });
 
-    //$('.btn-danger').click(function () {
-    //    $('#delModel').modal({
-    //        backdrop: 'static',
-    //        keyboard: false
-    //    })
-    //        .on('click', '#confirmOk', function (e) {
-    //            var userId = parseInt(oTable.rows('.selected').data()[0][0]);
-    //            var data = { Id: userId }
-    //            apiGetCallController('Users', 'DeleteUser', 'POST', data, function () {
-    //                window.location.reload();
-    //                $('#delModel ').modal('hide');
-    //                //$.notify("Deleted Sucessfully", 'danger');
-    //            }, function (responseText) {
-    //                $.notify(responseText, 'danger');
-    //                return false;
-    //            });
-    //        });
+    $('.delete-template1').click(function () {
+        $('#delModel').modal({
+            backdrop: 'static',
+            keyboard: false
+        })
+            .on('click', '#confirmOk', function (e) {
+                var pos = oTable.row('.selected').index();
+                var row = oTable.row(pos).data();
+                var templateId = parseInt(row[0]);
+                var data = { Id: templateId }
+                apiGetCallController('ReconsileTemplateMaster', 'DeleteTemplate', 'POST', data, function () {
+                    window.location.reload();
+                    $('#delModel ').modal('hide');
+                    //$.notify("Deleted Sucessfully", 'danger');
+                }, function (responseText) {
+                    $.notify(responseText, 'danger');
+                    return false;
+                });
+            });
 
-    //});
+    });
     $(document).unbind('click.addParameters').on('click.addParameters', '#addButton', function (ev) {
         if (($('.form-horizontal .form-group').length + 1) > 10) {
 
@@ -70,8 +72,8 @@
                 parameterValue = parameterValue + "|" + $(fieldID).val();
             }
         }
-        alert(parameterValue);
         document.getElementById('SourceSubstringValue').value = parameterValue;
+        document.getElementById('NumberOfParameters').value = $('.form-horizontal .form-group').length;
     });
 
     $('#templateEditForm').submit(function (event) {
@@ -88,6 +90,7 @@
             }
         }
         document.getElementById('SourceSubstringValue').value = parameterValue;
+        document.getElementById('NumberOfParameters').value = $('.form-horizontal .form-group').length;
     });
 
 });

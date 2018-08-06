@@ -166,7 +166,9 @@
         margin-right: 0;
     }
 }
-
+div.container {
+    width: 100%;
+}
 @media (min-width: 1200px) {
     .col-lg-offset-right-12 {
         margin-right: 100%;
