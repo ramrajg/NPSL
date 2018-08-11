@@ -45,17 +45,12 @@ namespace ReconsileProcess
                         string DateofProcessing = DateTime.Now.ToString("ddMMyyyy");
                         int NumberofColumns = 0;
                         string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
-                        //string[] Destinationfiles = Directory.GetFiles(item.DestinationFolder, "*" + item.DestinationExtention, SearchOption.AllDirectories);
                         fileName = Path.GetRandomFileName();
                         string path = item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\" + fileName + ".txt";
                         if (Sourcefiles.Length > 0)
                         {
                             CreateReconcileFile(Sourcefiles, path, item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.SourceSubstringValue, item.SourceDelimiter, item.SourceHasHeader, out NumberofColumns);
                         }
-                        //if (Destinationfiles.Length > 0)
-                        //{
-                        //    CreateReconcileFile(Destinationfiles, path, item.DestinationCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\", item.DestinationSubstringValue, item.DestinationDelimiter, item.DestinationHasHeader, out NumberofColumns);
-                        //}
                         if (File.Exists(path))
                         {
                            

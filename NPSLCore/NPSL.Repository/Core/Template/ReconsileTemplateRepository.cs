@@ -11,7 +11,7 @@ namespace NPSL.Repository.Core.Template
     public class ReconsileTemplateRepository : IReconsileTemplateRepository
     {
         private readonly DatabaseContext _DBContext;
-
+      
         public ReconsileTemplateRepository(DatabaseContext dbcontext)
         {
             _DBContext = dbcontext;
@@ -132,5 +132,16 @@ namespace NPSL.Repository.Core.Template
             };
             var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETETEMPLATEGroup", param);
         }
+
+        public IEnumerable<Dashboard> GetDashboardData(int groupTemplateId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@GroupTemplateId ", groupTemplateId),
+            };
+            List<Dashboard> DashboardData = _DBContext.ExecuteTransactional<Dashboard>("P_GetDashboardData", param);
+            return DashboardData;
+        }
+     
     }
 }

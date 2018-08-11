@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using NPSL.Extensions.CustomException;
@@ -28,11 +26,6 @@ namespace NPSLCore.Controllers
         public IEnumerable<ReconsileTemplate> GetTemplatesById(int id)
         {
             var records = _template.GetTemplatesById(id);
-            //if (!records.Any())
-            //{
-            //    const string msg = "Template does not exsists";
-            //    throw new Exception(msg);
-            //}
             return records;
         }
 
@@ -236,5 +229,19 @@ namespace NPSLCore.Controllers
             _template.DeleteTemplateGroup(Id);
         }
 
+        [HttpGet]
+        [Route("api/GetDashboardData")]
+        public IEnumerable<Dashboard> GetDashboardData(int groupTemplateId)
+        {
+            try
+            {
+                var records = _template.GetDashboardData(groupTemplateId);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
     }
 }

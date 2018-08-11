@@ -1,21 +1,31 @@
-﻿using Newtonsoft.Json;
+﻿using Microsoft.Extensions.Configuration;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace NPSLWeb.Helper
 {
     public static class CustomUtility
     {
         static HttpClient client = new HttpClient();
-        static string UrlHostingPath = "http://ramraj-development.online:1515/";
+      
+        static readonly IConfiguration _Connectionstring;
+        static string UrlHostingPath = "";
+
+        static CustomUtility()
+        {
+            var builder = new ConfigurationBuilder()
+           .SetBasePath(Directory.GetCurrentDirectory())
+           .AddJsonFile("appsettings.json");
+            _Connectionstring = builder.Build();
+            UrlHostingPath = _Connectionstring["ApiConnection:ApiHost"];
+        }
 
         public static T GetAsync<T>(string uri) where T : new()
         {
-            //try
-            //{
             T tempObject = new T();
             uri = UrlHostingPath + uri;
             HttpResponseMessage response = client.GetAsync(uri).Result;
@@ -23,13 +33,7 @@ namespace NPSLWeb.Helper
             if (response.IsSuccessStatusCode)
             {
                 tempObject = JsonConvert.DeserializeObject<T>(readAsStringAsync);
-                //tempObject = resp.Deserialize<T>();
             }
-            //}
-            //catch (Exception ex)
-            //{
-            //    statusDescription = ex.Message;
-            //}
             return tempObject;
         }
 

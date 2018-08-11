@@ -1,78 +1,16 @@
-﻿
+﻿@model List<NPSLCore.Models.DB.Dashboard>
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "DashBoard";
 }
-
 <html lang="en">
 <head>
     <title> Dashboard</title>
-    <link href="~/css/Dashboard.css" rel="stylesheet" />
+    <link href="~/css/DashBoardCards.css" rel="stylesheet" />
+    <script src="~/Scripts/js/dashBoard.js"></script>
 </head>
 <body>
-    <div class="container">
-        <div class="tile job">
-            <div class="header">
-                <div class="count">1</div>
-                <div class="title">Jobs</div>
-            </div>
-            <div class="body">
-                <div class="title">Awaiting Reconcile</div>
-            </div>
-        </div>
-        <div class="tile job">
-            <div class="header">
-                <div class="count">4</div>
-                <div class="title">Jobs</div>
-            </div>
-            <div class="body">
-                <div class="title">Awaiting Reconcile Files</div>
-            </div>
-        </div>
-        <div class="tile wide resource">
-            <div class="header">
-                <div class="left">
-                    <div class="count">2</div>
-                    <div class="title">Resources</div>
-                </div>
-                <div class="right">
-                    <div class="count">34</div>
-                    <div class="title">Jobs Affected</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Reconcile in Progress</div>
-            </div>
-        </div>
-        <div class="tile wide quote">
-            <div class="header">
-                <div class="left">
-                    <div class="count">2</div>
-                    <div class="title">Quotes</div>
-                </div>
-                <div class="right">
-                    <div class="count">Rs.2450</div>
-                    <div class="title">Total Value</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Total Amount Reconcile Auto</div>
-            </div>
-        </div>
-        <div class="tile wide invoice">
-            <div class="header">
-                <div class="left">
-                    <div class="count">6</div>
-                    <div class="title">Invoices</div>
-                </div>
-                <div class="right">
-                    <div class="count">Rs.4876</div>
-                    <div class="title">Total Value</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Manual Reconcile</div>
-            </div>
-        </div>
+    <div id="partial">
+        @Html.Partial("~/Views/MainMenu/_DashBoard.cshtml", @Model);
     </div>
 </body>
 </html>
