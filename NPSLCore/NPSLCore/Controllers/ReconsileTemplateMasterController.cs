@@ -243,5 +243,20 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+        [HttpGet]
+        [Route("api/GetReconsileReportData")]
+        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,DateTime fromDate,DateTime toDate)
+        {
+            try
+            {
+                var records = _template.GetReconsileReportData(groupTemplateId, fromDate, toDate);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
     }
 }

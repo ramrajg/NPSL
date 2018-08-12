@@ -19,5 +19,6 @@ namespace NPSL.Repository.Core.Template
         void UpdateTemplateGroup(DataTable templateGroupItems);
         void DeleteTemplateGroup(int templateGroupId);
         IEnumerable<Dashboard> GetDashboardData(int groupTemplateId);
+        IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId, DateTime fromDate, DateTime toDate);
     }
 }

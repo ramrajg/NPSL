@@ -11,7 +11,7 @@ namespace NPSL.Repository.Core.Template
     public class ReconsileTemplateRepository : IReconsileTemplateRepository
     {
         private readonly DatabaseContext _DBContext;
-      
+
         public ReconsileTemplateRepository(DatabaseContext dbcontext)
         {
             _DBContext = dbcontext;
@@ -142,6 +142,17 @@ namespace NPSL.Repository.Core.Template
             List<Dashboard> DashboardData = _DBContext.ExecuteTransactional<Dashboard>("P_GetDashboardData", param);
             return DashboardData;
         }
-     
+
+        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@GroupTemplateId", groupTemplateId),
+                new SqlParameter("@FromDate", fromDate),
+                new SqlParameter("@ToDate", toDate),
+            };
+            List<ReconsileReportData> ReconsileReportData = _DBContext.ExecuteTransactional<ReconsileReportData>("P_GetReconsileReportData", param);
+            return ReconsileReportData;
+        }
     }
 }

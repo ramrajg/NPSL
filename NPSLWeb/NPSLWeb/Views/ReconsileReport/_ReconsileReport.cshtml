@@ -1,0 +1,62 @@
+﻿<div class="panel-container">
+    <div class="panel-left">
+        <div class="table-responsive">
+            <table id="reconsileDatatable" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>RRN</th>
+                        <th>Amount</th>
+                        <th>Template Name</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reconsileReportList in @Model.ReportData)
+                    {
+                        @if (@reconsileReportList.IsReconsile == true)
+                        {
+                            <tr class="active">
+                                <td>@reconsileReportList.RRNNumber</td>
+                                <td>@reconsileReportList.Amount</td>
+                                <td>@reconsileReportList.TemplateName</td>
+                                <td>@reconsileReportList.Date</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="splitter-horizontal">
+    </div>
+
+    <div class="panel-right">
+        <div class="table-responsive">
+            <table id="reconsileDatatable1" class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>RRN</th>
+                        <th>Amount</th>
+                        <th>Template Name</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var reconsileReportList in @Model.ReportData)
+                    {
+                        @if (@reconsileReportList.IsReconsile == false)
+                        {
+                            <tr class="active">
+                                <td>@reconsileReportList.RRNNumber</td>
+                                <td>@reconsileReportList.Amount</td>
+                                <td>@reconsileReportList.TemplateName</td>
+                                <td>@reconsileReportList.Date</td>
+                            </tr>
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+</div>

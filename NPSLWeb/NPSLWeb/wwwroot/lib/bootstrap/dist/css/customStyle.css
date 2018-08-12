@@ -7,6 +7,7 @@
     color: #101010;
     text-align: left;
 }
+
 .col-xs-offset-right-12 {
     margin-right: 100%;
 }
@@ -166,9 +167,11 @@
         margin-right: 0;
     }
 }
+
 div.container {
     width: 100%;
 }
+
 @media (min-width: 1200px) {
     .col-lg-offset-right-12 {
         margin-right: 100%;
@@ -221,4 +224,82 @@ div.container {
     .col-lg-offset-right-0 {
         margin-right: 0;
     }
+
+}
+
+/* horizontal panel*/
+
+.panel-container {
+    display: flex;
+    flex-direction: row;
+    border: 1px solid silver;
+    overflow: hidden;
+    /* avoid browser level touch actions */
+    xtouch-action: none;
+}
+
+.panel-left {
+    flex: 0 0 auto;
+    padding: 10px;
+    width: 50%;
+    min-height: 200px;
+    min-width: 150px;
+    white-space: nowrap;
+    background: #f1dcdc;
+    /*color: white;*/
+}
+
+.splitter {
+    flex: 0 0 auto;
+    width: 18px;
+    background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/vsizegrip.png) center center no-repeat #535353;
+    min-height: 200px;
+    cursor: col-resize;
+}
+
+.panel-right {
+    flex: 1 1 auto;
+    /* resizable */
+    padding: 10px;
+    width:50%;
+    min-height: 200px;
+    min-width: 200px;
+    background: #eee;
+}
+
+
+/* vertical panel */
+
+.panel-container-vertical {
+    display: flex;
+    flex-direction: column;
+    height: 500px;
+    border: 1px solid silver;
+    overflow: hidden;
+}
+
+.panel-top {
+    flex: 0 0 auto;
+    /* only manually resize */
+    padding: 10px;
+    height: 150px;
+    width: 100%;
+    white-space: nowrap;
+    background: #838383;
+    color: white;
+}
+
+.splitter-horizontal {
+    flex:50 50 auto;
+    height: 700px;
+    background: url(https://raw.githubusercontent.com/RickStrahl/jquery-resizable/master/assets/hsizegrip.png) center center no-repeat #535353;
+    cursor: row-resize;
+}
+
+.panel-bottom {
+    flex: 1 1 auto;
+    /* resizable */
+    padding: 10px;
+    min-height: 200px;
+    background: #eee;
 }
