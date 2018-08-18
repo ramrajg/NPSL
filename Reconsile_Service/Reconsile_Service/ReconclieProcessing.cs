@@ -11,6 +11,7 @@ namespace ReconsileProcess
 {
     public class ReconclieProcessing
     {
+        StreamWriter log;
         public bool KeepGoing { get; set; }
         public List<ReconsileTemplate> ReconsileTemplateLstCache;
 
@@ -20,9 +21,7 @@ namespace ReconsileProcess
         }
         public void RefreshCacheList()
         {
-            Console.BackgroundColor = ConsoleColor.Black;
-            Console.ForegroundColor = ConsoleColor.DarkMagenta;
-            Console.WriteLine("Refresh Data");
+            Log("Refresh Data");
             ReconsileTemplateLstCache = DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETRECONSILE_TEMPLATE");
         }
 
@@ -36,8 +35,6 @@ namespace ReconsileProcess
             {
                 foreach (var item in ReconsileTemplateLstCache)
                 {
-                    //Console.BackgroundColor = ConsoleColor.Black;
-                    //Console.ForegroundColor = ConsoleColor.Gray;
                     string fileName = "";
                     try
                     {
@@ -52,9 +49,6 @@ namespace ReconsileProcess
                         }
                         if (File.Exists(path))
                         {
-
-                            //Console.ForegroundColor = ConsoleColor.Blue;
-                            //Console.WriteLine("INSERTING INTO DB......." + path);
                             var param = new List<SqlParameter>
                             {
                                 new SqlParameter("@FILEPATH", path),
@@ -63,22 +57,30 @@ namespace ReconsileProcess
                             };
                             var Data = DBContext.ExecuteTransactionalNonQuery("P_INSERTRECONSILEDATA", param);
                             File.Delete(path);
-                            Console.ForegroundColor = ConsoleColor.Green;
-                            Console.WriteLine("Sucessfully Reconsiled - Template Name " + item.TemplateName + " on : " + DateTime.Now);
+                            if (Environment.UserInteractive)
+                            {
+                                Console.ForegroundColor = ConsoleColor.Green;
+                                Console.WriteLine("Sucessfully Reconsiled - Template Name " + item.TemplateName + " on : " + DateTime.Now);
+                            }else { Log("Sucessfully Reconsiled - Template Name " + item.TemplateName + " on : " + DateTime.Now); }
                         }
                     }
                     catch (Exception ex)
                     {
-                        //Console.BackgroundColor = ConsoleColor.Red;
-                        //Console.ForegroundColor = ConsoleColor.White;
-                        //Console.WriteLine("Error : " + ex.Message.ToString());
+                        if (Environment.UserInteractive)
+                        {
+                            Console.BackgroundColor = ConsoleColor.Red;
+                            Console.ForegroundColor = ConsoleColor.White;
+                            Console.WriteLine("Error : " + ex.Message.ToString());
+                        }
+                        else { Log("Error : " + ex.Message.ToString()); }
+
                     }
                 }
                 Thread.Sleep(10000);
             }
         }
 
-        static void CreateReconcileFile(string[] Files, string Filepath, string MoveFilepath, string SubstringValue, string Delimeter, bool? HasHeader, out int NumberofColumns)
+        public void CreateReconcileFile(string[] Files, string Filepath, string MoveFilepath, string SubstringValue, string Delimeter, bool? HasHeader, out int NumberofColumns)
         {
             string substring = "";
             string fileName = "";
@@ -98,9 +100,12 @@ namespace ReconsileProcess
                     }
                     if (!IsFileLocked(new FileInfo(dirFile)))
                     {
-
-                        Console.ForegroundColor = ConsoleColor.Gray;
-                        Console.WriteLine("READING " + fileName + " File");
+                        if (Environment.UserInteractive)
+                        {
+                            Console.ForegroundColor = ConsoleColor.Gray;
+                            Console.WriteLine("READING " + fileName + " File");
+                        }
+                        else { Log("READING " + fileName + " File"); }
                         using (var fileStream = File.OpenRead(dirFile))
                         using (var streamReader = new StreamReader(fileStream, Encoding.UTF8, true, BufferSize))
                         {
@@ -200,6 +205,28 @@ namespace ReconsileProcess
                 Directory.CreateDirectory(DirectoryName);
             }
             return DirectoryName;
+        }
+        private void Log(string strText)
+        {
+            if (Environment.UserInteractive)
+            {
+                Console.WriteLine(strText);
+            }
+            else
+            {
+                if (!File.Exists("logfile.txt"))
+                {
+                    log = new StreamWriter("logfile.txt");
+                }
+                else
+                {
+                    log = File.AppendText("logfile.txt");
+                }
+                log.WriteLine(DateTime.Now);
+                log.WriteLine(strText);
+                log.WriteLine();
+                log.Close();
+            }
         }
     }
 }
