@@ -17,7 +17,7 @@ namespace Reconsile_Service
             Thread t = new Thread(processing.ProcessFile);
             t.IsBackground = true;
             t.Start();
-           
+            Thread.Sleep(1000);
             t.Join();
         }
         public void Stop()
