@@ -4,7 +4,7 @@
     {
         public int TemplateGroupId { get; set; }
         public string TemplateGroupName { get; set; }
-        public int ConsiledAmount { get; set; }
-        public int NonConsiledAmount { get; set; }
+        public decimal ConsiledAmount { get; set; }
+        public decimal NonConsiledAmount { get; set; }
     }
 }
