@@ -8,4 +8,8 @@
     <ProjectReference Include="..\NPSL.Models\NPSL.Models.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\" />
+  </ItemGroup>
+
 </Project>
