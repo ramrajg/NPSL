@@ -122,8 +122,16 @@ namespace ReconsileProcess
                                         {
                                             if (strArr[i] != "")
                                             {
-                                                var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
-                                                substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                                if (i == 2)
+                                                {
+                                                    var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
+                                                    substring = substring + line.Substring(numbers[0], numbers[1]).Replace(".", "") + ",";
+                                                }
+                                                else
+                                                {
+                                                    var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
+                                                    substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                                }
                                             }
                                             else
                                             {
@@ -138,7 +146,14 @@ namespace ReconsileProcess
                                         {
                                             if (strArr[i] != "")
                                             {
-                                                substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                                if (i == 2)
+                                                {
+                                                    substring = substring + columnValue[Int32.Parse(strArr[i])].Replace(".","") + ",";
+                                                }
+                                                else
+                                                {
+                                                    substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                                }
                                             }
                                             else
                                             {
