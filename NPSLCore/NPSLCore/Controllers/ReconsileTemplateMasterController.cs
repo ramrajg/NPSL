@@ -226,7 +226,14 @@ namespace NPSLCore.Controllers
         [Route("api/DeleteTemplateGroup")]
         public void DeleteTemplateGroup([FromBody] int Id)
         {
-            _template.DeleteTemplateGroup(Id);
+            try
+            {
+                _template.DeleteTemplateGroup(Id);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
         }
 
         [HttpGet]

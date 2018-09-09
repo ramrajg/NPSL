@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NPSLCore.Models.DB;
 using NPSLWeb.Helper;
+using System;
+using System.Net;
 
 namespace NPSLWeb.Controllers
 {
@@ -34,19 +36,21 @@ namespace NPSLWeb.Controllers
 
         }
         [HttpPost]
-        public void DeleteTemplate(int Id)
+        public JsonResult DeleteTemplate(int Id)
 
         {
             bool isSuccessStatusCode = false;
+            string delTemplateGroupResult = "";
             if (ModelState.IsValid)
             {
-                var delTemplateGroupResult = CustomUtility.PostDataOfType("api/DeleteTemplateGroup", Id, out isSuccessStatusCode);
+                delTemplateGroupResult = CustomUtility.PostDataOfType("api/DeleteTemplateGroup", Id, out isSuccessStatusCode);
             }
             if (!isSuccessStatusCode)
             {
-                //  throw new CustomException(responseString);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(delTemplateGroupResult.ToString());
             }
-
+            return Json("Template Group Deleted Successfully. ");
         }
 
 

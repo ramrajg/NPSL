@@ -1,39 +1,39 @@
 ﻿//var webUtils = (function () {
 //var pub = {};
 
-function apiGetCall(serviceUrl, listDestination, isDisabled, callback, errorCallback) {
-    serviceUrl = 'http://localhost:50411' + serviceUrl;
-    listDestination([]);
-    $(document).ready(function () {
+//function apiGetCall(serviceUrl, listDestination, isDisabled, callback, errorCallback) {
+//    serviceUrl = 'http://localhost:50411' + serviceUrl;
+//    listDestination([]);
+//    $(document).ready(function () {
 
-        $.ajax({
-            type: "GET",
-            url: serviceUrl,
-            contentType: "application/json; charset=utf-8",
-            dataType: "json",
-            success: function (result) {
-                if (result) {
-                    listDestination(result);
-                    if (callback && typeof (callback) === "function")
-                        callback();
-                }
-            },
-            failure: function (data) {
-                alert(data.responseText);
-            },
-            error: function (jqXHR, textStatus, errorThrown) {
-                console.log("The following error occurred: " + jqXHR.responseJSON.error);
-                console.log(errorThrown);
-                if (errorCallback && typeof (errorCallback) === "function") {
-                    errorCallback(jqXHR, textStatus, errorThrown);
-                }
-            }
-        }).always(function () {
-            //if (isDisabled)
-            //    isDisabled(false);
-        });
-    });
-}
+//        $.ajax({
+//            type: "GET",
+//            url: serviceUrl,
+//            contentType: "application/json; charset=utf-8",
+//            dataType: "json",
+//            success: function (result) {
+//                if (result) {
+//                    listDestination(result);
+//                    if (callback && typeof (callback) === "function")
+//                        callback();
+//                }
+//            },
+//            failure: function (data) {
+//                alert(data.responseText);
+//            },
+//            error: function (jqXHR, textStatus, errorThrown) {
+//                console.log("The following error occurred: " + jqXHR.responseJSON.error);
+//                console.log(errorThrown);
+//                if (errorCallback && typeof (errorCallback) === "function") {
+//                    errorCallback(jqXHR, textStatus, errorThrown);
+//                }
+//            }
+//        }).always(function () {
+//            //if (isDisabled)
+//            //    isDisabled(false);
+//        });
+//    });
+//}
 
 function apiGetCallController(controllerName, methodName, methodType, data, successCallBack, errorCallback) {
     urlString = '/' + controllerName + '/' + methodName;
@@ -46,7 +46,7 @@ function apiGetCallController(controllerName, methodName, methodType, data, succ
             //contentType: 'application/json; charset=utf-8',
             success: function (data) {
                 if (successCallBack && typeof (successCallBack) === "function")
-                    successCallBack();
+                    successCallBack(data);
             },
             failure: function (data) {
                 alert(data.responseText);
