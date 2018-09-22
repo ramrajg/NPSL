@@ -3,6 +3,6 @@
 AS  
 BEGIN  
   
-DELETE FROM USERS WHERE USERID = @pUserId  
+DELETE FROM Users WHERE USERID = @pUserId  
   
 END  

@@ -2,9 +2,17 @@
 @pTemplate udt_template Readonly    
 AS      
 BEGIN      
-    
-    
-insert into Reconsile_Template ([Template_Name],[Source_Folder_Path],[Source_File_Extention],[Source_Completion_Path],[Source_Substring_Value],[Source_Delimiter],[Source_HasHeader],[Is_Active],[Number_Of_Parameter],[Template_Group_id],[Template_Group_Status])   
-select TemplateName,SourceFolder,SourceExtention,SourceCompletionPath,SourceSubstringValue,SourceDelimiter,SourceHasHeader,IsActive,NumberOfParameters,TemplateGroupId,TemplateGroupStatus from @pTemplate    
-    
-end 
+declare @TemplateGroupID  int,@IsPrimary int,@hasPrimary int
+select @TemplateGroupID =  TEMPLATEGROUPID,@IsPrimary = IsPrimary from    @PTEMPLATE 
+select @hasPrimary = COUNT(1) FROM RECONSILE_TEMPLATE WHERE TEMPLATE_GROUP_ID = @TemplateGroupID AND ISPRIMARY = 1
+ 
+IF ((@hasPrimary = 0 and @IsPrimary =1) or (@hasPrimary > 0 and @IsPrimary =0) or (@hasPrimary = 0 and @IsPrimary =0))  
+BEGIN 
+	INSERT INTO RECONSILE_TEMPLATE ([TEMPLATE_NAME],[SOURCE_FOLDER_PATH],[SOURCE_FILE_EXTENTION],[SOURCE_COMPLETION_PATH],[SOURCE_SUBSTRING_VALUE],[SOURCE_DELIMITER],[SOURCE_HASHEADER],[IS_ACTIVE],[NUMBER_OF_PARAMETER],[TEMPLATE_GROUP_ID],[TEMPLATE_GROUP_STATUS],[IsPrimary])     
+	SELECT TEMPLATENAME,SOURCEFOLDER,SOURCEEXTENTION,SOURCECOMPLETIONPATH,SOURCESUBSTRINGVALUE,SOURCEDELIMITER,SOURCEHASHEADER,ISACTIVE,NUMBEROFPARAMETERS,TEMPLATEGROUPID,TEMPLATEGROUPSTATUS,IsPrimary FROM @PTEMPLATE      
+END
+ELSE
+BEGIN
+RAISERROR('Template Group mentioned cannot have 2 Primary Template',16,1);
+END        
+END 

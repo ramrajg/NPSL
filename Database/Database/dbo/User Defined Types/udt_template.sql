@@ -10,5 +10,6 @@
     [NumberOfParameters]   INT            NOT NULL,
     [TemplateGroupId]      INT            NULL,
     [TemplateGroupStatus]  BIT            NOT NULL,
-    [IsActive]             BIT            NULL);
+    [IsActive]             BIT            NULL,
+	[IsPrimary]			   BIT            NULL);
 

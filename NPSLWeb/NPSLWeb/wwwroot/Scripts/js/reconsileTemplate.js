@@ -77,13 +77,13 @@
     });
 
     $('#templateEditForm').submit(function (event) {
-        var i;
+
+         var i;
         var parameterValue = "";
         for (i = 0; i < $('.form-horizontal .form-group').length; i++) {
             var fieldID = "#Parameter" + $('.form-horizontal .form-group')[i].id.split('-')[2];
             if (i == 0) {
                 parameterValue = $(fieldID).val();
-              
             }
             else {
                 parameterValue = parameterValue + "|" + $(fieldID).val();
@@ -91,6 +91,17 @@
         }
         document.getElementById('SourceSubstringValue').value = parameterValue;
         document.getElementById('NumberOfParameters').value = $('.form-horizontal .form-group').length;
+
+        var data = $(templateEditForm).serialize();
+        apiGetCallController('ReconsileTemplateMaster', 'EditTemplateApiCall', 'POST', data, function () {
+            window.location.href = '/ReconsileTemplateMaster/Index';
+        }, function (responseText) {
+            $.notify(responseText, 'danger');
+            return false;
+        });
+        return false;
+
+       
     });
 
 });

@@ -74,7 +74,7 @@ namespace NPSLCore.Controllers
         }
         [HttpPost]
         [Route("api/SaveReconsileTemplate")]
-        public void SaveTemplate([FromBody] ReconsileTemplate templateDetail)
+        public void SaveReconsileTemplate([FromBody] ReconsileTemplate templateDetail)
         {
             try
             {
@@ -91,6 +91,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("TemplateGroupId", typeof(int));
                 template.Columns.Add("TemplateGroupStatus", typeof(bool));
                 template.Columns.Add("IsActive", typeof(bool));
+                template.Columns.Add("IsPrimary", typeof(bool));
 
 
                 DataRow newRow = template.Rows.Add();
@@ -106,7 +107,7 @@ namespace NPSLCore.Controllers
                 newRow["TemplateGroupId"] = templateDetail.TemplateGroupId;
                 newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
                 newRow["IsActive"] = templateDetail.IsActive;
-
+                newRow["IsPrimary"] = templateDetail.IsPrimary;
 
                 _template.SaveTemplate(template);
             }
@@ -117,7 +118,7 @@ namespace NPSLCore.Controllers
         }
         [HttpPost]
         [Route("api/UpdateTemplate")]
-        public void UpdateUser([FromBody] ReconsileTemplate templateDetail)
+        public void UpdateTemplate([FromBody] ReconsileTemplate templateDetail)
         {
             try
             {
@@ -134,6 +135,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("TemplateGroupId", typeof(int));
                 template.Columns.Add("TemplateGroupStatus", typeof(bool));
                 template.Columns.Add("IsActive", typeof(bool));
+                template.Columns.Add("IsPrimary", typeof(bool));
 
                 DataRow newRow = template.Rows.Add();
                 newRow["TemplateId"] = templateDetail.TemplateId;
@@ -148,7 +150,7 @@ namespace NPSLCore.Controllers
                 newRow["TemplateGroupId"] = templateDetail.TemplateGroupId;
                 newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
                 newRow["IsActive"] = templateDetail.IsActive;
-
+                newRow["IsPrimary"] = templateDetail.IsPrimary;
 
                 _template.UpdateTemplate(template);
             }

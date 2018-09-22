@@ -5,6 +5,7 @@ using NPSLWeb.Helper;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Net;
 
 namespace NPSLWeb.Controllers
 {
@@ -71,19 +72,18 @@ namespace NPSLWeb.Controllers
             ViewBag.TemplateGroupValue = new SelectList(TemplateGroupValue, "TemplateGroupId", "TemplateGroupName").Items;
             return PartialView("TemplateEdit", TemplateResult[0]);
         }
+       
         [HttpPost]
-        public ActionResult EditTemplate(ReconsileTemplate templateDetail)
+        public JsonResult EditTemplateApiCall(ReconsileTemplate templateDetail)
         {
             bool isSuccessStatusCode = false;
-
             var templateInfoResult = CustomUtility.PostDataOfType("api/UpdateTemplate", templateDetail, out isSuccessStatusCode);
-
             if (!isSuccessStatusCode)
             {
-                //  throw new CustomException(responseString);
+                Response.StatusCode = (int)HttpStatusCode.InternalServerError;
+                return Json(templateInfoResult.ToString());
             }
-            return RedirectToAction("Index", "ReconsileTemplateMaster");
-
+            return Json("Success");
         }
 
     }
