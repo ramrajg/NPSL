@@ -42,6 +42,7 @@ function apiGetCallController(controllerName, methodName, methodType, data, succ
             url: urlString,
             type: methodType,
             data: data,
+            async: true,
             //dataType: 'json',
             //contentType: 'application/json; charset=utf-8',
             success: function (data) {

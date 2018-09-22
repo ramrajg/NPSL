@@ -85,6 +85,18 @@
         <div class="form-group">
             <div class="row">
                 <div class="col-xs-offset-1 col-xs-5">
+                    @Html.DropDownListFor(model => model.IsPrimary,
+                                  new SelectList(new List<SelectListItem>
+                                      {
+                                                                    new SelectListItem { Text = "Is Primary" , Value = "True"},
+                                                                    new SelectListItem { Text = "Not Primary", Value = "False" }
+                                      },
+                                      "Value", // property to be set as Value of dropdown item
+                                      "Text",  // property to be used as text of dropdown item
+                                      "True"), // value that should be set selected of dropdown
+                                      new { @class = "form-control" })
+                </div>
+                <div class="col-xs-offset-0 col-xs-5">
                     <button id="addButton" type="button" class="btn btn-success">Add Parameters</button>
                 </div>
             </div>

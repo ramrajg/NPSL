@@ -40,6 +40,7 @@
                                     <th>Ext</th>
                                     <th>Completion Path</th>
                                     <th>Template Group</th>
+                                    <th>Is Primary</th>
                                     <th>Status</th>
                                     <th>Edit</th>
                                     <th>Delete</th>
@@ -56,6 +57,14 @@
                                         <td>@templateList.SourceExtention</td>
                                         <td>@templateList.SourceCompletionPath</td>
                                         <td>@templateList.TemplateGroupName</td>
+                                        @if (@templateList.IsPrimary == true)
+                                        {
+                                            <td>Yes</td>
+                                        }
+                                        else
+                                        {
+                                            <td>No</td>
+                                        }
                                         @if (@templateList.IsActive == true)
                                         {
                                             <td><span class="label label-success">Active</span></td>
