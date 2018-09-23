@@ -107,6 +107,7 @@
     <Build Include="dbo\User Defined Types\udt_templateGroup.sql" />
     <Build Include="Service Broker\ListenerQueue_1.sql" />
     <Build Include="Service Broker\ListenerService_1.sql" />
+    <Build Include="dbo\Tables\PRIMARYRECONSILEDATA.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Database.publish.xml" />
