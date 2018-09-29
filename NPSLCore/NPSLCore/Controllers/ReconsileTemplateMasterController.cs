@@ -92,7 +92,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("TemplateGroupStatus", typeof(bool));
                 template.Columns.Add("IsActive", typeof(bool));
                 template.Columns.Add("IsPrimary", typeof(bool));
-
+                template.Columns.Add("ConditionQuery", typeof(string));
 
                 DataRow newRow = template.Rows.Add();
                 newRow["TemplateId"] = 0;
@@ -108,7 +108,8 @@ namespace NPSLCore.Controllers
                 newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
                 newRow["IsActive"] = templateDetail.IsActive;
                 newRow["IsPrimary"] = templateDetail.IsPrimary;
-
+                newRow["ConditionQuery"] = templateDetail.ConditionQuery;
+                
                 _template.SaveTemplate(template);
             }
             catch (Exception ex)
@@ -136,6 +137,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("TemplateGroupStatus", typeof(bool));
                 template.Columns.Add("IsActive", typeof(bool));
                 template.Columns.Add("IsPrimary", typeof(bool));
+                template.Columns.Add("ConditionQuery", typeof(string));
 
                 DataRow newRow = template.Rows.Add();
                 newRow["TemplateId"] = templateDetail.TemplateId;
@@ -151,6 +153,7 @@ namespace NPSLCore.Controllers
                 newRow["TemplateGroupStatus"] = templateDetail.TemplateGroupStatus == null ? true : (bool)templateDetail.TemplateGroupStatus;
                 newRow["IsActive"] = templateDetail.IsActive;
                 newRow["IsPrimary"] = templateDetail.IsPrimary;
+                newRow["ConditionQuery"] = templateDetail.ConditionQuery;
 
                 _template.UpdateTemplate(template);
             }

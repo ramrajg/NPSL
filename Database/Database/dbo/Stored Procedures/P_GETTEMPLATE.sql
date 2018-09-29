@@ -17,6 +17,7 @@ SELECT  Reconsile_Template_Id as TemplateId,
         Is_Active IsActive,
 		Template_Group_Id TemplateGroupId,
 		IsPrimary,
+		ConditionQuery,
 		case when ISNULL(@TEMPLATEID, 0) = 0 then (select Template_Group_Name  from Template_Group where TemplateGroup_Id = [Template_Group_id])  else '' end AS TemplateGroupName, 
 		Template_Group_Status TemplateGroupStatus,
 		Number_Of_Parameter NumberOfParameters  FROM Reconsile_Template USR  

@@ -24,5 +24,7 @@ namespace NPSLCore.Models.DB
         public bool? TemplateGroupStatus { get; set; }
         public string TemplateGroupName { get; set; }
         public bool? IsPrimary { get; set; }
+        [DataType(DataType.MultilineText)]
+        public string ConditionQuery { get; set; }
     }
 }
