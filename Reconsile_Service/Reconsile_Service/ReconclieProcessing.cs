@@ -125,12 +125,12 @@ namespace ReconsileProcess
                                                 if (i == 2)
                                                 {
                                                     var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
-                                                    substring = substring + line.Substring(numbers[0], numbers[1]).Replace(".", "") + ",";
+                                                    substring = substring + line.Substring(numbers[0]-1, numbers[1]).Replace(".", "") + ",";
                                                 }
                                                 else
                                                 {
                                                     var numbers = strArr[i].Split(',').Select(Int32.Parse).ToList();
-                                                    substring = substring + line.Substring(numbers[0], numbers[1]) + ",";
+                                                    substring = substring + line.Substring(numbers[0]-1, numbers[1]) + ",";
                                                 }
                                             }
                                             else

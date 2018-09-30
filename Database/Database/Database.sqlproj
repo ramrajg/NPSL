@@ -110,6 +110,7 @@
     <Build Include="dbo\Tables\PRIMARYRECONSILEDATA.sql" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Database.publish.xml" />
+    <None Include="Dekstop.publish.xml" />
+    <None Include="MacBook.publish.xml" />
   </ItemGroup>
 </Project>
