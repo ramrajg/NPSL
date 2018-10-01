@@ -108,6 +108,7 @@
     <Build Include="Service Broker\ListenerQueue_1.sql" />
     <Build Include="Service Broker\ListenerService_1.sql" />
     <Build Include="dbo\Tables\PRIMARYRECONSILEDATA.sql" />
+    <Build Include="dbo\Stored Procedures\P_RECONSILEREPORT.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dekstop.publish.xml" />
