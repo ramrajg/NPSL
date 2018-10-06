@@ -1,0 +1,36 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using NPSLCore.Models.DB;
+using NPSLWeb.Helper;
+using NPSLWeb.Models;
+using System;
+
+namespace NPSLWeb.Controllers
+{
+    public class ManualReconsileController : Controller
+    {
+        public IActionResult Index()
+        {
+           var formattedDate = DateTime.Today.ToString("dd MMM yyyy");
+            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=0&fromDate=" + formattedDate + "&toDate=" + formattedDate + ""));
+            var TemplateGroupResult = CustomUtility.GetSingleRecord<TemplateGroup>(string.Format("api/GetTemplateGroupValue?OnlyActive=1"));
+            ViewBag.TemplateGroupList = new SelectList(TemplateGroupResult, "templateGroupId", "templateGroupName").Items;
+            ViewModelNonReconsile mymodel = new ViewModelNonReconsile();
+            mymodel.NonReconsileData = ReconsileReportResult;
+            mymodel.TemplateGroup = TemplateGroupResult;
+            return View(mymodel);
+        }
+
+        [HttpPost]
+        public PartialViewResult RefreshSearchResult(int groupId,DateTime FromDate,DateTime ToDate)
+        {
+            var From_Date = FromDate.ToString("MMM dd yyyy");
+            var To_Date = ToDate.ToString("MMM dd yyyy");
+            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=" + groupId + "&fromDate=" + From_Date + "&toDate=" + To_Date + ""));
+            ViewModelNonReconsile mymodel = new ViewModelNonReconsile();
+            mymodel.NonReconsileData = ReconsileReportResult;
+            return PartialView("_ManualReconsile", mymodel);
+        }
+
+    }
+}

@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE [P_DELETETemplate]    
+﻿CREATE PROCEDURE [p_DeleteTemplate]    
 @pTemplateId INT    
 AS    
 BEGIN    

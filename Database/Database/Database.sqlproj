@@ -71,7 +71,6 @@
     <Build Include="dbo\Tables\Delimiter.sql" />
     <Build Include="dbo\Tables\Reconsile_Template.sql" />
     <Build Include="dbo\Tables\MainMenu.sql" />
-    <Build Include="dbo\Tables\RECONSILEDDATA.sql" />
     <Build Include="dbo\Tables\SubMenu.sql" />
     <Build Include="dbo\Tables\RoleMenu.sql" />
     <Build Include="dbo\Tables\Template_Group.sql" />
@@ -89,16 +88,16 @@
     <Build Include="dbo\Stored Procedures\P_GETRECONSILE_TEMPLATE.sql" />
     <Build Include="dbo\Stored Procedures\P_GetUser.sql" />
     <Build Include="dbo\Stored Procedures\P_DELETEUSER.sql" />
-    <Build Include="dbo\Stored Procedures\P_DELETETemplate.sql" />
-    <Build Include="dbo\Stored Procedures\P_GetReconsileReportData.sql" />
-    <Build Include="dbo\Stored Procedures\P_INSERTRECONSILEDATA.sql" />
+    <Build Include="dbo\Stored Procedures\p_DeleteTemplate.sql" />
+    <Build Include="dbo\Stored Procedures\P_GETRECONSILEREPORTDATA.sql" />
+    <Build Include="dbo\Stored Procedures\P_InsertReconsileData.sql" />
     <Build Include="dbo\Stored Procedures\P_GETTEMPLATEGROUPVALUE.sql" />
     <Build Include="dbo\Stored Procedures\P_GETMENUBYROLEID.sql" />
     <Build Include="dbo\Stored Procedures\P_UpdateTemplate.sql" />
     <Build Include="dbo\Stored Procedures\P_SaveTemplate.sql" />
     <Build Include="dbo\Stored Procedures\P_SaveTemplateGroup.sql" />
     <Build Include="dbo\Stored Procedures\P_UpdateTemplateGroup.sql" />
-    <Build Include="dbo\Stored Procedures\P_DELETETEMPLATEGroup.sql" />
+    <Build Include="dbo\Stored Procedures\p_DeleteTemplateGroup.sql" />
     <Build Include="dbo\Stored Procedures\P_GETUSERSVALIDATION.sql" />
     <Build Include="dbo\Stored Procedures\P_GETUSERSVALIDATIONMENUMODEL.sql" />
     <Build Include="dbo\Stored Procedures\P_GETFILEEXTENSION.sql" />
@@ -108,7 +107,8 @@
     <Build Include="Service Broker\ListenerQueue_1.sql" />
     <Build Include="Service Broker\ListenerService_1.sql" />
     <Build Include="dbo\Tables\PRIMARYRECONSILEDATA.sql" />
-    <Build Include="dbo\Stored Procedures\P_RECONSILEREPORT.sql" />
+    <Build Include="dbo\Stored Procedures\P_ReconsileReport.sql" />
+    <Build Include="dbo\Stored Procedures\P_GetNonReconsileData.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dekstop.publish.xml" />

@@ -46,7 +46,7 @@ namespace NPSL.Models.Models.DB
                                 {
                                     if (reader.GetValue(i) != DBNull.Value)
                                     {
-                                        PropertyInfo propertyInfo = typeof(T).GetProperty(reader.GetName(i));
+                                        PropertyInfo propertyInfo = typeof(T).GetProperty(reader.GetName(i), BindingFlags.IgnoreCase | BindingFlags.Public | BindingFlags.Instance);
                                         propertyInfo.SetValue(tempObject, reader.GetValue(i), null);
                                     }
                                 }

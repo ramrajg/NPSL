@@ -154,5 +154,17 @@ namespace NPSL.Repository.Core.Template
             List<ReconsileReportData> ReconsileReportData = _DBContext.ExecuteTransactional<ReconsileReportData>("P_GetReconsileReportData", param);
             return ReconsileReportData;
         }
+        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@GroupTemplateId", groupTemplateId),
+                new SqlParameter("@FromDate", fromDate),
+                new SqlParameter("@ToDate", toDate),
+            };
+            List<NonReconsileData> ReconsileReportData = _DBContext.ExecuteTransactional<NonReconsileData>("P_GetNonReconsileData", param);
+            return ReconsileReportData;
+        }
+        
     }
 }

@@ -11,4 +11,10 @@ namespace NPSLWeb.Models
         public IEnumerable<ReconsileReportData> ReportData { get; set; }
         public IEnumerable<TemplateGroup> TemplateGroup { get; set; }
     }
+
+    public class ViewModelNonReconsile
+    {
+        public IEnumerable<NonReconsileData> NonReconsileData { get; set; }
+        public IEnumerable<TemplateGroup> TemplateGroup { get; set; }
+    }
 }

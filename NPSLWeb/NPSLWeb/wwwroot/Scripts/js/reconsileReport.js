@@ -8,13 +8,6 @@ function onSearchClick() {
         FromDate: selectedFromDate,
         ToDate: selectedToday
     }
-    //apiGetCallController('ReconsileReport', 'RefreshSearchResult', 'GET', data, function () {
-    //    window.location.reload();
-    //    //$.notify("Deleted Sucessfully", 'danger');
-    //}, function (responseText) {
-    //    $.notify(responseText, 'danger');
-    //    return false;
-    //});
     $.ajax({
         async: true,
         cache: true,
@@ -30,6 +23,35 @@ function onSearchClick() {
         }
     });
 }
+function onNonReconsileSearchClick() {
+    var e = document.getElementById("ddlGroupTemplate");
+    var group_Id = e.options[e.selectedIndex].value;
+    var data_D = {
+        groupId: group_Id,
+        FromDate: selectedFromDate,
+        ToDate: selectedToday
+    }
+    $.ajax({
+        async: true,
+        cache: true,
+        type: "POST",
+        data: {
+            groupId: group_Id,
+            FromDate: selectedFromDate,
+            ToDate: selectedToday
+        },
+        url: '/ManualReconsile/RefreshSearchResult',
+        success: function (data) {
+            $("#_ReconsileReportpartial").html(data);
+        }
+    });
+}
+function onPrimaryCheckBox() {
+    $('input.chkClass').on('change', function () {
+        $('input.chkClass').not(this).prop('checked', false);
+    });
+}
+
 $(document).ready(function () {
     $('#datepicker').datepicker();
     $(function () {
@@ -52,6 +74,7 @@ $(document).ready(function () {
         });
     });
 });
+
 $(function () {
     $(function () {
         $('#datetimepickerFromDate').datepicker({

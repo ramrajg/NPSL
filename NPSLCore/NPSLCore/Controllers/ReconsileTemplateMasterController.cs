@@ -270,5 +270,19 @@ namespace NPSLCore.Controllers
             }
         }
 
+        [HttpGet]
+        [Route("api/GetNonReconsileData")]
+        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        {
+            try
+            {
+                var records = _template.GetNonReconsileData(groupTemplateId, fromDate, toDate);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
     }
 }

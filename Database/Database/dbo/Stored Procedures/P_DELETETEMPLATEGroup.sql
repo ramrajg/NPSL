@@ -1,4 +1,4 @@
-﻿CREATE PROCEDURE P_DELETETEMPLATEGroup      
+﻿CREATE PROCEDURE p_DeleteTemplateGroup      
 @pTemplateGroupId INT      
 AS      
 BEGIN
