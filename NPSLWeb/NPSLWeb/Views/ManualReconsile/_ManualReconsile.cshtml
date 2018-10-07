@@ -23,6 +23,7 @@
                                 <td>@reconsileReportList.Amount</td>
                                 <td>@reconsileReportList.TemplateName</td>
                                 <td>@reconsileReportList.Date</td>
+                                <td hidden>@reconsileReportList.Id</td>
                             </tr>
                         }
                     }
@@ -34,8 +35,8 @@
     </div>
 
     <div class="panel-right">
-        <div class="table-responsive">
-            <table id="nonReconsileNonPrimaryData" class="table table-striped table-bordered">
+        <div class="table-responsive" id="nonReconsileNonPrimary">
+            <table id="nonReconsileNonPrimaryTable" class="table table-striped table-bordered">
                 <text style="font-weight:bold">Non Reconsile Record</text>
                 <thead>
                     <tr>
@@ -44,6 +45,7 @@
                         <th>Amount</th>
                         <th>Template Name</th>
                         <th>Date</th>
+                  
                     </tr>
                 </thead>
                 <tbody>
@@ -52,11 +54,12 @@
                         @if (@reconsileReportList.IsPrimary == false)
                         {
                             <tr class="active">
-                                <td><input type="checkbox" id="secondaryCheckBox" onclick="onSecondaryCheckBox() class="chkClass""></td>
+                                <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
                                 <td>@reconsileReportList.RRNNumber</td>
                                 <td>@reconsileReportList.Amount</td>
                                 <td>@reconsileReportList.TemplateName</td>
                                 <td>@reconsileReportList.Date</td>
+                                <td hidden>@reconsileReportList.Id</td>
                             </tr>
                         }
                     }
