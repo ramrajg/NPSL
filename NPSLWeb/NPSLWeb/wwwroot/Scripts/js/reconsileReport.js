@@ -28,6 +28,29 @@ function onSearchClick() {
         }
     });
 }
+function onManualReconsile() {
+    var e = document.getElementById("ddlGroupTemplate");
+    var group_Id = e.options[e.selectedIndex].value;
+    var data_D = {
+        groupId: group_Id,
+        FromDate: selectedFromDate,
+        ToDate: selectedToday
+    }
+    $.ajax({
+        async: true,
+        cache: true,
+        type: "POST",
+        data: {
+            nonPrimaryResult: nonPrimaryresult,
+            PrimaryResult: primaryresult
+        },
+        url: '/ManualReconsile/ManualReconsile',
+        success: function (data) {
+            $("#_ReconsileReportpartial").html(data);
+        }
+    });
+}
+
 function onNonReconsileSearchClick() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
@@ -58,37 +81,31 @@ function onPrimaryCheckBox() {
         $('input.chkClass').not(this).prop('checked', false);
     });
     var tableControl = document.getElementById('nonReconsilePrimaryData');
+    singleObj = {};
     $('input:checkbox:checked', tableControl).each(function () {
-        primaryAmount = $(this).parent().parent().find('td:eq(2)').text();
-    });
-    if (primaryAmount > 0 && nonPrimaryAmount > primaryAmount) {
-        primaryAmount = 0;
-        alert('Non Primary Value is Greater than Primary Value selected');
-        $('input.chkClass').not(this).prop('checked', false);
-    } else {
-        singleObj = {};
-        singleObj['amount'] = $(this).parent().parent().find('td:eq(2)').text();
-        singleObj['id'] = $(this).closest('tr').find('td:last').text();
+        primaryAmount = Number($(this).parent().parent().find('td:eq(2)').text());
+        singleObj['Amount'] = primaryAmount;
+        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
         singleObj['Type'] = 'P';
-        primaryresult.push(singleObj);
-    }
+    });
+    primaryresult.push(singleObj);
 }
 function onNonPrimaryCheckBox() {
     nonPrimaryresult = [];
     nonPrimaryAmount = 0;
-    var tableControl = document.getElementById('#nonReconsileNonPrimaryTable');
+    var tableControl = document.getElementById('nonReconsileNonPrimaryTable');
     $('input:checkbox:checked', tableControl).each(function () {
         singleObj = {};
-        singleObj['amount'] = $(this).parent().parent().find('td:eq(2)').text();
-        singleObj['id'] = $(this).closest('tr').find('td:last').text();
+        singleObj['Amount'] = Number($(this).parent().parent().find('td:eq(2)').text());
+        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
         singleObj['Type'] = 'NP';
-        if (nonPrimaryAmount > 0 && primaryAmount > 0 && (Number(nonPrimaryAmount) + Number($(this).parent().parent().find('td:eq(2)').text()) > primaryAmount)) {
-            alert('Non Primary Value is Greater than Primary Value selected');
-            $(this).prop('checked', false);
-        } else {
+        //if (nonPrimaryAmount > 0 && primaryAmount > 0 && (Number(nonPrimaryAmount) + Number($(this).parent().parent().find('td:eq(2)').text()) > primaryAmount)) {
+        //    alert('Non Primary Value is Greater than Primary Value selected');
+        //    $(this).prop('checked', false);
+        //} else {
             nonPrimaryAmount = Number(nonPrimaryAmount) + Number($(this).parent().parent().find('td:eq(2)').text());
             nonPrimaryresult.push(singleObj);
-        }
+       // }
     });
 
 
