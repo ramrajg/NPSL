@@ -13,7 +13,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="~/js/CustomUtils.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap-datepicker.js"></script>
-    <script src="~/Scripts/js/reconsileReport.js"></script>
+    <script src="~/Scripts/js/manualReconsile.js"></script>
 </head>
 <body>
     <div class="panel-group">
@@ -26,9 +26,9 @@
                             <select id="ddlGroupTemplate" class="form-control">
                                 <option value="0">All Template Group</option>
                                 @foreach (var templateGroupList in @Model.TemplateGroup)
-            {
-                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
-}
+                                {
+                                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
+                                }
                             </select>
 
                         </div>
@@ -71,7 +71,7 @@
 
         </div>
     </div>
- 
+
 </body>
 
 

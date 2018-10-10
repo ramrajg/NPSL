@@ -78,9 +78,9 @@
     <Build Include="dbo\Tables\RoleMaster.sql" />
     <Build Include="dbo\Tables\FileExtension.sql" />
     <Build Include="dbo\Stored Procedures\P_GetDashboardData.sql" />
-    <Build Include="dbo\Stored Procedures\P_GETROLEBYID.sql" />
+    <Build Include="dbo\Stored Procedures\P_GetRoleById.sql" />
     <Build Include="dbo\Stored Procedures\P_GETDELIMETERVALUE.sql" />
-    <Build Include="dbo\Stored Procedures\P_GETTEMPLATE.sql" />
+    <Build Include="dbo\Stored Procedures\P_GetTemplate.sql" />
     <Build Include="dbo\Stored Procedures\sp_InstallListenerNotification_1.sql" />
     <Build Include="dbo\Stored Procedures\sp_UninstallListenerNotification_1.sql" />
     <Build Include="dbo\Stored Procedures\P_SaveUsers.sql" />
@@ -89,7 +89,7 @@
     <Build Include="dbo\Stored Procedures\P_GetUser.sql" />
     <Build Include="dbo\Stored Procedures\P_DELETEUSER.sql" />
     <Build Include="dbo\Stored Procedures\p_DeleteTemplate.sql" />
-    <Build Include="dbo\Stored Procedures\P_GETRECONSILEREPORTDATA.sql" />
+    <Build Include="dbo\Stored Procedures\P_GetReconsileReportData.sql" />
     <Build Include="dbo\Stored Procedures\P_InsertReconsileData.sql" />
     <Build Include="dbo\Stored Procedures\P_GETTEMPLATEGROUPVALUE.sql" />
     <Build Include="dbo\Stored Procedures\P_GETMENUBYROLEID.sql" />
@@ -109,6 +109,8 @@
     <Build Include="dbo\Tables\PRIMARYRECONSILEDATA.sql" />
     <Build Include="dbo\Stored Procedures\P_ReconsileReport.sql" />
     <Build Include="dbo\Stored Procedures\P_GetNonReconsileData.sql" />
+    <Build Include="dbo\User Defined Types\udt_manualReconsile.sql" />
+    <Build Include="dbo\Stored Procedures\P_ManualReconsileProcess.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dekstop.publish.xml" />

@@ -1,13 +1,31 @@
 ﻿var selectedFromDate;
 var selectedToday;
-function onSearchClick() {
+var singleObj = {}
+var primaryresult = [];
+var nonPrimaryresult = [];
+function onManualReconsile() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
-    var data_D = {
-        groupId: group_Id,
-        FromDate: selectedFromDate,
-        ToDate: selectedToday
-    }
+    Array.prototype.push.apply(nonPrimaryresult, primaryresult);
+    $.ajax({
+        async: true,
+        cache: true,
+        type: "POST",
+        data: {
+            selectedResult: nonPrimaryresult,
+            groupId: group_Id,
+            FromDate: selectedFromDate,
+            ToDate: selectedToday
+        },
+        url: '/ManualReconsile/ManualReconsile',
+        success: function (data) {
+            $("#_ReconsileReportpartial").html(data);
+        }
+    });
+}
+function onNonReconsileSearchClick() {
+    var e = document.getElementById("ddlGroupTemplate");
+    var group_Id = e.options[e.selectedIndex].value;
     $.ajax({
         async: true,
         cache: true,
@@ -17,10 +35,34 @@ function onSearchClick() {
             FromDate: selectedFromDate,
             ToDate: selectedToday
         },
-        url: '/ReconsileReport/RefreshSearchResult',
+        url: '/ManualReconsile/RefreshSearchResult',
         success: function (data) {
             $("#_ReconsileReportpartial").html(data);
         }
+    });
+}
+function onPrimaryCheckBox() {
+    primaryresult = []
+    $('input.chkClass').on('change', function () {
+        $('input.chkClass').not(this).prop('checked', false);
+    });
+    var tableControl = document.getElementById('nonReconsilePrimaryData');
+    singleObj = {};
+    $('input:checkbox:checked', tableControl).each(function () {
+        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
+        singleObj['Type'] = 'P';
+    });
+    primaryresult.push(singleObj);
+}
+function onNonPrimaryCheckBox() {
+    nonPrimaryresult = [];
+    nonPrimaryAmount = 0;
+    var tableControl = document.getElementById('nonReconsileNonPrimaryTable');
+    $('input:checkbox:checked', tableControl).each(function () {
+        singleObj = {};
+        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
+        singleObj['Type'] = 'NP';
+        nonPrimaryresult.push(singleObj);
     });
 }
 

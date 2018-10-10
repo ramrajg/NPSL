@@ -1,7 +1,7 @@
 ﻿
 
 --EXEC P_GetReconsileReportData 0,'Aug 10 2018','Aug 13 2018'  --used reconsile Process    
-CREATE  PROCEDURE [DBO].[P_GETRECONSILEREPORTDATA]        
+CREATE  PROCEDURE [DBO].[P_GetReconsileReportData]        
 @GROUPTEMPLATEID INT=0,  
 @FROMDATE DATETIME,  
 @TODATE DATETIME    

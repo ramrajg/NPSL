@@ -1,6 +1,6 @@
 ﻿
 --EXEC P_GETTEMPLATE '0'  
-CREATE PROCEDURE [dbo].[P_GETTEMPLATE]   
+CREATE PROCEDURE [dbo].[P_GetTemplate]   
 @TEMPLATEID INT=0    
 AS    
 BEGIN    
