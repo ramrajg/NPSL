@@ -17,14 +17,30 @@
                     {
                         @if (@reconsileReportList.IsPrimary == true)
                         {
-                            <tr class="active">
-                                <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
-                                <td>@reconsileReportList.RRNNumber</td>
-                                <td>@reconsileReportList.Amount</td>
-                                <td>@reconsileReportList.TemplateName</td>
-                                <td>@reconsileReportList.Date</td>
-                                <td hidden>@reconsileReportList.Id</td>
-                            </tr>
+                            @if (@reconsileReportList.ReconsileType == "T")
+                            {
+
+                                <tr class="active" style="color:blue">
+                                    <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                    <td>@reconsileReportList.RRNNumber</td>
+                                    <td>@reconsileReportList.Amount</td>
+                                    <td>@reconsileReportList.TemplateName</td>
+                                    <td>@reconsileReportList.Date</td>
+                                    <td hidden>@reconsileReportList.Id</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="active">
+                                    <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                    <td>@reconsileReportList.RRNNumber</td>
+                                    <td>@reconsileReportList.Amount</td>
+                                    <td>@reconsileReportList.TemplateName</td>
+                                    <td>@reconsileReportList.Date</td>
+                                    <td hidden>@reconsileReportList.Id</td>
+                                </tr>
+
+                            }
                         }
                     }
                 </tbody>
@@ -45,7 +61,7 @@
                         <th>Amount</th>
                         <th>Template Name</th>
                         <th>Date</th>
-                  
+
                     </tr>
                 </thead>
                 <tbody>
@@ -53,14 +69,29 @@
                     {
                         @if (@reconsileReportList.IsPrimary == false)
                         {
-                            <tr class="active">
-                                <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
-                                <td>@reconsileReportList.RRNNumber</td>
-                                <td>@reconsileReportList.Amount</td>
-                                <td>@reconsileReportList.TemplateName</td>
-                                <td>@reconsileReportList.Date</td>
-                                <td hidden>@reconsileReportList.Id</td>
-                            </tr>
+                            @if (@reconsileReportList.ReconsileType == "T")
+                            {
+
+                                <tr class="active" style="color:blue">
+                                    <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
+                                    <td>@reconsileReportList.RRNNumber</td>
+                                    <td>@reconsileReportList.Amount</td>
+                                    <td>@reconsileReportList.TemplateName</td>
+                                    <td>@reconsileReportList.Date</td>
+                                    <td hidden>@reconsileReportList.Id</td>
+                                </tr>
+                            }
+                            else
+                            {
+                                <tr class="active">
+                                    <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
+                                    <td>@reconsileReportList.RRNNumber</td>
+                                    <td>@reconsileReportList.Amount</td>
+                                    <td>@reconsileReportList.TemplateName</td>
+                                    <td>@reconsileReportList.Date</td>
+                                    <td hidden>@reconsileReportList.Id</td>
+                                </tr>
+                            }
                         }
                     }
                 </tbody>

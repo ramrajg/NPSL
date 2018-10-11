@@ -20,6 +20,9 @@ function onManualReconsile() {
         url: '/ManualReconsile/ManualReconsile',
         success: function (data) {
             $("#_ReconsileReportpartial").html(data);
+            primaryresult = [];
+            nonPrimaryresult = [];
+            SetButtonStatus();
         }
     });
 }
@@ -38,6 +41,9 @@ function onNonReconsileSearchClick() {
         url: '/ManualReconsile/RefreshSearchResult',
         success: function (data) {
             $("#_ReconsileReportpartial").html(data);
+            primaryresult = [];
+            nonPrimaryresult = [];
+            SetButtonStatus();
         }
     });
 }
@@ -53,6 +59,7 @@ function onPrimaryCheckBox() {
         singleObj['Type'] = 'P';
     });
     primaryresult.push(singleObj);
+    SetButtonStatus();
 }
 function onNonPrimaryCheckBox() {
     nonPrimaryresult = [];
@@ -64,6 +71,7 @@ function onNonPrimaryCheckBox() {
         singleObj['Type'] = 'NP';
         nonPrimaryresult.push(singleObj);
     });
+    SetButtonStatus();
 }
 
 $(document).ready(function () {
@@ -114,6 +122,13 @@ $(function () {
     });
 });
 window.onload = function () {
+    SetButtonStatus();
     $("#datetimepickerFromDate").datepicker().datepicker("setDate", new Date());
     $("#datetimepickerToDate").datepicker().datepicker("setDate", new Date());
+}
+function SetButtonStatus() {
+    if (primaryresult.length > 0 && nonPrimaryresult.length > 0)
+        $('#manualProcessbtn').prop('disabled', false);
+    else
+        $('#manualProcessbtn').prop('disabled', true );
 }
