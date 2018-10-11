@@ -21,5 +21,6 @@ namespace NPSL.Repository.Core.Template
         IEnumerable<Dashboard> GetDashboardData(int groupTemplateId);
         IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId, DateTime fromDate, DateTime toDate);
         IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate);
+        void ProcessManualReconsile(DataTable selectedResult);
     }
 }

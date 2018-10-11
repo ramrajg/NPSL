@@ -284,5 +284,30 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+
+        [HttpPost]
+        [Route("api/ProcessManualReconsile")]
+        public void ProcessManualReconsile([FromBody] List<ManualResult> selectedResult)
+        {
+            try
+            {
+                var slectedResults = new DataTable();
+                slectedResults.Columns.Add("Id", typeof(int));
+                slectedResults.Columns.Add("Type", typeof(string));
+
+                foreach (var result in selectedResult)
+                {
+                    DataRow newRow = slectedResults.Rows.Add();
+                    newRow["Id"] = result.Id;
+                    newRow["Type"] = result.Type;
+                }
+               
+                _template.ProcessManualReconsile(slectedResults);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
     }
 }

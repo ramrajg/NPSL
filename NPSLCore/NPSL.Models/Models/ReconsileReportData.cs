@@ -24,4 +24,10 @@ namespace NPSLCore.Models.DB
         public bool IsPrimary { get; set; }
         
     }
+
+    public class ManualResult
+    {
+        public int Id { get; set; }
+        public string Type { get; set; }
+    }
 }

@@ -165,6 +165,18 @@ namespace NPSL.Repository.Core.Template
             List<NonReconsileData> ReconsileReportData = _DBContext.ExecuteTransactional<NonReconsileData>("P_GetNonReconsileData", param);
             return ReconsileReportData;
         }
-        
+        public void ProcessManualReconsile(DataTable selectedResult)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pSelectedResult",
+                SqlDbType = SqlDbType.Structured,
+                Value = selectedResult,
+                TypeName = "udt_manualReconsile" }
+              
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_ManualReconsileProcess", param);
+        }
     }
 }
