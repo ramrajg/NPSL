@@ -294,12 +294,14 @@ namespace NPSLCore.Controllers
                 var slectedResults = new DataTable();
                 slectedResults.Columns.Add("Id", typeof(int));
                 slectedResults.Columns.Add("Type", typeof(string));
+                slectedResults.Columns.Add("ReasonDesc", typeof(string));
 
                 foreach (var result in selectedResult)
                 {
                     DataRow newRow = slectedResults.Rows.Add();
                     newRow["Id"] = result.Id;
                     newRow["Type"] = result.Type;
+                    newRow["ReasonDesc"] = result.ReasonDesc;
                 }
                
                 _template.ProcessManualReconsile(slectedResults);

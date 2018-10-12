@@ -26,15 +26,15 @@
                             <select id="ddlGroupTemplate" class="form-control">
                                 <option value="0">All Template Group</option>
                                 @foreach (var templateGroupList in @Model.TemplateGroup)
-                                {
-                                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
-                                }
+            {
+                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
+}
                             </select>
 
                         </div>
 
-                        <div class="col-xs-offset-1 col-xs-2">
-                            <label for="startDate">Start Date</label>
+                        <div class="col-xs-offset-1 col-xs-2" style="width:200px;margin-left: 1px;">
+                            <label for="startDate">Start Date:</label>
                             <div class="input-group date" id='datetimepickerFromDate'>
                                 <input type="text" class="form-control">
                                 <div class="input-group-addon">
@@ -42,8 +42,8 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xs-offset-1 col-xs-2">
-                            <label for="endDate">End Date</label>
+                        <div class="col-xs-offset-1 col-xs-2" style="width:200px;margin-left: 1px;">
+                            <label for="endDate">End Date:</label>
                             <div class="input-group date" id='datetimepickerToDate'>
                                 <input type="text" class="form-control">
                                 <div class="input-group-addon">
@@ -51,11 +51,15 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-xs-offset-1 col-xs-2" style="margin-left: 1px;">
+                            <label for="reason">Reason for Manual Reconsile:</label>
+                                <textarea id="reasonTxt" cols="40" rows="3"></textarea>
+                        </div>
                         <div class="col-xs-offset-1 col-xs-2">
                             <button type="button" onclick="onNonReconsileSearchClick()" class="btn btn-primary" style="width:300px">Search</button>
                         </div>
                         <div class="col-xs-offset-1 col-xs-2">
-                            <button type="button" id="manualProcessbtn" onclick="onManualReconsile()" class="btn btn-info " style="width:300px; margin-top: 8px" >Reconsile</button>
+                            <button type="button" id="manualProcessbtn" onclick="onManualReconsile()" class="btn btn-info " style="width:300px; margin-top: 8px">Reconsile</button>
                         </div>
                     </div>
                 </div>

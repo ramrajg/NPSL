@@ -4,8 +4,14 @@ var singleObj = {}
 var primaryresult = [];
 var nonPrimaryresult = [];
 function onManualReconsile() {
+    singleObj = {};
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
+   // var reasonDesc = $('#reasonTxt').val();
+    singleObj['Id'] = 0;
+    singleObj['Type'] = 'D';
+    singleObj['ReasonDesc'] = $('#reasonTxt').val();
+    primaryresult.push(singleObj);
     Array.prototype.push.apply(nonPrimaryresult, primaryresult);
     $.ajax({
         async: true,
@@ -22,6 +28,7 @@ function onManualReconsile() {
             $("#_ReconsileReportpartial").html(data);
             primaryresult = [];
             nonPrimaryresult = [];
+            $('#reasonTxt').val('');
             SetButtonStatus();
         }
     });
@@ -29,6 +36,7 @@ function onManualReconsile() {
 function onNonReconsileSearchClick() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
+   
     $.ajax({
         async: true,
         cache: true,
@@ -43,6 +51,7 @@ function onNonReconsileSearchClick() {
             $("#_ReconsileReportpartial").html(data);
             primaryresult = [];
             nonPrimaryresult = [];
+            $('#reasonTxt').val('');
             SetButtonStatus();
         }
     });
@@ -57,6 +66,7 @@ function onPrimaryCheckBox() {
     $('input:checkbox:checked', tableControl).each(function () {
         singleObj['Id'] = $(this).closest('tr').find('td:last').text();
         singleObj['Type'] = 'P';
+        singleObj['ReasonDesc'] = "";
     });
     primaryresult.push(singleObj);
     SetButtonStatus();
@@ -69,6 +79,7 @@ function onNonPrimaryCheckBox() {
         singleObj = {};
         singleObj['Id'] = $(this).closest('tr').find('td:last').text();
         singleObj['Type'] = 'NP';
+        singleObj['ReasonDesc'] = "";
         nonPrimaryresult.push(singleObj);
     });
     SetButtonStatus();
@@ -127,8 +138,13 @@ window.onload = function () {
     $("#datetimepickerToDate").datepicker().datepicker("setDate", new Date());
 }
 function SetButtonStatus() {
-    if (primaryresult.length > 0 && nonPrimaryresult.length > 0)
+    if (primaryresult.length > 0 && nonPrimaryresult.length > 0) {
         $('#manualProcessbtn').prop('disabled', false);
-    else
-        $('#manualProcessbtn').prop('disabled', true );
+        $('#reasonTxt').prop('disabled', false);
+    }
+    else {
+        $('#manualProcessbtn').prop('disabled', true);
+        $('#reasonTxt').prop('disabled', true);
+    }
+
 }

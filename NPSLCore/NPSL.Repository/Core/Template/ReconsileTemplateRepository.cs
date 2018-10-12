@@ -174,7 +174,6 @@ namespace NPSL.Repository.Core.Template
                 SqlDbType = SqlDbType.Structured,
                 Value = selectedResult,
                 TypeName = "udt_manualReconsile" }
-              
             };
             var Data = _DBContext.ExecuteTransactionalNonQuery("P_ManualReconsileProcess", param);
         }
