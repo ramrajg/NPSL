@@ -84,6 +84,7 @@ namespace ReconsileProcess
         {
             string substring = "";
             string fileName = "";
+            string fileNameWithExt = "";
             string[] strArr = SubstringValue.Split('|');
             NumberofColumns = strArr.Length;
             CreateDirectory(MoveFilepath);
@@ -94,6 +95,7 @@ namespace ReconsileProcess
                     const Int32 BufferSize = 128;
                     string ext = Path.GetExtension(dirFile).ToLower();
                     fileName = Path.GetFileNameWithoutExtension(dirFile).ToLower();
+                    fileNameWithExt = Path.GetFileName(dirFile).ToLower();
                     if (!File.Exists(Filepath))
                     {
                         File.Create(Filepath).Dispose();
@@ -162,7 +164,7 @@ namespace ReconsileProcess
 
                                         }
                                     }
-                                    File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileName + "\n");
+                                    File.AppendAllText(Filepath, substring = substring.TrimEnd(',') + "," + fileNameWithExt + "\n");
                                 }
                             }
                         }
