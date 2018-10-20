@@ -10,6 +10,8 @@ namespace NPSLCore.Models.DB
         public int TemplateId { get; set; }
         public string TemplateName { get; set; }
         public bool IsReconsile { get; set; }
+        public string ReconsileType { get; set; }
+        public string ReconsileDesc { get; set; }
     }
 
     public partial class NonReconsileData
