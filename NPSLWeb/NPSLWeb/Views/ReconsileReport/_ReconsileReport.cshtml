@@ -1,77 +1,76 @@
 ﻿
 <div class="row">
     @{
-        var dashBoardClorCount = 1;
+        var tempRowCount = 1;
     }
     @foreach (var reconsileReportList in @Model.ReportData)
     {
-        @if (@reconsileReportList.TemplateId == dashBoardClorCount)
+        @if (@reconsileReportList.denseCount == tempRowCount)
         {
-            <div class="table-responsive col-md-6">
-                <table id="reconsileDatatable" class="table table-striped table-bordered">
-                    <text style="font-weight:bold">@reconsileReportList.RRNNumber</text>
-                    <thead>
-                        <tr>
-                            <th>RRN</th>
-                            <th>Amount</th>
-                            <th>Template Name</th>
-                            <th>Date</th>
-                        </tr>
-                    </thead>
-                    @if (dashBoardClorCount % 2 != 0)
+            <table id="reconsileDatatable" class="table table-striped table-bordered">
+                <text style="font-weight:bold">Reconsile Between : @reconsileReportList.PrimaryTemplateName And @reconsileReportList.NonPrimaryTemplateName </text>
+                <thead>
+                    <tr>
+                        <th>RRN - Primary</th>
+                        <th>Amount - Primary</th>
+                        <th>Date - Primary</th>
+                        <th>RRN - Non Primary</th>
+                        <th>Amount -Non Primary</th>
+                        <th>Date - Non Primary</th>
+                    </tr>
+                </thead>
+                @if (tempRowCount % 2 != 0)
+                {
+                    @foreach (var reconsileReportListPrimary in @Model.ReportData)
                     {
-                        @foreach (var reconsileReportList2 in @Model.ReportData)
+                        @if (@reconsileReportListPrimary.denseCount == tempRowCount)
                         {
-                            @if (@reconsileReportList2.TemplateId == dashBoardClorCount)
-                            {
-                                <tbody>
-                                    <tr class="success">
-                                        <td>@reconsileReportList2.RRNNumber</td>
-                                        <td>@reconsileReportList2.Amount</td>
-                                        <td>@reconsileReportList2.TemplateName</td>
-                                        @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
-                                        {
-                                            <td></td>
-                                        }
-                                        else
-                                        {
-                                            <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
-                                        }
-                                    </tr>
-                                </tbody>
-                            }
-                        }
+                            <tbody>
+                                <tr class="success">
+                                    <td>@reconsileReportListPrimary.PrimaryRRNNumber</td>
+                                    <td>@reconsileReportListPrimary.PrimaryAmount</td>
+                                    <td>@reconsileReportListPrimary.PrimaryDate.ToString("dd-MMM-yyyy")</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryRRNNumber</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryAmount</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryDate.ToString("dd-MMM-yyyy")</td>
+                                </tr>
+                            </tbody>
 
+                        }
                     }
-                    else
+                    <tr>
+                        <th>RRN - Primary</th>
+                        <th>Amount - Primary</th>
+                        <th>Date - Primary</th>
+                        <th>RRN - Non Primary</th>
+                        <th>Amount -Non Primary</th>
+                        <th>Date - Non Primary</th>
+                    </tr>
+                }
+                else
+                {
+                    @foreach (var reconsileReportListPrimary in @Model.ReportData)
                     {
-                        @foreach (var reconsileReportList2 in @Model.ReportData)
+                        @if (@reconsileReportListPrimary.denseCount == tempRowCount)
                         {
-                            @if (@reconsileReportList2.TemplateId == dashBoardClorCount)
-                            {
-                                <tbody>
-                                    <tr class="danger">
-                                        <td>@reconsileReportList2.RRNNumber</td>
-                                        <td>@reconsileReportList2.Amount</td>
-                                        <td>@reconsileReportList2.TemplateName</td>
-                                        @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
-                                        {
-                                            <td></td>
-                                        }
-                                        else
-                                        {
-                                            <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
-                                        }
-                                    </tr>
-                                </tbody>
-                            }
+                            <tbody>
+                                <tr class="success">
+                                    <td>@reconsileReportListPrimary.PrimaryRRNNumber</td>
+                                    <td>@reconsileReportListPrimary.PrimaryAmount</td>
+                                    <td>@reconsileReportListPrimary.PrimaryDate.ToString("dd-MMM-yyyy")</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryRRNNumber</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryAmount</td>
+                                    <td>@reconsileReportListPrimary.NonPrimaryDate.ToString("dd-MMM-yyyy")</td>
+                                </tr>
+                            </tbody>
                         }
-
                     }
 
-                </table>
-            </div>
-            dashBoardClorCount = dashBoardClorCount + 1;
+                }
+            </table>
+            tempRowCount = tempRowCount + 1;
         }
+
+
     }
 </div>
