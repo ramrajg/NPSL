@@ -24,11 +24,10 @@
                         <div class="col-xs-offset-0 col-xs-2">
                             <label>Template Group: </label>
                             <select id="ddlGroupTemplate" class="form-control">
-                                <option value="0">All Template Group</option>
                                 @foreach (var templateGroupList in @Model.TemplateGroup)
-            {
-                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
-}
+                                {
+                                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
+                                }
                             </select>
 
                         </div>
@@ -53,7 +52,7 @@
                         </div>
                         <div class="col-xs-offset-1 col-xs-2" style="margin-left: 1px;">
                             <label for="reason">Reason for Manual Reconsile:</label>
-                                <textarea id="reasonTxt" cols="40" rows="3"></textarea>
+                            <textarea id="reasonTxt" cols="40" rows="3"></textarea>
                         </div>
                         <div class="col-xs-offset-1 col-xs-2">
                             <button type="button" onclick="onNonReconsileSearchClick()" class="btn btn-primary" style="width:300px">Search</button>

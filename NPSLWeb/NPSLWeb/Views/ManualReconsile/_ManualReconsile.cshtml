@@ -1,102 +1,80 @@
-﻿<div class="panel-container">
-    <div class="panel-left">
-        <div class="table-responsive">
-            <table id="nonReconsilePrimaryData" class="table table-striped table-bordered">
-                <text style="font-weight:bold">Primary Non Reconsile Record</text>
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>RRN</th>
-                        <th>Amount</th>
-                        <th>Template Name</th>
-                        <th>Date</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var reconsileReportList in @Model.NonReconsileData)
+﻿
+<div class="row">
+    @{
+        var dashBoardClorCount = 1;
+    }
+    @foreach (var reconsileReportList in @Model.NonReconsileData)
+    {
+        @if (@reconsileReportList.TemplateSpilt == dashBoardClorCount)
+        {
+            <div class="table-responsive col-md-6">
+                <table id="reconsileDatatable" class="table table-striped table-bordered">
+                    <text style="font-weight:bold">@reconsileReportList.RRNNumber</text>
+                    <thead>
+                        <tr>
+                            <th>Select</th> 
+                            <th>RRN</th>
+                            <th>Amount</th>
+                            <th>Template Name</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    @if (dashBoardClorCount % 2 != 0)
                     {
-                        @if (@reconsileReportList.IsPrimary == true)
+                        @foreach (var reconsileReportList2 in @Model.NonReconsileData)
                         {
-                            @if (@reconsileReportList.ReconsileType == "T")
+                            @if (@reconsileReportList2.TemplateSpilt == dashBoardClorCount)
                             {
-
-                                <tr class="active" style="color:blue">
-                                    <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
-                                    <td>@reconsileReportList.RRNNumber</td>
-                                    <td>@reconsileReportList.Amount</td>
-                                    <td>@reconsileReportList.TemplateName</td>
-                                    <td>@reconsileReportList.Date</td>
-                                    <td hidden>@reconsileReportList.Id</td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr class="active">
-                                    <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
-                                    <td>@reconsileReportList.RRNNumber</td>
-                                    <td>@reconsileReportList.Amount</td>
-                                    <td>@reconsileReportList.TemplateName</td>
-                                    <td>@reconsileReportList.Date</td>
-                                    <td hidden>@reconsileReportList.Id</td>
-                                </tr>
-
+                                <tbody>
+                                    <tr class="success">
+                                        <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                        <td>@reconsileReportList2.RRNNumber</td>
+                                        <td>@reconsileReportList2.Amount</td>
+                                        <td>@reconsileReportList2.TemplateName</td>
+                                        @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
+                                        }
+                                    </tr>
+                                </tbody>
                             }
                         }
+
                     }
-                </tbody>
-            </table>
-        </div>
-    </div>
-    <div class="splitter-horizontal">
-    </div>
-
-    <div class="panel-right">
-        <div class="table-responsive" id="nonReconsileNonPrimary">
-            <table id="nonReconsileNonPrimaryTable" class="table table-striped table-bordered">
-                <text style="font-weight:bold">Non Reconsile Record</text>
-                <thead>
-                    <tr>
-                        <th>Select</th>
-                        <th>RRN</th>
-                        <th>Amount</th>
-                        <th>Template Name</th>
-                        <th>Date</th>
-
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var reconsileReportList in @Model.NonReconsileData)
+                    else
                     {
-                        @if (@reconsileReportList.IsPrimary == false)
+                        @foreach (var reconsileReportList2 in @Model.NonReconsileData)
                         {
-                            @if (@reconsileReportList.ReconsileType == "T")
+                            @if (@reconsileReportList2.TemplateSpilt == dashBoardClorCount)
                             {
-
-                                <tr class="active" style="color:blue">
-                                    <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
-                                    <td>@reconsileReportList.RRNNumber</td>
-                                    <td>@reconsileReportList.Amount</td>
-                                    <td>@reconsileReportList.TemplateName</td>
-                                    <td>@reconsileReportList.Date</td>
-                                    <td hidden>@reconsileReportList.Id</td>
-                                </tr>
-                            }
-                            else
-                            {
-                                <tr class="active">
-                                    <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
-                                    <td>@reconsileReportList.RRNNumber</td>
-                                    <td>@reconsileReportList.Amount</td>
-                                    <td>@reconsileReportList.TemplateName</td>
-                                    <td>@reconsileReportList.Date</td>
-                                    <td hidden>@reconsileReportList.Id</td>
-                                </tr>
+                                <tbody>
+                                    <tr class="danger">
+                                        <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
+                                        <td>@reconsileReportList2.RRNNumber</td>
+                                        <td>@reconsileReportList2.Amount</td>
+                                        <td>@reconsileReportList2.TemplateName</td>
+                                        @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
+                                        {
+                                            <td></td>
+                                        }
+                                        else
+                                        {
+                                            <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
+                                        }
+                                    </tr>
+                                </tbody>
                             }
                         }
-                    }
-                </tbody>
-            </table>
-        </div>
-    </div>
 
+                    }
+
+                </table>
+            </div>
+            dashBoardClorCount = dashBoardClorCount + 1;
+        }
+    }
 </div>
