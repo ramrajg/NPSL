@@ -30,6 +30,7 @@ namespace NPSLCore.Models.DB
         public decimal Amount { get; set; }
         public DateTime Date { get; set; }
         public int TemplateId { get; set; }
+        public int TemplateSpilt { get; set; }
         public string TemplateName { get; set; }
         public bool IsReconsile { get; set; }
         public bool IsPrimary { get; set; }
