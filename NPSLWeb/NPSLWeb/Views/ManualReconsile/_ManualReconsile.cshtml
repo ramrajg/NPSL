@@ -9,10 +9,10 @@
         {
             <div class="table-responsive col-md-6">
                 <table id="reconsileDatatable" class="table table-striped table-bordered">
-                    <text style="font-weight:bold">@reconsileReportList.RRNNumber</text>
+                    <text style="font-weight:bold">@reconsileReportList.TemplateName</text>
                     <thead>
                         <tr>
-                            <th>Select</th> 
+                            <th>Select</th>
                             <th>RRN</th>
                             <th>Amount</th>
                             <th>Template Name</th>
@@ -27,7 +27,7 @@
                             {
                                 <tbody>
                                     <tr class="success">
-                                        <td><input type="checkbox" id="primaryCheckBox" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                        <td><input type="checkbox" id="primaryCheckBox" value ="@reconsileReportList2.Id" onclick="onPrimaryCheckBox()" class="chkClass"></td>
                                         <td>@reconsileReportList2.RRNNumber</td>
                                         <td>@reconsileReportList2.Amount</td>
                                         <td>@reconsileReportList2.TemplateName</td>
@@ -39,6 +39,7 @@
                                         {
                                             <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
                                         }
+                                        <td hidden>@reconsileReportList2.TemplateSpilt</td>
                                     </tr>
                                 </tbody>
                             }
@@ -53,7 +54,7 @@
                             {
                                 <tbody>
                                     <tr class="danger">
-                                        <td><input type="checkbox" id="secondaryCheckBox" onclick="onNonPrimaryCheckBox()"></td>
+                                        <td><input type="checkbox" id="nonPrimaryCheckBox" value ="@reconsileReportList2.Id" onclick="onNonPrimaryCheckBox()" class="chkNonClass"></td>
                                         <td>@reconsileReportList2.RRNNumber</td>
                                         <td>@reconsileReportList2.Amount</td>
                                         <td>@reconsileReportList2.TemplateName</td>
@@ -65,13 +66,13 @@
                                         {
                                             <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
                                         }
+                                        <td hidden>@reconsileReportList2.TemplateSpilt</td>
                                     </tr>
                                 </tbody>
                             }
                         }
 
                     }
-
                 </table>
             </div>
             dashBoardClorCount = dashBoardClorCount + 1;

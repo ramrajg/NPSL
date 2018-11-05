@@ -3,11 +3,14 @@ var selectedToday;
 var singleObj = {}
 var primaryresult = [];
 var nonPrimaryresult = [];
+var tableSplitValuePrimary = 0;
+var tableSplitValueNonPrimary = 0;
+
 function onManualReconsile() {
     singleObj = {};
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
-   // var reasonDesc = $('#reasonTxt').val();
+    // var reasonDesc = $('#reasonTxt').val();
     singleObj['Id'] = 0;
     singleObj['Type'] = 'D';
     singleObj['ReasonDesc'] = $('#reasonTxt').val();
@@ -36,7 +39,7 @@ function onManualReconsile() {
 function onNonReconsileSearchClick() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
-   
+
     $.ajax({
         async: true,
         cache: true,
@@ -58,26 +61,50 @@ function onNonReconsileSearchClick() {
 }
 function onPrimaryCheckBox() {
     primaryresult = []
-    $('input.chkClass').on('change', function () {
-        $('input.chkClass').not(this).prop('checked', false);
-    });
-    var tableControl = document.getElementById('nonReconsilePrimaryData');
     singleObj = {};
-    $('input:checkbox:checked', tableControl).each(function () {
-        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
-        singleObj['Type'] = 'P';
-        singleObj['ReasonDesc'] = "";
+    var currentPrimaryId = 0;
+    $('input.chkClass').on('change', function () {
+        currentPrimaryId = parseInt($(this).closest('tr').find('td:last').text());
+        $('input.chkClass').not(this).prop('checked', false);
+        primaryresult = []
+        if (tableSplitValuePrimary == 0) {
+            tableSplitValuePrimary = parseInt(currentPrimaryId);
+            $.each($("input[id='primaryCheckBox']:checked"), function () {
+                singleObj['Id'] = $(this).val();
+                singleObj['Type'] = 'P';
+                singleObj['ReasonDesc'] = "";
+            });
+        }
+        else if (tableSplitValuePrimary == parseInt(currentPrimaryId)) {
+            tableSplitValuePrimary = parseInt(currentPrimaryId);
+            $.each($("input[id='primaryCheckBox']:checked"), function () {
+                singleObj['Id'] = $(this).val();
+                singleObj['Type'] = 'P';
+                singleObj['ReasonDesc'] = "";
+            });
+        }
+        else {
+            nonPrimaryresult = [];
+            nonPrimaryAmount = 0;
+            tableSplitValuePrimary = parseInt(currentPrimaryId);
+            $('input.chkNonClass').prop('checked', false);
+        }
+        primaryresult.push(singleObj);
+        SetButtonStatus();
     });
-    primaryresult.push(singleObj);
-    SetButtonStatus();
 }
 function onNonPrimaryCheckBox() {
     nonPrimaryresult = [];
     nonPrimaryAmount = 0;
-    var tableControl = document.getElementById('nonReconsileNonPrimaryTable');
-    $('input:checkbox:checked', tableControl).each(function () {
+    tableSplitValueNonPrimary = 0;
+    $('input.chkNonClass').on('change', function () {
+        if (parseInt($(this).closest('tr').find('td:last').text()) != tableSplitValuePrimary + 1) {
+            $(this).prop('checked', false);
+        }
+    });
+    $.each($("input[id='nonPrimaryCheckBox']:checked"), function () {
         singleObj = {};
-        singleObj['Id'] = $(this).closest('tr').find('td:last').text();
+        singleObj['Id'] = $(this).val();
         singleObj['Type'] = 'NP';
         singleObj['ReasonDesc'] = "";
         nonPrimaryresult.push(singleObj);
