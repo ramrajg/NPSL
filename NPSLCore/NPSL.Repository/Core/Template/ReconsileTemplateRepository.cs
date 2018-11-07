@@ -143,11 +143,12 @@ namespace NPSL.Repository.Core.Template
             return DashboardData;
         }
 
-        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int reconsileType, DateTime fromDate, DateTime toDate)
         {
             var param = new List<SqlParameter>
             {
                 new SqlParameter("@GroupTemplateId", groupTemplateId),
+                new SqlParameter("@ReconsileTypeId", reconsileType),
                 new SqlParameter("@FromDate", fromDate),
                 new SqlParameter("@ToDate", toDate),
             };

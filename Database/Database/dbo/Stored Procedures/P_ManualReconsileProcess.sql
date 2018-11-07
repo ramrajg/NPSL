@@ -7,16 +7,18 @@ BEGIN
   
 DECLARE @DIFFAMOUNT numeric(18,2),  
 @pReasonDesc varchar(200) = (select top 1 isnull(ReasonDesc,'') from @pSelectedResult where [Type] ='D')
-declare @sumAmountNonPrimary numeric(18,2) = (select sum(Amount) from RECONSILERAWDATA where id in (select Id from @pSelectedResult where [Type] IN('NP','T')))  
-declare @sumAmountPrimary numeric(18,2) = (select sum(Amount) from PRIMARYRECONSILEDATA where id in (select Id from @pSelectedResult where [Type] ='P'))  
+declare @sumAmountNonPrimary numeric(18,2) = (select sum(Amount) from RECONSILERAWDATA where id in (select Id from @pSelectedResult where [Type] IN('NP')))  
+declare @sumAmountPrimary numeric(18,2) = (select sum(Amount) from PRIMARYRECONSILEDATA where id in (select Id from @pSelectedResult where [Type] IN('P'))) 
+declare @nonPrimaryTemplateId int = (select top 1 TEMPLATEID from RECONSILERAWDATA where id in (select Id from @pSelectedResult where [Type] IN('NP')))  
+declare @PrimaryTemplateId int = (select Id from @pSelectedResult where [Type] IN('P'))   
 if(@sumAmountNonPrimary>@sumAmountPrimary)  
 begin  
  SET @DIFFAMOUNT = @sumAmountNonPrimary - @sumAmountPrimary  
  INSERT INTO PRIMARYRECONSILEDATA (RRN,DATE,AMOUNT,RECOCOL4,RECOCOL5,RECOCOL6,RECOCOL7,RECOCOL8,RECOCOL9,RECOCOL10,RECOCOL11,RECOCOL12,RECOCOL13,RECOCOL14,RECOCOL15,RECOCOL16,FILENAME,TEMPLATEID,ISRECONSILED,ISPRIMARY,RECONSILETYPE,RECONSILEDESC)  
- SELECT RRN,GETDATE(),@DIFFAMOUNT,RECOCOL4,RECOCOL5,RECOCOL6,RECOCOL7,RECOCOL8,RECOCOL9,RECOCOL10,RECOCOL11,RECOCOL12,RECOCOL13,RECOCOL14,RECOCOL15,RECOCOL16,FILENAME,TEMPLATEID,0,1,'T',@pReasonDesc FROM PRIMARYRECONSILEDATA 
+ SELECT RRN,GETDATE(),@DIFFAMOUNT,RECOCOL4,RECOCOL5,RECOCOL6,RECOCOL7,RECOCOL8,RECOCOL9,RECOCOL10,RECOCOL11,RECOCOL12,RECOCOL13,RECOCOL14,RECOCOL15,RECOCOL16,FILENAME,@nonPrimaryTemplateId,0,1,'T',@pReasonDesc FROM PRIMARYRECONSILEDATA 
  WHERE ID  IN (SELECT ID FROM @pSelectedResult WHERE [TYPE] ='P')  
  UPDATE PRIMARYRECONSILEDATA SET ISRECONSILED = 1,RECONSILETYPE = 'M' WHERE ID IN (SELECT ID FROM @pSelectedResult WHERE [TYPE] ='P')  
- UPDATE RECONSILERAWDATA SET ISRECONSILED = 1,RECONSILETYPE = 'M' WHERE ID IN (SELECT ID FROM @pSelectedResult WHERE [TYPE] IN('NP','T'))  
+ UPDATE RECONSILERAWDATA SET PRIMARYID =@PrimaryTemplateId, ISRECONSILED = 1,RECONSILETYPE = 'M' WHERE ID IN (SELECT ID FROM @pSelectedResult WHERE [TYPE] IN('NP','T'))  
 end  
 else if (@sumAmountPrimary>@sumAmountNonPrimary)  
 begin  

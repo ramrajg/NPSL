@@ -25,8 +25,9 @@
                     {
                         @if (@reconsileReportListPrimary.denseCount == tempRowCount)
                         {
+
                             <tbody>
-                                <tr class="success">
+                                <tr class="@(@reconsileReportListPrimary.NonPrimaryReconsileType == "M" ? "danger" : "success")">
                                     <td>@reconsileReportListPrimary.PrimaryRRNNumber</td>
                                     <td>@reconsileReportListPrimary.PrimaryAmount</td>
                                     <td>@reconsileReportListPrimary.PrimaryDate.ToString("dd-MMM-yyyy")</td>
@@ -46,7 +47,7 @@
                         @if (@reconsileReportListPrimary.denseCount == tempRowCount)
                         {
                             <tbody>
-                                <tr class="success">
+                                <tr class="@(@reconsileReportListPrimary.NonPrimaryReconsileType == "M" ? "danger" : "success")">
                                     <td>@reconsileReportListPrimary.PrimaryRRNNumber</td>
                                     <td>@reconsileReportListPrimary.PrimaryAmount</td>
                                     <td>@reconsileReportListPrimary.PrimaryDate.ToString("dd-MMM-yyyy")</td>

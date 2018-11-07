@@ -3,17 +3,15 @@ var selectedToday;
 function onSearchClick() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
-    var data_D = {
-        groupId: group_Id,
-        FromDate: selectedFromDate,
-        ToDate: selectedToday
-    }
+    var t = document.getElementById("ddlReconsileType");
+    var reconsile_Type = t.options[t.selectedIndex].value;
     $.ajax({
         async: true,
         cache: true,
         type: "POST",
         data: {
             groupId: group_Id,
+            reconsileType: reconsile_Type,
             FromDate: selectedFromDate,
             ToDate: selectedToday
         },

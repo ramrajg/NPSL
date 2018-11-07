@@ -53,12 +53,10 @@
                         </div>
                         <div class="col-xs-offset-0 col-xs-2">
                             <label>Reconsile Type: </label>
-                            <select id="ddlGroupTemplate" class="form-control">
+                            <select id="ddlReconsileType" class="form-control">
                                 <option value="0">Auto Reconsiled</option>
-                                @foreach (var templateGroupList in @Model.TemplateGroup)
-                                {
-                                    <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
-                                }
+                                <option value="1">Manual Reconsiled</option>
+                                <option value="2">All Reconsiled</option>
                             </select>
 
                         </div>
