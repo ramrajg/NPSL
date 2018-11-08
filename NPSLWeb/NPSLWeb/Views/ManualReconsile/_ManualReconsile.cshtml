@@ -2,9 +2,15 @@
 <div class="row">
     @{
         var dashBoardClorCount = 1;
+        var intCount = 1;
     }
     @foreach (var reconsileReportList in @Model.NonReconsileData)
     {
+        @if (intCount == 1)
+        {
+            dashBoardClorCount = @reconsileReportList.TemplateSpilt;
+            intCount = intCount + 1;
+        }
         @if (@reconsileReportList.TemplateSpilt == dashBoardClorCount)
         {
             <div class="table-responsive col-md-6">
@@ -27,7 +33,7 @@
                             {
                                 <tbody>
                                     <tr class="success">
-                                        <td><input type="checkbox" id="primaryCheckBox" value ="@reconsileReportList2.Id" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                        <td><input type="checkbox" id="primaryCheckBox" value="@reconsileReportList2.Id" onclick="onPrimaryCheckBox()" class="chkClass"></td>
                                         <td>@reconsileReportList2.RRNNumber</td>
                                         <td>@reconsileReportList2.Amount</td>
                                         <td>@reconsileReportList2.TemplateName</td>
@@ -52,23 +58,46 @@
                         {
                             @if (@reconsileReportList2.TemplateSpilt == dashBoardClorCount)
                             {
-                                <tbody>
-                                    <tr class="danger">
-                                        <td><input type="checkbox" id="nonPrimaryCheckBox" value ="@reconsileReportList2.Id" onclick="onNonPrimaryCheckBox()" class="chkNonClass"></td>
-                                        <td>@reconsileReportList2.RRNNumber</td>
-                                        <td>@reconsileReportList2.Amount</td>
-                                        <td>@reconsileReportList2.TemplateName</td>
-                                        @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
-                                        {
-                                            <td></td>
-                                        }
-                                        else
-                                        {
-                                            <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
-                                        }
-                                        <td hidden>@reconsileReportList2.TemplateSpilt</td>
-                                    </tr>
-                                </tbody>
+                                @if (@reconsileReportList2.Id == 0)
+                                {
+                                    <tbody>
+                                        <tr class="unselectable">
+                                            <td><input type="checkbox" id="nonPrimaryCheckBox" value="@reconsileReportList2.Id" disabled="disabled" class="unselectable"></td>
+                                            <td>@reconsileReportList2.RRNNumber</td>
+                                            <td>@reconsileReportList2.Amount</td>
+                                            <td>@reconsileReportList2.TemplateName</td>
+                                            @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
+                                            }
+                                            <td hidden>@reconsileReportList2.TemplateSpilt</td>
+                                        </tr>
+                                    </tbody>
+                                }
+                                else
+                                {
+                                    <tbody>
+                                        <tr class="danger">
+                                            <td><input type="checkbox" id="nonPrimaryCheckBox" value="@reconsileReportList2.Id" onclick="onNonPrimaryCheckBox()" class="chkNonClass"></td>
+                                            <td>@reconsileReportList2.RRNNumber</td>
+                                            <td>@reconsileReportList2.Amount</td>
+                                            <td>@reconsileReportList2.TemplateName</td>
+                                            @if (@reconsileReportList2.Date.ToString("dd-MMM-yyyy") == "01-Jan-1900")
+                                            {
+                                                <td></td>
+                                            }
+                                            else
+                                            {
+                                                <td>@reconsileReportList2.Date.ToString("dd-MMM-yyyy")</td>
+                                            }
+                                            <td hidden>@reconsileReportList2.TemplateSpilt</td>
+                                        </tr>
+                                    </tbody>
+                                }
                             }
                         }
 

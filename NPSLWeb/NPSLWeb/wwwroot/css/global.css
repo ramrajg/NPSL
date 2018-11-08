@@ -91,4 +91,7 @@
         color: black;
     }
 
-
+.unselectable {
+    background-color: #ddd;
+    cursor: not-allowed;
+}

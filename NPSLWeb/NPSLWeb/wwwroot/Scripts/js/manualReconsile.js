@@ -87,6 +87,11 @@ function onPrimaryCheckBox() {
             nonPrimaryresult = [];
             nonPrimaryAmount = 0;
             tableSplitValuePrimary = parseInt(currentPrimaryId);
+            $.each($("input[id='primaryCheckBox']:checked"), function () {
+                singleObj['Id'] = $(this).val();
+                singleObj['Type'] = 'P';
+                singleObj['ReasonDesc'] = "";
+            });
             $('input.chkNonClass').prop('checked', false);
         }
         primaryresult.push(singleObj);
