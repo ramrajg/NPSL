@@ -1,121 +1,201 @@
 ﻿<div class="container">
     @{
         var dashBoardClorCount = 0;
+        var templateSplit = 1;
     }
     @foreach (var Dashboard in Model)
     {
-        dashBoardClorCount = dashBoardClorCount + 1;
-        <div class="col-md-4 col-xl-3">
-            @if (dashBoardClorCount == 1 || dashBoardClorCount == 4 || dashBoardClorCount == 7 || dashBoardClorCount == 10)
-            {
-                <div class="card bg-c-invoice order-card">
-                    <div class="card-block">
-                        <div class="card-header">
-                            <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
-                        </div>
-                        <div>
-                            <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+        @if (@Dashboard.TemplateSpilt == templateSplit)
+        {
+            dashBoardClorCount = dashBoardClorCount + 1;
+            <div class="col-md-4 col-xl-3">
+                @if (dashBoardClorCount == 1 || dashBoardClorCount == 4 || dashBoardClorCount == 7 || dashBoardClorCount == 10)
+                {
+                    <div class="card bg-c-invoice order-card">
+                        <div class="card-block">
+                            <div class="card-header">
+                                <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                            </div>
+                            <div>
+                                <table id="reconsileDatatable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Template</th>
+                                            <th>Reconsiled</th>
+                                            <th>Non Reconsile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var dashboardList in Model)
+                                        {
+                                            @if (@dashboardList.TemplateSpilt == templateSplit)
+                                            {
+                                                @if (@dashboardList.TemplateGroupName == "ZZZZZZZZBLANKROW")
+                                                {
+                                                    <tr style="background: none;border: 0px; background-color: none;">
+                                                        <td style="line-height:20px;" colspan="3"><br /></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td style="background-color:  rosybrown; line-height:20px">@dashboardList.TemplateName</td>
+                                                        <td style="background-color:lightseagreen; line-height:20px" class='number'>@dashboardList.ConsiledAmount</td>
+                                                        <td style="background-color: royalblue; line-height:20px" class='number'>@dashboardList.NonConsiledAmount</td>
+                                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            else if (dashBoardClorCount == 2 || dashBoardClorCount == 5 || dashBoardClorCount == 8 || dashBoardClorCount == 11)
-            {
-                <div class="card bg-c-blue order-card">
-                    <div class="card-block">
-                        <div class="card-header">
-                            <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
-                        </div>
-                        <div>
-                            <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+                }
+                else if (dashBoardClorCount == 2 || dashBoardClorCount == 5 || dashBoardClorCount == 8 || dashBoardClorCount == 11)
+                {
+                    <div class="card bg-c-blue order-card">
+                        <div class="card-block">
+                            <div class="card-header">
+                                <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                            </div>
+                            <div>
+                                <table id="reconsileDatatable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Template</th>
+                                            <th>Reconsiled</th>
+                                            <th>Non Reconsile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var dashboardList in Model)
+                                        {
+                                            @if (@dashboardList.TemplateSpilt == templateSplit)
+                                            {
+                                                @if (@dashboardList.TemplateGroupName == "ZZZZZZZZBLANKROW")
+                                                {
+                                                    <tr style="background: none;border: 0px; background-color: none;">
+                                                        <td style="line-height:20px;" colspan="3"><br /></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td style="background-color:  rosybrown; line-height:20px">@dashboardList.TemplateName</td>
+                                                        <td style="background-color:lightseagreen; line-height:20px" class='number'>@dashboardList.ConsiledAmount</td>
+                                                        <td style="background-color: royalblue; line-height:20px" class='number'>@dashboardList.NonConsiledAmount</td>
+                                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-            }
-            else if (dashBoardClorCount == 3 || dashBoardClorCount == 6 || dashBoardClorCount == 9 || dashBoardClorCount == 12)
-            {
-                <div class="card bg-c-orange order-card">
-                    <div class="card-block">
-                        <div class="card-header">
-                            <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
-                        </div>
-                        <div>
-                            <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
-                            <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+                }
+                else if (dashBoardClorCount == 3 || dashBoardClorCount == 6 || dashBoardClorCount == 9 || dashBoardClorCount == 12)
+                {
+                    <div class="card bg-c-orange order-card">
+                        <div class="card-block">
+                            <div class="card-header">
+                                <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                            </div>
+                            <div>
+                                <table id="reconsileDatatable" class="table table-striped">
+                                    <thead>
+                                        <tr>
+                                            <th>Template</th>
+                                            <th>Reconsiled</th>
+                                            <th>Non Reconsile</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach (var dashboardList in Model)
+                                        {
+                                            @if (@dashboardList.TemplateSpilt == templateSplit)
+                                            {
+                                                @if (@dashboardList.TemplateGroupName == "ZZZZZZZZBLANKROW")
+                                                {
+                                                    <tr style="background: none;border: 0px; background-color: none;">
+                                                        <td style="line-height:20px;" colspan="3"><br /></td>
+                                                    </tr>
+                                                }
+                                                else
+                                                {
+                                                    <tr>
+                                                        <td style="background-color:  rosybrown; line-height:20px">@dashboardList.TemplateName</td>
+                                                        <td style="background-color:lightseagreen; line-height:20px" class='number'>@dashboardList.ConsiledAmount</td>
+                                                        <td style="background-color: royalblue; line-height:20px" class='number'>@dashboardList.NonConsiledAmount</td>
+                                                    </tr>
+
+                                                }
+                                            }
+                                        }
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
+                }
+            </div>
+            templateSplit = templateSplit + 1;
+        }
+
+
+        @*@foreach (var Dashboard in Model)
+            {
+                dashBoardClorCount = dashBoardClorCount + 1;
+                <div class="col-md-4 col-xl-3">
+                    @if (dashBoardClorCount == 1 || dashBoardClorCount == 4 || dashBoardClorCount == 7 || dashBoardClorCount == 10)
+                    {
+                        <div class="card bg-c-invoice order-card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                                </div>
+                                <div>
+                                    <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (dashBoardClorCount == 2 || dashBoardClorCount == 5 || dashBoardClorCount == 8 || dashBoardClorCount == 11)
+                    {
+                        <div class="card bg-c-blue order-card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                                </div>
+                                <div>
+                                    <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                    else if (dashBoardClorCount == 3 || dashBoardClorCount == 6 || dashBoardClorCount == 9 || dashBoardClorCount == 12)
+                    {
+                        <div class="card bg-c-orange order-card">
+                            <div class="card-block">
+                                <div class="card-header">
+                                    <b style="font-size:xx-large">@Dashboard.TemplateGroupName</b>
+                                </div>
+                                <div>
+                                    <p class="m-b-0" style="font-size:medium">Primary Amount:<span class="f-right">@Dashboard.PrimaryAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Consiled Amount:<span class="f-right">@Dashboard.ConsiledAmount</span></p>
+                                    <p class="m-b-0" style="font-size:medium">Non Consiled Amount:<span class="f-right">@Dashboard.NonConsiledAmount</span></p>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
-            }
-        </div>
+            }*@
     }
 </div>
-@*<div class="container">
-        <div class="tile job">
-            <div class="header">
-                <div class="count">1</div>
-                <div class="title">Jobs</div>
-            </div>
-            <div class="body">
-                <div class="title">Awaiting Reconcile</div>
-            </div>
-        </div>
-        <div class="tile job">
-            <div class="header">
-                <div class="count">4</div>
-                <div class="title">Jobs</div>
-            </div>
-            <div class="body">
-                <div class="title">Awaiting Reconcile Files</div>
-            </div>
-        </div>
-        <div class="tile wide resource">
-            <div class="header">
-                <div class="left">
-                    <div class="count">2</div>
-                    <div class="title">Resources</div>
-                </div>
-                <div class="right">
-                    <div class="count">34</div>
-                    <div class="title">Jobs Affected</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Reconcile in Progress</div>
-            </div>
-        </div>
-        <div class="tile wide quote">
-            <div class="header">
-                <div class="left">
-                    <div class="count">2</div>
-                    <div class="title">Quotes</div>
-                </div>
-                <div class="right">
-                    <div class="count">Rs.2450</div>
-                    <div class="title">Total Value</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Total Amount Reconcile Auto</div>
-            </div>
-        </div>
-        <div class="tile wide invoice">
-            <div class="header">
-                <div class="left">
-                    <div class="count">6</div>
-                    <div class="title">Invoices</div>
-                </div>
-                <div class="right">
-                    <div class="count">Rs.4876</div>
-                    <div class="title">Total Value</div>
-                </div>
-            </div>
-            <div class="body">
-                <div class="title">Manual Reconcile</div>
-            </div>
-        </div>
-    </div>*@
