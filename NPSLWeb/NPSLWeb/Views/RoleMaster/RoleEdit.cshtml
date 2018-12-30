@@ -1,0 +1,98 @@
+﻿@model NPSLCore.Models.DB.Roles
+
+
+<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<script src="~/Scripts/js/roleMaster.js"></script>
+<link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
+<script src="~/js/CustomUtils.js"></script>
+
+<div class="modal-dialog" id="ModalPopUp">
+
+    <div class="modal-content">
+        @using (Html.BeginForm(null, null, FormMethod.Post, new { @id = "roleEdit" }))
+
+        {
+            var menuSession = new Byte[2000];
+            Context.Session.TryGetValue("RoleMenuMaster", out menuSession);
+            var menuMaster = Newtonsoft.Json.JsonConvert.DeserializeObject<List<NPSLCore.Models.DB.MenuModelForRoleMaster>>(System.Text.Encoding.UTF8.GetString(menuSession));
+            var groupByMenu = menuMaster.GroupBy(x => x.MainMenuName).ToList();
+            <h2 style="margin:15px">Edit Roles</h2>
+            <p style="margin:15px">Please fill in this form to edit a Roles!</p>
+            <hr>
+            <div class="form-group">
+                <div class="row">
+                    <div class="col-xs-offset-1 col-xs-offset-right-1">
+                        @Html.HiddenFor(model => model.RoleId, new { @id = "RoleId" })
+                        @Html.TextBoxFor(model => model.RoleName, new { @class = "form-control", placeholder = "Role Name", required = "required", @readonly = "readonly" })
+                        @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
+                    </div>
+                    <div class="form-group">
+                        <div class="row">
+                            <div class="col-xs-offset-0 col-xs-6">
+                                <ul class="treeview">
+                                    @foreach (var MenuList in groupByMenu)
+                                    {
+                                        var SubmenuChecked = false;
+                                        <li>
+                                            @foreach (var SubMenuList in MenuList)
+                                                {
+
+                                                    @if (SubMenuList.IsSelected == 1)
+                                                    {
+                                                        SubmenuChecked = true;
+                                                        <input type="checkbox" name=@MenuList.Key checked>
+                                                        <label for="tall" class="custom-checked">@MenuList.Key</label>
+                                                        break;
+                                                    }
+                                                }
+                                                @if (SubmenuChecked == false)
+                                                {
+                                                    <input type="checkbox" name=@MenuList.Key>
+                                                    <label for="tall" class="custom-unchecked">@MenuList.Key</label>
+                                                }
+                                                else
+                                                { SubmenuChecked = false; }
+
+
+
+                                            <ul>
+                                                @foreach (var SubMenuList in MenuList)
+                                                {
+                                                    <li>
+                                                        @if (SubMenuList.IsSelected == 1)
+                                                        {
+                                                            <input type="checkbox"   name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId checked>
+                                                            <label for="tall-1" class="custom-checked">@SubMenuList.SubMenuName</label>
+                                                        }
+                                                        else
+                                                        {
+                                                            <input type="checkbox" name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId>
+                                                            <label for="tall-1" class="custom-unchecked">@SubMenuList.SubMenuName</label>
+
+                                                        }
+
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </li>
+                                    }
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="padding:5px">
+                <div class="form-group">
+                    <div class="col-xs-offset-right-1">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <input type="submit" class="btn btn-primary" id="updateOk" value="Update changes" />
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+

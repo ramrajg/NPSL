@@ -80,6 +80,21 @@ namespace NPSLCore.Controllers
         }
 
         [HttpGet]
+        [Route("api/GetMenuModelForRoleMaster")]
+        public IEnumerable<MenuModelForRoleMaster> GetMenuModelForRoleMaster(int roleId)
+        {
+            try
+            {
+                var records = _user.GetMenuModelForRoleMaster(roleId);
+                return records;
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+        [HttpGet]
         [Route("api/GetRoleById")]
         public IEnumerable<Roles> GetRoleById(int roleId)
         {
@@ -93,6 +108,48 @@ namespace NPSLCore.Controllers
                 throw new CustomException(ex.Message.ToString());
             }
         }
+
+        [HttpPost]
+        [Route("api/UpdateRole")]
+        public void UpdateRole([FromBody] List<SubMenuRoleId> selectedMenuId)
+        {
+            try
+            {
+                var subMenuId = new DataTable();
+                subMenuId.Columns.Add("SubMenuId", typeof(int));
+                selectedMenuId.ForEach((item) => subMenuId.Rows.Add(item.SubmenuId));
+
+                int RoleId = selectedMenuId.Select(x => x.RoleId).Distinct().FirstOrDefault();
+
+
+                _user.UpdateRole(subMenuId, RoleId);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Route("api/SaveRole")]
+        public void SaveRole([FromBody] List<SubMenuRoleId> selectedMenuId)
+        {
+            try
+            {
+                var subMenuId = new DataTable();
+                subMenuId.Columns.Add("SubMenuId", typeof(int));
+                selectedMenuId.ForEach((item) => subMenuId.Rows.Add(item.SubmenuId));
+
+                string RoleName = selectedMenuId.Select(x => x.RoleName).Distinct().FirstOrDefault();
+    
+                _user.SaveRole(subMenuId, RoleName);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
         [HttpPost]
         [Route("api/SaveUser")]
         public void SaveUser([FromBody] Users userDetail)

@@ -53,6 +53,17 @@ namespace NPSL.Repository.Core.User
             return userMenu;
         }
 
+        IEnumerable<MenuModelForRoleMaster> IUserRepository.GetMenuModelForRoleMaster(int roleId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@RoleID ", roleId),
+            };
+
+            List<MenuModelForRoleMaster> userMenu = _DBContext.ExecuteTransactional<MenuModelForRoleMaster>("P_GetMenuModelForRoleMaster", param);
+            return userMenu;
+        }
+
         IEnumerable<Roles> IUserRepository.GetRoleById(int roleId)
         {
             var param = new List<SqlParameter>
@@ -62,6 +73,37 @@ namespace NPSL.Repository.Core.User
 
             List<Roles> roleById = _DBContext.ExecuteTransactional<Roles>("P_GETROLEBYID", param);
             return roleById;
+        }
+
+        public void UpdateRole(DataTable selectedSubMenuId, int RoleId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pSelectedMenuId",
+                SqlDbType = SqlDbType.Structured,
+                Value = selectedSubMenuId,
+                TypeName = "udt_selectedMenuId"
+            }, new SqlParameter("@pRoleId", RoleId),
+        
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_UpdateRole", param);
+        }
+
+        public void SaveRole(DataTable selectedSubMenuId, string RoleName)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pSelectedMenuId",
+                SqlDbType = SqlDbType.Structured,
+                Value = selectedSubMenuId,
+                TypeName = "udt_selectedMenuId"
+            }, new SqlParameter("@pRoleName", RoleName),
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveRole", param);
         }
 
         void IUserRepository.SaveUser(DataTable userItems)
@@ -100,6 +142,6 @@ namespace NPSL.Repository.Core.User
             };
             var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETEUSER", param);
         }
-        
+
     }
 }

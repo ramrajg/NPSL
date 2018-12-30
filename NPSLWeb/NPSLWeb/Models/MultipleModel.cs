@@ -17,4 +17,10 @@ namespace NPSLWeb.Models
         public IEnumerable<NonReconsileData> NonReconsileData { get; set; }
         public IEnumerable<TemplateGroup> TemplateGroup { get; set; }
     }
+
+    public class ViewModelRoleMaster
+    {
+        public IEnumerable<Roles> Roles { get; set; }
+        public IEnumerable<MenuModels> MenuModel { get; set; }
+    }
 }
