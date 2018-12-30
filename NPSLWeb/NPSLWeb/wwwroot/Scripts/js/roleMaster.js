@@ -1,5 +1,4 @@
 ﻿$(document).ready(function () {
-
     var oTable = $('#roleData').DataTable();
     $('.btn-bootstrap-dialog').click(function () {
         var url = $(this).data('url');
@@ -70,36 +69,35 @@
         }
 
 
-        $('#roleEdit').submit(function (event) {
-            $('input[type="checkbox"]').change(checkboxChanged);
-            var selectedMenuId = [];
-            var result = [];
-            singleObj = {};
-            var RoleId = "";
-            RoleId = document.getElementById('RoleId').value;
-            $('input[type="checkbox"]').each(function () {
-                if ($(this).is(':checked')) {
-                    singleObj = {};
-                    singleObj['SubmenuId'] = this.id;
-                    singleObj['RoleId'] = RoleId;
-                    selectedMenuId.push(singleObj);
-                }
-            });
 
-
-            if (RoleName != "") {
-                apiGetCallController('RoleMaster', 'EditrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
-                    window.location.href = '/RoleMaster/Index';
-                }, function (responseText) {
-                    $.notify(responseText, 'danger');
-                    return false;
-                });
-            }
-
-        });
     });
 
+    $('#roleEdit').submit(function (event) {
+        var selectedMenuId = [];
+        var result = [];
+        singleObj = {};
+        var RoleId = "";
+        RoleId = document.getElementById('RoleId').value;
+        $('input[type="checkbox"]').each(function () {
+            if ($(this).is(':checked')) {
+                singleObj = {};
+                singleObj['SubmenuId'] = this.id;
+                singleObj['RoleId'] = RoleId;
+                selectedMenuId.push(singleObj);
+            }
+        });
 
+
+        if (RoleName != "") {
+            apiGetCallController('RoleMaster', 'EditrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
+                window.location.href = '/RoleMaster/Index';
+            }, function (responseText) {
+                $.notify(responseText, 'danger');
+                return false;
+            });
+        }
+
+    });
 
     $('#roleAdd').submit(function (event) {
         var selectedMenuId = [];
