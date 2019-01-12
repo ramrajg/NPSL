@@ -258,7 +258,7 @@ namespace ReconsileProcess
                                                     {
                                                         if (columnValue[Int32.Parse(strArr[i])] != "")
                                                         {
-                                                            DateTime.TryParseExact(columnValue[Int32.Parse(strArr[i])], formats, System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue);
+                                                            DateTime.TryParseExact(columnValue[Int32.Parse(strArr[i])].Trim(), formats, System.Globalization.CultureInfo.InvariantCulture, DateTimeStyles.None, out dateValue);
                                                             substring = substring + dateValue.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture) + ",";
                                                         }
                                                         else
@@ -271,7 +271,7 @@ namespace ReconsileProcess
                                                     {
                                                         if (columnValue[Int32.Parse(strArr[i])] != "")
                                                         {
-                                                            substring = substring + columnValue[Int32.Parse(strArr[i])] + ",";
+                                                            substring = substring + columnValue[Int32.Parse(strArr[i])].Trim() + ",";
                                                         }
                                                         else { substring = substring + ","; }
                                                     }
