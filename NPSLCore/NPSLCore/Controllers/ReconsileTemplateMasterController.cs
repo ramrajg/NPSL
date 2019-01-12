@@ -30,6 +30,14 @@ namespace NPSLCore.Controllers
         }
 
         [HttpGet]
+        [Route("api/GetTemplateByGroupId")]
+        public IEnumerable<ReconsileTemplate> GetTemplateByGroupId(int groupId)
+        {
+            var records = _template.GetTemplateByGroupId(groupId);
+            return records;
+        }
+
+        [HttpGet]
         [Route("api/GetFileExtension")]
         public IEnumerable<FileExtension> GetFileExtension(int id)
         {
@@ -272,11 +280,11 @@ namespace NPSLCore.Controllers
 
         [HttpGet]
         [Route("api/GetNonReconsileData")]
-        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId,int selectedTemplateId, DateTime fromDate, DateTime toDate)
         {
             try
             {
-                var records = _template.GetNonReconsileData(groupTemplateId, fromDate, toDate);
+                var records = _template.GetNonReconsileData(groupTemplateId, selectedTemplateId, fromDate, toDate);
                 return records;
             }
             catch (Exception ex)

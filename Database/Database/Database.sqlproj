@@ -111,6 +111,7 @@
     <Build Include="dbo\Stored Procedures\P_GetNonReconsileData.sql" />
     <Build Include="dbo\User Defined Types\udt_manualReconsile.sql" />
     <Build Include="dbo\Stored Procedures\P_ManualReconsileProcess.sql" />
+    <Build Include="dbo\Stored Procedures\P_GETTEMPLATEBYGROUPID.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dekstop.publish.xml" />

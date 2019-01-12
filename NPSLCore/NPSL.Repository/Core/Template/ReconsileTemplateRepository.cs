@@ -58,6 +58,17 @@ namespace NPSL.Repository.Core.Template
             List<ReconsileTemplate> ReconsileTemplateLst = _DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETTEMPLATE", param);
             return ReconsileTemplateLst;
         }
+
+        public IEnumerable<ReconsileTemplate> GetTemplateByGroupId(int groupId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@TemplateGroupId ", groupId),
+            };
+            List<ReconsileTemplate> ReconsileTemplateLst = _DBContext.ExecuteTransactional<ReconsileTemplate>("P_GETTEMPLATEBYGROUPID", param);
+            return ReconsileTemplateLst;
+        }
+
         void IReconsileTemplateRepository.SaveTemplate(DataTable templateItems)
         {
             var param = new List<SqlParameter>
@@ -155,11 +166,12 @@ namespace NPSL.Repository.Core.Template
             List<ReconsileReportData> ReconsileReportData = _DBContext.ExecuteTransactional<ReconsileReportData>("P_GetReconsileReportData", param);
             return ReconsileReportData;
         }
-        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate)
+        public IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, int selectedTemplateId,DateTime fromDate, DateTime toDate)
         {
             var param = new List<SqlParameter>
             {
                 new SqlParameter("@GroupTemplateId", groupTemplateId),
+                new SqlParameter("@SelectedTemplateId", selectedTemplateId),
                 new SqlParameter("@FromDate", fromDate),
                 new SqlParameter("@ToDate", toDate),
             };

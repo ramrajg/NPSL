@@ -6,6 +6,9 @@ var nonPrimaryresult = [];
 var tableSplitValuePrimary = 0;
 var tableSplitValueNonPrimary = 0;
 
+
+
+
 function onManualReconsile() {
     singleObj = {};
     var e = document.getElementById("ddlGroupTemplate");
@@ -39,6 +42,8 @@ function onManualReconsile() {
 function onNonReconsileSearchClick() {
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
+    var e = document.getElementById("ddltemplate");
+    var template_Id = e.options[e.selectedIndex].value;
 
     $.ajax({
         async: true,
@@ -46,6 +51,7 @@ function onNonReconsileSearchClick() {
         type: "POST",
         data: {
             groupId: group_Id,
+            selectedTemplateId: template_Id,
             FromDate: selectedFromDate,
             ToDate: selectedToday
         },
@@ -138,6 +144,34 @@ $(document).ready(function () {
             alert(selected);
         });
     });
+
+    $('#ddlGroupTemplate').on('change', function () {
+
+        var data = "";
+        $.ajax({
+            type: "GET",
+            url: '/ManualReconsile/GetTemplateByGroupId',
+            data: "groupId=" + $(this).val(),
+            async: false,
+            success: function (data) {
+                $('#ddltemplate').empty(); // clear the current elements in select box
+                $("#ddltemplate").html("<option value=''>--Select One--</option>");
+                for (row in data) {
+                    $('#ddltemplate').append($('<option></option>').attr('value', data[row].templateId).text(data[row].templateName));
+                }
+            },
+            error: function () {
+                alert('Error occured');
+            }
+        });
+
+    });
+    $('#ddltemplate').on('change', function () {
+        var val = $(this).val();
+        if (val != "" || val != "0") {
+            $('#manualSearchbtn').prop('disabled', false);
+        }
+    });
 });
 
 $(function () {
@@ -166,6 +200,7 @@ $(function () {
 });
 window.onload = function () {
     SetButtonStatus();
+    $('#manualSearchbtn').prop('disabled', true);
     $("#datetimepickerFromDate").datepicker().datepicker("setDate", new Date());
     $("#datetimepickerToDate").datepicker().datepicker("setDate", new Date());
 }

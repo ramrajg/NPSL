@@ -9,6 +9,7 @@ namespace NPSL.Repository.Core.Template
     public interface IReconsileTemplateRepository
     {
         IEnumerable<ReconsileTemplate> GetTemplatesById(int id);
+        IEnumerable<ReconsileTemplate> GetTemplateByGroupId(int groupId);
         IEnumerable<FileExtension> GetFileExtenstion(int id);
         IEnumerable<Delimiter> GetDelimeterValue(int id);
         IEnumerable<TemplateGroup> GetTemplateGroupValue(int id,int OnlyActive);
@@ -20,7 +21,7 @@ namespace NPSL.Repository.Core.Template
         void DeleteTemplateGroup(int templateGroupId);
         IEnumerable<Dashboard> GetDashboardData(int groupTemplateId);
         IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int reconsileType, DateTime fromDate, DateTime toDate);
-        IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId, DateTime fromDate, DateTime toDate);
+        IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId,int selectedTemplateId, DateTime fromDate, DateTime toDate);
         void ProcessManualReconsile(DataTable selectedResult);
     }
 }

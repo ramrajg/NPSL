@@ -25,12 +25,17 @@
                         <div class="col-xs-offset-0 col-xs-2">
                             <label>Template Group: </label>
                             <select id="ddlGroupTemplate" class="form-control">
+                                <option value="">--Select One-- </option>
                                 @foreach (var templateGroupList in @Model.TemplateGroup)
                                 {
                                     <option value=@templateGroupList.TemplateGroupId>@templateGroupList.TemplateGroupName</option>
                                 }
                             </select>
 
+                            <label>Reconsile Template: </label>
+                            <select id="ddltemplate" class="form-control">
+                                <option value="">-- select one -- </option>
+                            </select>
                         </div>
 
                         <div class="col-xs-offset-1 col-xs-2" style="width:200px;margin-left: 1px;">
@@ -56,7 +61,7 @@
                             <textarea id="reasonTxt" cols="40" rows="3"></textarea>
                         </div>
                         <div class="col-xs-offset-1 col-xs-2">
-                            <button type="button" onclick="onNonReconsileSearchClick()" class="btn btn-primary" style="width:300px">Search</button>
+                            <button type="button" id="manualSearchbtn" onclick="onNonReconsileSearchClick()" class="btn btn-primary" style="width:300px">Search</button>
                         </div>
                         <div class="col-xs-offset-1 col-xs-2">
                             <button type="button" id="manualProcessbtn" onclick="onManualReconsile()" class="btn btn-info " style="width:300px; margin-top: 8px">Reconsile</button>
@@ -65,7 +70,7 @@
                 </div>
                 <div class="panel-body">
                     <div id="_ReconsileReportpartial">
-                        @Html.Partial("~/Views/ManualReconsile/_ManualReconsile.cshtml", @Model);
+                        @Html.Partial("~/Views/ManualReconsile/_ManualReconsile.cshtml", @Model)
                     </div>
                 </div>
 

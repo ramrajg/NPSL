@@ -16,7 +16,7 @@ namespace NPSLWeb.Controllers
            var formattedDate = DateTime.Today.ToString("dd MMM yyyy");
             var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=0&fromDate=" + formattedDate + "&toDate=" + formattedDate + ""));
             var TemplateGroupResult = CustomUtility.GetSingleRecord<TemplateGroup>(string.Format("api/GetTemplateGroupValue?OnlyActive=1"));
-            ViewBag.TemplateGroupList = new SelectList(TemplateGroupResult, "templateGroupId", "templateGroupName").Items;
+           // ViewBag.TemplateGroupList = new SelectList(TemplateGroupResult, "templateGroupId", "templateGroupName").Items;
             ViewModelNonReconsile mymodel = new ViewModelNonReconsile();
             mymodel.NonReconsileData = ReconsileReportResult;
             mymodel.TemplateGroup = TemplateGroupResult;
@@ -24,11 +24,11 @@ namespace NPSLWeb.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult RefreshSearchResult(int groupId,DateTime FromDate,DateTime ToDate)
+        public PartialViewResult RefreshSearchResult(int groupId,int selectedTemplateId, DateTime FromDate,DateTime ToDate)
         {
             var From_Date = FromDate.ToString("MMM dd yyyy");
             var To_Date = ToDate.ToString("MMM dd yyyy");
-            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=" + groupId + "&fromDate=" + From_Date + "&toDate=" + To_Date + ""));
+            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=" + groupId + "&selectedTemplateId=" + selectedTemplateId + "&fromDate=" + From_Date + "&toDate=" + To_Date + ""));
             ViewModelNonReconsile mymodel = new ViewModelNonReconsile();
             mymodel.NonReconsileData = ReconsileReportResult;
             return PartialView("_ManualReconsile", mymodel);
@@ -47,6 +47,13 @@ namespace NPSLWeb.Controllers
             mymodel.NonReconsileData = ReconsileReportResult;
             mymodel.TemplateGroup = TemplateGroupResult;
             return PartialView("_ManualReconsile", mymodel);
+        }
+
+        [HttpGet]
+        public JsonResult GetTemplateByGroupId(int groupId)
+        {
+            var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateByGroupId?groupId=" + groupId));
+            return Json(TemplateResult);
         }
 
     }
