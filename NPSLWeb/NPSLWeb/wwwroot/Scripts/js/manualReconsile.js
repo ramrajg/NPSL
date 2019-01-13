@@ -13,6 +13,10 @@ function onManualReconsile() {
     singleObj = {};
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
+
+    var e = document.getElementById("ddltemplate");
+    var template_Id = e.options[e.selectedIndex].value;
+
     // var reasonDesc = $('#reasonTxt').val();
     singleObj['Id'] = 0;
     singleObj['Type'] = 'D';
@@ -26,6 +30,7 @@ function onManualReconsile() {
         data: {
             selectedResult: nonPrimaryresult,
             groupId: group_Id,
+            selectedTemplateId: template_Id,
             FromDate: selectedFromDate,
             ToDate: selectedToday
         },

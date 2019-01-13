@@ -1,6 +1,6 @@
 ﻿$(document).ready(function () {
     var oTable = $('#reconsileDatatable').DataTable();
-    $('.btn-bootstrap-dialog').click(function () {
+    $('#reconsileDatatable').on('click', '.btn-bootstrap-dialog', function () {
         var url = $(this).data('url');
         var title = $(this).attr('title');
         $.get(url, function (data) {
@@ -18,7 +18,7 @@
         //console.log(row);
     });
 
-    $('.delete-template1').click(function () {
+    $('#reconsileDatatable').on('click','.delete-template1',function () {
         $('#delModel').modal({
             backdrop: 'static',
             keyboard: false
@@ -78,7 +78,7 @@
 
     $('#templateEditForm').submit(function (event) {
 
-         var i;
+        var i;
         var parameterValue = "";
         for (i = 0; i < $('.form-horizontal .form-group').length; i++) {
             var fieldID = "#Parameter" + $('.form-horizontal .form-group')[i].id.split('-')[2];
@@ -101,7 +101,7 @@
         });
         return false;
 
-       
+
     });
 
 });

@@ -35,13 +35,13 @@ namespace NPSLWeb.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult ManualReconsile(List<ManualResult> selectedResult,int groupId, DateTime FromDate, DateTime ToDate)
+        public PartialViewResult ManualReconsile(List<ManualResult> selectedResult,int groupId,int selectedTemplateId, DateTime FromDate, DateTime ToDate)
         {
             bool isSuccessStatusCode = false;
             var From_Date = FromDate.ToString("MMM dd yyyy");
             var To_Date = ToDate.ToString("MMM dd yyyy");
             var roleInfoResult = CustomUtility.PostDataOfType("api/ProcessManualReconsile", selectedResult, out isSuccessStatusCode);
-            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=" + groupId + "&fromDate=" + From_Date + "&toDate=" + To_Date + "&toDate=" + To_Date + ""));
+            var ReconsileReportResult = CustomUtility.GetSingleRecord<NonReconsileData>(string.Format("api/GetNonReconsileData?groupTemplateId=" + groupId + "&selectedTemplateId=" + selectedTemplateId + "&fromDate=" + From_Date + "&toDate=" + To_Date + "&toDate=" + To_Date + ""));
             var TemplateGroupResult = CustomUtility.GetSingleRecord<TemplateGroup>(string.Format("api/GetTemplateGroupValue?OnlyActive=1"));
             ViewModelNonReconsile mymodel = new ViewModelNonReconsile();
             mymodel.NonReconsileData = ReconsileReportResult;
