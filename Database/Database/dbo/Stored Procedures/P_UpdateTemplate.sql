@@ -9,7 +9,8 @@ select @hasPrimary = COUNT(1) FROM RECONSILE_TEMPLATE WHERE TEMPLATE_GROUP_ID = 
 IF ((@hasPrimary = 0 and @IsPrimary =1) or (@hasPrimary > 0 and @IsPrimary =0) or (@hasPrimary = 0 and @IsPrimary = 0))  
 BEGIN     
 UPDATE RT SET [Template_Name] =TemplateName,[Source_Folder_Path]=SourceFolder,[Source_File_Extention]=SourceExtention,[Source_Completion_Path]=SourceCompletionPath,[Source_Substring_Value]=SourceSubstringValue,[Template_Group_id] = TemplateGroupId,
-[Source_Delimiter]=SourceDelimiter,[Source_HasHeader]=SourceHasHeader,[Is_Active]=IsActive,[Number_Of_Parameter] = NumberOfParameters,[Template_Group_Status] = TemplateGroupStatus,RT.[IsPrimary] = PRT.IsPrimary,RT.[ConditionQuery] = PRT.ConditionQuery
+[Source_Delimiter]=SourceDelimiter,[Source_HasHeader]=SourceHasHeader,[Is_Active]=IsActive,[Number_Of_Parameter] = NumberOfParameters
+,[Template_Group_Status] = TemplateGroupStatus,RT.[IsPrimary] = PRT.IsPrimary,RT.[ConditionQuery] = PRT.ConditionQuery,RT.[AmoutWithDecimal] = PRT.AmoutWithDecimal
 FROM @pTemplate PRT,Reconsile_Template RT WHERE PRT.TemplateId = RT.Reconsile_Template_Id  
 END
 ELSE

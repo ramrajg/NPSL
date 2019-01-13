@@ -26,5 +26,6 @@ namespace NPSLCore.Models.DB
         public bool? IsPrimary { get; set; }
         [DataType(DataType.MultilineText)]
         public string ConditionQuery { get; set; }
+        public bool AmoutWithDecimal { get; set; }
     }
 }

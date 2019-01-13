@@ -9,6 +9,16 @@
             $('#ModalPopUp').find('#myModalLabel').html($(this).attr("title"));
         });
     });
+
+    $('.addTemplatebtn').click(function () {
+        var url = $(this).data('url');
+        var title = $(this).attr('title');
+        $.get(url, function (data) {
+            $('#bootstrapDialog').html(data);
+            $('#bootstrapDialog').modal('show');
+            $('#ModalPopUp').find('#myModalLabel').html($(this).attr("title"));
+        });
+    });
     $('#reconsileDatatable tbody').on('click', 'tr', function () {
         $(this).toggleClass('selected');
         var pos = oTable.row(this).index();

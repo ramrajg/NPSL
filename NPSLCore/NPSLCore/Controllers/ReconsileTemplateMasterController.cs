@@ -101,6 +101,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("IsActive", typeof(bool));
                 template.Columns.Add("IsPrimary", typeof(bool));
                 template.Columns.Add("ConditionQuery", typeof(string));
+                template.Columns.Add("AmoutWithDecimal", typeof(bool));
 
                 DataRow newRow = template.Rows.Add();
                 newRow["TemplateId"] = 0;
@@ -117,7 +118,8 @@ namespace NPSLCore.Controllers
                 newRow["IsActive"] = templateDetail.IsActive;
                 newRow["IsPrimary"] = templateDetail.IsPrimary;
                 newRow["ConditionQuery"] = templateDetail.ConditionQuery;
-                
+                newRow["AmoutWithDecimal"] = templateDetail.AmoutWithDecimal;
+
                 _template.SaveTemplate(template);
             }
             catch (Exception ex)
@@ -146,6 +148,7 @@ namespace NPSLCore.Controllers
                 template.Columns.Add("IsActive", typeof(bool));
                 template.Columns.Add("IsPrimary", typeof(bool));
                 template.Columns.Add("ConditionQuery", typeof(string));
+                template.Columns.Add("AmoutWithDecimal", typeof(bool));
 
                 DataRow newRow = template.Rows.Add();
                 newRow["TemplateId"] = templateDetail.TemplateId;
@@ -162,6 +165,7 @@ namespace NPSLCore.Controllers
                 newRow["IsActive"] = templateDetail.IsActive;
                 newRow["IsPrimary"] = templateDetail.IsPrimary;
                 newRow["ConditionQuery"] = templateDetail.ConditionQuery;
+                newRow["AmoutWithDecimal"] = templateDetail.AmoutWithDecimal;
 
                 _template.UpdateTemplate(template);
             }
