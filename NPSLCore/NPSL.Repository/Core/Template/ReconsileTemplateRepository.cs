@@ -144,6 +144,46 @@ namespace NPSL.Repository.Core.Template
             var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETETEMPLATEGroup", param);
         }
 
+
+
+        void IReconsileTemplateRepository.SaveFileExtension(DataTable fileExtensionDetail)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pFileExtension",
+                SqlDbType = SqlDbType.Structured,
+                Value = fileExtensionDetail,
+                TypeName = "udt_fileExtension"
+            }
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_SaveFileExtension", param);
+        }
+
+        public void UpdateFileExtension(DataTable fileExtensionDetail)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter {
+                ParameterName = "@pFileExtension",
+                SqlDbType = SqlDbType.Structured,
+                Value = fileExtensionDetail,
+                TypeName = "udt_fileExtension"
+            }
+            };
+
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_UpdateFileExtension", param);
+        }
+
+        public void DeleteFileExtension(int fileExtensionId)
+        {
+            var param = new List<SqlParameter>
+            {
+                new SqlParameter("@pTemplateGroupId ", fileExtensionId),
+            };
+            var Data = _DBContext.ExecuteTransactionalNonQuery("P_DELETETEMPLATEGroup", param);
+        }
+
         public IEnumerable<Dashboard> GetDashboardData(int groupTemplateId)
         {
             var param = new List<SqlParameter>

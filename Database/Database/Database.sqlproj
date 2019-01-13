@@ -112,6 +112,9 @@
     <Build Include="dbo\User Defined Types\udt_manualReconsile.sql" />
     <Build Include="dbo\Stored Procedures\P_ManualReconsileProcess.sql" />
     <Build Include="dbo\Stored Procedures\P_GETTEMPLATEBYGROUPID.sql" />
+    <Build Include="dbo\Stored Procedures\P_SaveFileExtension.sql" />
+    <Build Include="dbo\Stored Procedures\P_UpdateFileExtension.sql" />
+    <Build Include="dbo\User Defined Types\udt_fileExtension.sql" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dekstop.publish.xml" />

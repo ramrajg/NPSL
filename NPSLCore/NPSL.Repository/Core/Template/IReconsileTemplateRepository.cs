@@ -23,5 +23,8 @@ namespace NPSL.Repository.Core.Template
         IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int reconsileType, DateTime fromDate, DateTime toDate);
         IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId,int selectedTemplateId, DateTime fromDate, DateTime toDate);
         void ProcessManualReconsile(DataTable selectedResult);
+        void SaveFileExtension(DataTable fileExtensionDetail);
+        void UpdateFileExtension(DataTable fileExtensionDetail);
+        void DeleteFileExtension(int fileExtensionId);
     }
 }

@@ -253,6 +253,68 @@ namespace NPSLCore.Controllers
             }
         }
 
+
+        [HttpPost]
+        [Route("api/SaveFileExtension")]
+        public void SaveFileExtension([FromBody] FileExtension fileExtensionDetail)
+        {
+            try
+            {
+                var fileExtension = new DataTable();
+                fileExtension.Columns.Add("FileExtensionId", typeof(int));
+                fileExtension.Columns.Add("FileExtensionName", typeof(string));
+        
+
+                DataRow newRow = fileExtension.Rows.Add();
+                newRow["FileExtensionId"] = 0;
+                newRow["FileExtensionName"] = fileExtensionDetail.FileextensionName;
+        
+
+                _template.SaveFileExtension(fileExtension);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+        [HttpPost]
+        [Route("api/UpdateFileExtension")]
+        public void UpdateFileExtension([FromBody] FileExtension fileExtensionDetail)
+        {
+            try
+            {
+                var fileExtension = new DataTable();
+                fileExtension.Columns.Add("FileExtensionId", typeof(int));
+                fileExtension.Columns.Add("FileExtensionName", typeof(string));
+         
+
+                DataRow newRow = fileExtension.Rows.Add();
+                newRow["FileExtensionId"] = fileExtensionDetail.FileExtensionId;
+                newRow["FileExtensionName"] = fileExtensionDetail.FileextensionName;
+       
+                _template.UpdateFileExtension(fileExtension);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+        [HttpPost]
+        [Route("api/DeleteFileExtension")]
+        public void DeleteFileExtension([FromBody] int Id)
+        {
+            try
+            {
+                _template.DeleteFileExtension(Id);
+            }
+            catch (Exception ex)
+            {
+                throw new CustomException(ex.Message.ToString());
+            }
+        }
+
+
         [HttpGet]
         [Route("api/GetDashboardData")]
         public IEnumerable<Dashboard> GetDashboardData(int groupTemplateId)
