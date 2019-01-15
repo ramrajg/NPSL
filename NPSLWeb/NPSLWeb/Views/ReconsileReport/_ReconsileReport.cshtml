@@ -3,8 +3,10 @@
     @{
         var tempRowCount = 1;
     }
+    <div class="se-pre-con" hidden ="hidden"></div>
     @foreach (var reconsileReportList in @Model.ReportData)
     {
+
         @if (@reconsileReportList.denseCount == tempRowCount)
         {
             <table id="reconsileDatatable" class="table table-striped table-bordered">

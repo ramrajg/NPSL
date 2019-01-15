@@ -11,6 +11,8 @@ var tableSplitValueNonPrimary = 0;
 
 function onManualReconsile() {
     singleObj = {};
+    var $loading = $('.se-pre-con').hide();
+    $loading.show();
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
 
@@ -37,6 +39,7 @@ function onManualReconsile() {
         url: '/ManualReconsile/ManualReconsile',
         success: function (data) {
             $("#_ReconsileReportpartial").html(data);
+            $(".se-pre-con").fadeOut("slow");;
             primaryresult = [];
             nonPrimaryresult = [];
             $('#reasonTxt').val('');
@@ -45,6 +48,8 @@ function onManualReconsile() {
     });
 }
 function onNonReconsileSearchClick() {
+    var $loading = $('.se-pre-con').hide();
+    $loading.show();
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
     var e = document.getElementById("ddltemplate");
@@ -66,6 +71,7 @@ function onNonReconsileSearchClick() {
             primaryresult = [];
             nonPrimaryresult = [];
             $('#reasonTxt').val('');
+            $(".se-pre-con").fadeOut("slow");;
             SetButtonStatus();
         }
     });

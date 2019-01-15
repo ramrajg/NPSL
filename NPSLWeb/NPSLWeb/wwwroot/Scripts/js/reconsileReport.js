@@ -1,6 +1,8 @@
 ﻿var selectedFromDate;
 var selectedToday;
 function onSearchClick() {
+    var $loading = $('.se-pre-con').hide();
+    $loading.show();
     var e = document.getElementById("ddlGroupTemplate");
     var group_Id = e.options[e.selectedIndex].value;
     var t = document.getElementById("ddlReconsileType");
@@ -18,6 +20,7 @@ function onSearchClick() {
         url: '/ReconsileReport/RefreshSearchResult',
         success: function (data) {
             $("#_ReconsileReportpartial").html(data);
+            $(".se-pre-con").fadeOut("slow");;
         }
     });
 }
