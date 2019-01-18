@@ -47,7 +47,7 @@ namespace NPSLWeb.Controllers
             }
             else if (themeName == "Yeti")
             {
-                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/yeti-theme.css");
+                HttpContext.Session.SetString("ThemeSession", "/lib/bootstrap/dist/css/bootstrap.css");
             }
             return Redirect(Request.Headers["Referer"].ToString());
         }
