@@ -21,6 +21,8 @@ namespace NPSLCore.Models.DB
         public string NonPrimaryReconsileType { get; set; }
         public string NonPrimaryReconsileDesc { get; set; }
         public Int64 denseCount { get; set; }
+        public decimal SumAmount { get; set; }
+        public int TotalTrx { get; set; }
     }
 
     public partial class NonReconsileData
