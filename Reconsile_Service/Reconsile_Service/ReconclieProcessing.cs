@@ -43,7 +43,7 @@ namespace ReconsileProcess
                     {
                         string DateofProcessing = DateTime.Now.ToString("ddMMyyyy");
                         int NumberofColumns = 0;
-                        string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.AllDirectories);
+                        string[] Sourcefiles = Directory.GetFiles(item.SourceFolder, "*" + item.SourceExtention, SearchOption.TopDirectoryOnly);
                         fileName = Path.GetRandomFileName();
                         string path = item.SourceCompletionPath + "\\" + item.TemplateName + "\\" + DateofProcessing + "\\" + fileName + ".txt";
                         if (Sourcefiles.Length > 0)
