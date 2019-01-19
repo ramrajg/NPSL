@@ -33,5 +33,37 @@
       "wwwroot/css/global.css",
       "wwwroot/css/notify.css"
     ]
+  },
+  {
+    "outputFileName": "wwwroot/js/fileExtBundle.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-dataTables/dataTables.min.js",
+      "wwwroot/lib/jquery-dataTables/dataTables.bootstrap.min.js",
+      "wwwroot/Scripts/js/fileExtension.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/fileExtBundle.css",
+    "inputFiles": [
+      "wwwroot/css/datatable.min.css",
+      "wwwroot/lib/bootstrap/dist/css/customStyle.css"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/roleMasterBundle.js",
+    "inputFiles": [
+      "wwwroot/lib/jquery-dataTables/dataTables.min.js",
+      "wwwroot/lib/jquery-dataTables/dataTables.bootstrap.min.js",
+      "wwwroot/Scripts/js/roleMaster.js"
+
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/roleMasterBundle.css",
+    "inputFiles": [
+      "wwwroot/css/datatable.min.css",
+      "wwwroot/lib/bootstrap/dist/css/customStyle.css"
+     
+    ]
   }
 ]

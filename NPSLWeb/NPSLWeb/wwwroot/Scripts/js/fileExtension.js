@@ -1,5 +1,13 @@
 ﻿$(document).ready(function () {
+
+    var table = $('#fileExtension').DataTable({
+        drawCallback: function (oSettings) {
+            $('.delete-fileExtension').prop('disabled', true);
+        }
+    });
+
     var oTable = $('#fileExtension').DataTable();
+
     $('#fileExtension').on('click', '.btn-bootstrap-dialog', function () {
         var url = $(this).data('url');
         var title = $(this).attr('title');
@@ -48,7 +56,7 @@
             });
 
     });
-    
+
 });
 window.onload = function () {
     $('.delete-fileExtension').prop('disabled', true);
