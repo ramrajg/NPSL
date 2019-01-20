@@ -331,11 +331,11 @@ namespace NPSLCore.Controllers
         }
         [HttpGet]
         [Route("api/GetReconsileReportData")]
-        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int reconsileType,DateTime fromDate,DateTime toDate)
+        public IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId, int selectedTemplateId,int reconsileType,DateTime fromDate,DateTime toDate)
         {
             try
             {
-                var records = _template.GetReconsileReportData(groupTemplateId, reconsileType, fromDate, toDate);
+                var records = _template.GetReconsileReportData(groupTemplateId, selectedTemplateId,reconsileType, fromDate, toDate);
                 return records;
             }
             catch (Exception ex)

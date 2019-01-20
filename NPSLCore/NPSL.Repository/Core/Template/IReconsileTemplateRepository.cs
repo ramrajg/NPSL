@@ -20,7 +20,7 @@ namespace NPSL.Repository.Core.Template
         void UpdateTemplateGroup(DataTable templateGroupItems);
         void DeleteTemplateGroup(int templateGroupId);
         IEnumerable<Dashboard> GetDashboardData(int groupTemplateId);
-        IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int reconsileType, DateTime fromDate, DateTime toDate);
+        IEnumerable<ReconsileReportData> GetReconsileReportData(int groupTemplateId,int selectedTemplateId,int reconsileType, DateTime fromDate, DateTime toDate);
         IEnumerable<NonReconsileData> GetNonReconsileData(int groupTemplateId,int selectedTemplateId, DateTime fromDate, DateTime toDate);
         void ProcessManualReconsile(DataTable selectedResult);
         void SaveFileExtension(DataTable fileExtensionDetail);
