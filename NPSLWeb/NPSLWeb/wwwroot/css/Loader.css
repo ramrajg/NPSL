@@ -57,6 +57,5 @@ if it's not present, don't show loader */
     bottom: 0;
     left: 0;
     opacity: 0.5;
-    background: url('../images/loader-64x/preloader_4.gif') center no-repeat #fff;
-    
+    background: url('../images/loader-64x/preloader_3.gif') center no-repeat #fff;
 }

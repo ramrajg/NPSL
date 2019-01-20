@@ -55,7 +55,6 @@
       "wwwroot/lib/jquery-dataTables/dataTables.min.js",
       "wwwroot/lib/jquery-dataTables/dataTables.bootstrap.min.js",
       "wwwroot/Scripts/js/roleMaster.js"
-
     ]
   },
   {
@@ -63,7 +62,21 @@
     "inputFiles": [
       "wwwroot/css/datatable.min.css",
       "wwwroot/lib/bootstrap/dist/css/customStyle.css"
-     
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/reconsileReportBundle.js",
+    "inputFiles": [
+      "wwwroot/lib/bootstrap/dist/js/bootstrap-datepicker.js",
+      "wwwroot/Scripts/js/reconsileReport.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/exportDataBundle.js",
+    "inputFiles": [
+      "wwwroot/js/reconsileReportBundle.js",
+      "wwwroot/lib/jquery/table2Excel.js",
+      "wwwroot/Scripts/js/exportData.js"
     ]
   }
 ]

@@ -24,14 +24,20 @@ namespace NPSLWeb.Controllers
         }
 
         [HttpPost]
-        public PartialViewResult RefreshSearchResult(int groupId, int reconsileType, DateTime FromDate,DateTime ToDate)
+        public PartialViewResult RefreshSearchResult(int groupId, int reconsileType, int selectedTemplateId, DateTime FromDate,DateTime ToDate)
         {
             var From_Date = FromDate.ToString("MMM dd yyyy");
             var To_Date = ToDate.ToString("MMM dd yyyy");
-            var ReconsileReportResult = CustomUtility.GetSingleRecord<ReconsileReportData>(string.Format("api/GetReconsileReportData?groupTemplateId=" + groupId + "&reconsileType=" + reconsileType + "&fromDate=" + From_Date + "&toDate=" + To_Date + ""));
+            var ReconsileReportResult = CustomUtility.GetSingleRecord<ReconsileReportData>(string.Format("api/GetReconsileReportData?groupTemplateId=" + groupId + "&selectedTemplateId=" + selectedTemplateId + "&reconsileType=" + reconsileType + "&fromDate=" + From_Date + "&toDate=" + To_Date + ""));
             ViewModel mymodel = new ViewModel();
             mymodel.ReportData = ReconsileReportResult;
             return PartialView("_ReconsileReport", mymodel);
+        }
+        [HttpGet]
+        public JsonResult GetTemplateByGroupId(int groupId)
+        {
+            var TemplateResult = CustomUtility.GetSingleRecord<ReconsileTemplate>(string.Format("api/GetTemplateByGroupId?groupId=" + groupId));
+            return Json(TemplateResult);
         }
 
     }
