@@ -74,7 +74,6 @@
   {
     "outputFileName": "wwwroot/js/exportDataBundle.js",
     "inputFiles": [
-      "wwwroot/js/reconsileReportBundle.js",
       "wwwroot/lib/jquery/table2Excel.js",
       "wwwroot/Scripts/js/exportData.js"
     ]
