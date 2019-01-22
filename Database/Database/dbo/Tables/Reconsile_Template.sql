@@ -15,7 +15,7 @@
     [Template_Group_Status]  BIT            NULL, 
     [IsPrimary] BIT NOT NULL DEFAULT ((0)), 
     [ConditionQuery] VARCHAR(MAX) NULL, 
-    [AmoutWithDecimal ] BIT NULL 
+    [AmoutWithDecimal] BIT NULL 
 );
 
 
