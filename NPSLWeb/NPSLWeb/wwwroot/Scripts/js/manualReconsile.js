@@ -38,7 +38,7 @@ function onManualReconsile() {
         },
         url: '/ManualReconsile/ManualReconsile',
         success: function (data) {
-            $("#_ReconsileReportpartial").html(data);
+            $("#_manualReconsileReportpartial").html(data);
             $(".se-pre-con").fadeOut("slow");;
             primaryresult = [];
             nonPrimaryresult = [];
@@ -67,7 +67,7 @@ function onNonReconsileSearchClick() {
         },
         url: '/ManualReconsile/RefreshSearchResult',
         success: function (data) {
-            $("#_ReconsileReportpartial").html(data);
+            $("#_manualReconsileReportpartial").html(data);
             primaryresult = [];
             nonPrimaryresult = [];
             $('#reasonTxt').val('');

@@ -1,3 +1,244 @@
+//var webUtils = (function () {
+//var pub = {};
+
+//function apiGetCall(serviceUrl, listDestination, isDisabled, callback, errorCallback) {
+//    serviceUrl = 'http://localhost:50411' + serviceUrl;
+//    listDestination([]);
+//    $(document).ready(function () {
+
+//        $.ajax({
+//            type: "GET",
+//            url: serviceUrl,
+//            contentType: "application/json; charset=utf-8",
+//            dataType: "json",
+//            success: function (result) {
+//                if (result) {
+//                    listDestination(result);
+//                    if (callback && typeof (callback) === "function")
+//                        callback();
+//                }
+//            },
+//            failure: function (data) {
+//                alert(data.responseText);
+//            },
+//            error: function (jqXHR, textStatus, errorThrown) {
+//                console.log("The following error occurred: " + jqXHR.responseJSON.error);
+//                console.log(errorThrown);
+//                if (errorCallback && typeof (errorCallback) === "function") {
+//                    errorCallback(jqXHR, textStatus, errorThrown);
+//                }
+//            }
+//        }).always(function () {
+//            //if (isDisabled)
+//            //    isDisabled(false);
+//        });
+//    });
+//}
+
+function apiGetCallController(controllerName, methodName, methodType, data, successCallBack, errorCallback) {
+    urlString = '/' + controllerName + '/' + methodName;
+    $(document).ready(function () {
+        $.ajax({
+            url: urlString,
+            type: methodType,
+            data: data,
+            async: true,
+            //dataType: 'json',
+            //contentType: 'application/json; charset=utf-8',
+            success: function (data) {
+                if (successCallBack && typeof (successCallBack) === "function")
+                    successCallBack(data);
+            },
+            failure: function (data) {
+                alert(data.responseText);
+            },
+            error: function (jqXHR, textStatus, errorThrown) {
+                console.log("The following error occurred: " + jqXHR.responseJSON.error);
+                console.log(jqXHR, textStatus, errorThrown);
+                if (errorCallback && typeof (errorCallback) === "function") {
+                    errorCallback(jQuery.parseJSON(jqXHR.responseJSON).error);
+                }
+            }
+        });
+    });
+}
+
+function getNowDate() {
+    var now = new Date(),
+        month = '' + (now.getMonth() + 1),
+        day = '' + now.getDate(),
+        year = now.getFullYear();
+    if (month.length < 2) month = '0' + month;
+    if (day.length < 2) day = '0' + day;
+    return [year, month, day].join('-');
+}
+
+function IsNullOrUndefinedOrBlank(x) {
+    if (x === undefined || x === null || x === "") {
+        return true;
+    }
+    else {
+        return false;
+    }
+
+}
+function AllowNumbersOnly(e) {
+    var code = (e.which) ? e.which : e.keyCode;
+    if (code > 31 && (code < 48 || code > 57)) {
+        e.preventDefault();
+    }
+}
+
+function typeWriter(elementId, txt, speed) {
+    if (i < txt.length) {
+        document.getElementById(elementId).innerHTML += txt.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+    }
+}
+
+
+function setTextValue(elementId, txt) {
+    document.getElementById(elementId).value = txt;
+}
+
+
+    $(document).ready(function () {
+        var oTable = $('#roleData').DataTable();
+        $('#roleData').on('click', '.btn-bootstrap-dialog', function () {
+            var url = $(this).data('url');
+            var title = $(this).attr('title');
+            $.get(url, function (data) {
+                $('#bootstrapDialog').html(data);
+                $('#bootstrapDialog').modal('show');
+                $('#ModalPopUp').find('#myModalLabel').html($(this).attr("title"));
+            });
+        });
+        $('.addRoleMasterbtn').click(function () {
+            var url = $(this).data('url');
+            var title = $(this).attr('title');
+            $.get(url, function (data) {
+                $('#bootstrapDialog').html(data);
+                $('#bootstrapDialog').modal('show');
+                $('#ModalPopUp').find('#myModalLabel').html($(this).attr("title"));
+            });
+        });
+        $(function () {
+            $('input[type="checkbox"]').change(checkboxChanged);
+            function checkboxChanged() {
+                var $this = $(this),
+                    checked = $this.prop("checked"),
+                    container = $this.parent(),
+                    siblings = container.siblings();
+                container.find('input[type="checkbox"]')
+                    .prop({
+                        indeterminate: false,
+                        checked: checked
+                    })
+                    .siblings('label')
+                    .removeClass('custom-checked custom-unchecked custom-indeterminate')
+                    .addClass(checked ? 'custom-checked' : 'custom-unchecked');
+                checkSiblings(container, checked);
+            }
+
+            function checkSiblings($el, checked) {
+                var parent = $el.parent().parent(),
+                    all = true,
+                    indeterminate = false;
+                $el.siblings().each(function () {
+                    return all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
+                });
+                if (all && checked) {
+                    parent.children('input[type="checkbox"]')
+                        .prop({
+                            indeterminate: false,
+                            checked: checked
+                        })
+                        .siblings('label')
+                        .removeClass('custom-checked custom-unchecked custom-indeterminate')
+                        .addClass(checked ? 'custom-checked' : 'custom-unchecked');
+                    checkSiblings(parent, checked);
+                }
+                else if (all && !checked) {
+                    indeterminate = parent.find('input[type="checkbox"]:checked').length > 0;
+
+                    parent.children('input[type="checkbox"]')
+                        .prop("checked", checked)
+                        .prop("indeterminate", indeterminate)
+                        .siblings('label')
+                        .removeClass('custom-checked custom-unchecked custom-indeterminate')
+                        .addClass(indeterminate ? 'custom-indeterminate' : (checked ? 'custom-checked' : 'custom-unchecked'));
+                    checkSiblings(parent, checked);
+                }
+                else {
+                    $el.parents("li").children('input[type="checkbox"]')
+                        .prop({
+                            indeterminate: true,
+                            checked: false
+                        })
+                        .siblings('label')
+                        .removeClass('custom-checked custom-unchecked custom-indeterminate')
+                        .addClass('custom-indeterminate');
+                }
+            }
+
+            $('#roleEdit').submit(function (event) {
+                var selectedMenuId = [];
+                var result = [];
+                singleObj = {};
+                var RoleId = "";
+                RoleId = document.getElementById('RoleId').value;
+                $('input[type="checkbox"]').each(function () {
+                    if ($(this).is(':checked')) {
+                        singleObj = {};
+                        singleObj['SubmenuId'] = this.id;
+                        singleObj['RoleId'] = RoleId;
+                        selectedMenuId.push(singleObj);
+                    }
+                });
+               
+                if (RoleId != "") {
+                    apiGetCallController('RoleMaster', 'EditrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
+                        window.location.href = '/RoleMaster/Index';
+                    }, function (responseText) {
+                        $.notify(responseText, 'danger');
+                        return false;
+                    });
+                }
+
+            });
+
+            $('#roleAdd').submit(function (event) {
+                var selectedMenuId = [];
+                var result = [];
+                singleObj = {};
+                var RoleName = "";
+                RoleName = document.getElementById('RoleName').value;
+                $('input[type="checkbox"]').each(function () {
+                    if ($(this).is(':checked')) {
+                        singleObj = {};
+                        singleObj['SubmenuId'] = this.id;
+                        singleObj['RoleName'] = RoleName;
+                        selectedMenuId.push(singleObj);
+                    }
+                });
+
+
+                if (RoleName != "") {
+                    apiGetCallController('RoleMaster', 'AddrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
+                        window.location.href = '/RoleMaster/Index';
+                    }, function (responseText) {
+                        $.notify(responseText, 'danger');
+                        return false;
+                    });
+                }
+
+            });
+
+        });
+
+    });
+
 /*!
  DataTables 1.10.16
  ©2008-2017 SpryMedia Ltd - datatables.net/license
@@ -594,134 +835,144 @@
             }, i; try { i = b(h).find(d.activeElement).data("dt-idx") } catch (v) { } q(b(h).empty().html('<ul class="pagination"/>').children("ul"), s); i !== m && b(h).find("[data-dt-idx=" + i + "]").focus()
         }; return f
 });
-$(document).ready(function () {
-    var oTable = $('#roleData').DataTable();
-    $('.btn-bootstrap-dialog').click(function () {
-        var url = $(this).data('url');
-        var title = $(this).attr('title');
-        $.get(url, function (data) {
-            $('#bootstrapDialog').html(data);
-            $('#bootstrapDialog').modal('show');
-            $('#ModalPopUp').find('#myModalLabel').html($(this).attr("title"));
+(function (plugin) {
+
+    var component;
+
+    if (jQuery) {
+        component = plugin(jQuery);
+    }
+
+    if (typeof define == "function" && define.amd) {
+        define("notify", function () {
+            return component || plugin(jQuery);
         });
-    });
-    $(function () {
-        $('input[type="checkbox"]').change(checkboxChanged);
-        function checkboxChanged() {
-            var $this = $(this),
-                checked = $this.prop("checked"),
-                container = $this.parent(),
-                siblings = container.siblings();
-            container.find('input[type="checkbox"]')
-                .prop({
-                    indeterminate: false,
-                    checked: checked
-                })
-                .siblings('label')
-                .removeClass('custom-checked custom-unchecked custom-indeterminate')
-                .addClass(checked ? 'custom-checked' : 'custom-unchecked');
-            checkSiblings(container, checked);
+    }
+
+})(function ($) {
+
+    var containers = {},
+        messages = {},
+
+        notify = function (options) {
+
+            if ($.type(options) == 'string') {
+                options = { message: options };
+            }
+
+            if (arguments[1]) {
+                options = $.extend(options, $.type(arguments[1]) == 'string' ? { status: arguments[1] } : arguments[1]);
+            }
+
+            return (new Message(options)).show();
+        };
+
+    var Message = function (options) {
+
+        var $this = this;
+
+        this.options = $.extend({}, Message.defaults, options);
+
+        this.uuid = "ID" + (new Date().getTime()) + "RAND" + (Math.ceil(Math.random() * 100000));
+        this.element = $([
+
+            '<div class="alert notify-message">',
+            '<button type="button" class="close" aria-hidden="true">&times;</button>',
+            '<div>' + this.options.message + '</div>',
+            '</div>'
+
+        ].join('')).data("notifyMessage", this);
+
+        // status
+        if (this.options.status == 'error') {
+            this.options.status = 'danger';
         }
 
-        function checkSiblings($el, checked) {
-            var parent = $el.parent().parent(),
-                all = true,
-                indeterminate = false;
-            $el.siblings().each(function () {
-                return all = ($(this).children('input[type="checkbox"]').prop("checked") === checked);
-            });
-            if (all && checked) {
-                parent.children('input[type="checkbox"]')
-                    .prop({
-                        indeterminate: false,
-                        checked: checked
-                    })
-                    .siblings('label')
-                    .removeClass('custom-checked custom-unchecked custom-indeterminate')
-                    .addClass(checked ? 'custom-checked' : 'custom-unchecked');
-                checkSiblings(parent, checked);
-            }
-            else if (all && !checked) {
-                indeterminate = parent.find('input[type="checkbox"]:checked').length > 0;
+        this.element.addClass('alert-' + this.options.status);
+        this.currentstatus = this.options.status;
 
-                parent.children('input[type="checkbox"]')
-                    .prop("checked", checked)
-                    .prop("indeterminate", indeterminate)
-                    .siblings('label')
-                    .removeClass('custom-checked custom-unchecked custom-indeterminate')
-                    .addClass(indeterminate ? 'custom-indeterminate' : (checked ? 'custom-checked' : 'custom-unchecked'));
-                checkSiblings(parent, checked);
-            }
-            else {
-                $el.parents("li").children('input[type="checkbox"]')
-                    .prop({
-                        indeterminate: true,
-                        checked: false
-                    })
-                    .siblings('label')
-                    .removeClass('custom-checked custom-unchecked custom-indeterminate')
-                    .addClass('custom-indeterminate');
-            }
-        }
+        messages[this.uuid] = this;
 
-
-
-    });
-
-    $('#roleEdit').submit(function (event) {
-        var selectedMenuId = [];
-        var result = [];
-        singleObj = {};
-        var RoleId = "";
-        RoleId = document.getElementById('RoleId').value;
-        $('input[type="checkbox"]').each(function () {
-            if ($(this).is(':checked')) {
-                singleObj = {};
-                singleObj['SubmenuId'] = this.id;
-                singleObj['RoleId'] = RoleId;
-                selectedMenuId.push(singleObj);
-            }
-        });
-
-
-        if (RoleName != "") {
-            apiGetCallController('RoleMaster', 'EditrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
-                window.location.href = '/RoleMaster/Index';
-            }, function (responseText) {
-                $.notify(responseText, 'danger');
-                return false;
+        if (!containers[this.options.pos]) {
+            containers[this.options.pos] = $('<div class="notify notify-' + this.options.pos + '"></div>').appendTo('body').on("click", ".notify-message", function () {
+                $(this).data("notifyMessage").close();
             });
         }
-
-    });
-
-    $('#roleAdd').submit(function (event) {
-        var selectedMenuId = [];
-        var result = [];
-        singleObj = {};
-        var RoleName = "";
-        RoleName = document.getElementById('RoleName').value;
-        $('input[type="checkbox"]').each(function () {
-            if ($(this).is(':checked')) {
-                singleObj = {};
-                singleObj['SubmenuId'] = this.id;
-                singleObj['RoleName'] = RoleName;
-                selectedMenuId.push(singleObj);
-            }
-        });
+    };
 
 
-        if (RoleName != "") {
-            apiGetCallController('RoleMaster', 'AddrecordAPICall', 'POST', { selectedMenuId: selectedMenuId }, function () {
-                window.location.href = '/RoleMaster/Index';
-            }, function (responseText) {
-                $.notify(responseText, 'danger');
-                return false;
+    $.extend(Message.prototype, {
+
+        uuid: false,
+        element: false,
+        timout: false,
+        currentstatus: "",
+
+        show: function () {
+
+            if (this.element.is(":visible")) return;
+
+            var $this = this;
+
+            containers[this.options.pos].css('zIndex', this.options.zIndex).show().prepend(this.element);
+
+            var marginbottom = parseInt(this.element.css("margin-bottom"), 10);
+
+            this.element.css({ "opacity": 0, "margin-top": -1 * this.element.outerHeight(), "margin-bottom": 0 }).animate({ "opacity": 1, "margin-top": 0, "margin-bottom": marginbottom }, function () {
+
+                if ($this.options.timeout) {
+
+                    var closefn = function () { $this.close(); };
+
+                    $this.timeout = setTimeout(closefn, $this.options.timeout);
+
+                    $this.element.hover(
+                        function () { clearTimeout($this.timeout); },
+                        function () { $this.timeout = setTimeout(closefn, $this.options.timeout); }
+                    );
+                }
+
             });
-        }
+
+            return this;
+        },
+
+        close: function (instantly) {
+
+            var $this = this,
+                finalize = function () {
+                    $this.element.remove();
+
+                    if (!containers[$this.options.pos].children().length) {
+                        containers[$this.options.pos].hide();
+                    }
+
+                    $this.options.onClose.apply($this, []);
+
+                    delete messages[$this.uuid];
+                };
+
+            if (this.timeout) clearTimeout(this.timeout);
+
+            if (instantly) {
+                finalize();
+            } else {
+                this.element.animate({ "opacity": 0, "margin-top": -1 * this.element.outerHeight(), "margin-bottom": 0 }, function () {
+                    finalize();
+                });
+            }
+        },
 
     });
 
+    Message.defaults = {
+        message: "",
+        status: "default",
+        timeout: 5000,
+        pos: 'top-center',
+        zIndex: 10400,
+        onClose: function () { }
+    };
 
-
+    return $.notify = notify
 });

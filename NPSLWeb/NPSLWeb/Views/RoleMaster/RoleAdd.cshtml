@@ -1,11 +1,20 @@
 ﻿@model NPSLCore.Models.DB.Roles
 
+
+
+<script src="~/Scripts/js/roleMaster.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
+<script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
+<script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+<link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
+
+
+@*<script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
 <script src="~/Scripts/js/roleMaster.js"></script>
 <link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
-<script src="~/js/CustomUtils.js"></script>
+<script src="~/js/CustomUtils.js"></script>*@
 
 
 <div class="modal-dialog" id="ModalPopUp">
@@ -26,7 +35,7 @@
             <div class="form-group">
                 <div class="row">
                     <div class="col-xs-offset-1 col-xs-offset-right-1">
-                        @Html.TextBoxFor(model => model.RoleName, new { @class = "form -control", placeholder = "Role Name",id= "RoleName", required = "required" })
+                        @Html.TextBoxFor(model => model.RoleName, new { @class = "form -control", placeholder = "Role Name", id = "RoleName", required = "required" })
                         @Html.ValidationMessageFor(model => model.RoleName, "", new { @class = "text-danger" })
                     </div>
                 </div>
@@ -43,7 +52,7 @@
                                             @foreach (var SubMenuList in MenuList)
                                             {
                                                 <li>
-                                                    <input type="checkbox"  name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId>
+                                                    <input type="checkbox" name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId>
                                                     <label for="tall-1" class="custom-unchecked">@SubMenuList.SubMenuName</label>
                                                 </li>
                                             }

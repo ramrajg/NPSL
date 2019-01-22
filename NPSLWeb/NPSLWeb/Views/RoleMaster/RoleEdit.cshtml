@@ -1,12 +1,12 @@
 ﻿@model NPSLCore.Models.DB.Roles
 
 
+<script src="~/Scripts/js/roleMaster.js"></script>
 <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
 <script src="~/lib/jquery-validation/dist/additional-methods.js"></script>
 <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-<script src="~/Scripts/js/roleMaster.js"></script>
 <link href="~/lib/bootstrap/dist/css/customStyle.css" rel="stylesheet" />
-<script src="~/js/CustomUtils.js"></script>
+
 
 <div class="modal-dialog" id="ModalPopUp">
 
@@ -37,23 +37,23 @@
                                         var SubmenuChecked = false;
                                         <li>
                                             @foreach (var SubMenuList in MenuList)
-                                                {
+                                            {
 
-                                                    @if (SubMenuList.IsSelected == 1)
-                                                    {
-                                                        SubmenuChecked = true;
-                                                        <input type="checkbox" name=@MenuList.Key checked>
-                                                        <label for="tall" class="custom-checked">@MenuList.Key</label>
-                                                        break;
-                                                    }
-                                                }
-                                                @if (SubmenuChecked == false)
+                                                @if (SubMenuList.IsSelected == 1)
                                                 {
-                                                    <input type="checkbox" name=@MenuList.Key>
-                                                    <label for="tall" class="custom-unchecked">@MenuList.Key</label>
+                                                    SubmenuChecked = true;
+                                                    <input type="checkbox" name=@MenuList.Key checked>
+                                                    <label for="tall" class="custom-checked">@MenuList.Key</label>
+                                                    break;
                                                 }
-                                                else
-                                                { SubmenuChecked = false; }
+                                            }
+                                            @if (SubmenuChecked == false)
+                                            {
+                                                <input type="checkbox" name=@MenuList.Key>
+                                                <label for="tall" class="custom-unchecked">@MenuList.Key</label>
+                                            }
+                                            else
+                                            { SubmenuChecked = false; }
 
 
 
@@ -63,7 +63,7 @@
                                                     <li>
                                                         @if (SubMenuList.IsSelected == 1)
                                                         {
-                                                            <input type="checkbox"   name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId checked>
+                                                            <input type="checkbox" name=@SubMenuList.SubMenuName id=@SubMenuList.SubMenuId checked>
                                                             <label for="tall-1" class="custom-checked">@SubMenuList.SubMenuName</label>
                                                         }
                                                         else

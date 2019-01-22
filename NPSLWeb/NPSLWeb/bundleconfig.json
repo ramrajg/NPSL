@@ -50,21 +50,6 @@
     ]
   },
   {
-    "outputFileName": "wwwroot/js/roleMasterBundle.js",
-    "inputFiles": [
-      "wwwroot/lib/jquery-dataTables/dataTables.min.js",
-      "wwwroot/lib/jquery-dataTables/dataTables.bootstrap.min.js",
-      "wwwroot/Scripts/js/roleMaster.js"
-    ]
-  },
-  {
-    "outputFileName": "wwwroot/css/roleMasterBundle.css",
-    "inputFiles": [
-      "wwwroot/css/datatable.min.css",
-      "wwwroot/lib/bootstrap/dist/css/customStyle.css"
-    ]
-  },
-  {
     "outputFileName": "wwwroot/js/reconsileReportBundle.js",
     "inputFiles": [
       "wwwroot/lib/bootstrap/dist/js/bootstrap-datepicker.js",
@@ -76,6 +61,24 @@
     "inputFiles": [
       "wwwroot/lib/jquery/table2Excel.js",
       "wwwroot/Scripts/js/exportData.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/js/roleMasterBundle.js",
+    "inputFiles": [
+      "wwwroot/js/CustomUtils.js",
+      "wwwroot/Scripts/js/roleMaster.js",
+      "wwwroot/lib/jquery-dataTables/dataTables.min.js",
+      "wwwroot/lib/jquery-dataTables/dataTables.bootstrap.min.js",
+      "wwwroot/lib/jquery/notify.js"
+    ]
+  },
+  {
+    "outputFileName": "wwwroot/css/roleMasterBundle.css",
+    "inputFiles": [
+      "wwwroot/css/dataTables.bootstrap.min.css",
+      "wwwroot/lib/bootstrap/dist/css/customStyle.css",
+      "wwwroot/css/notify.css"
     ]
   }
 ]
