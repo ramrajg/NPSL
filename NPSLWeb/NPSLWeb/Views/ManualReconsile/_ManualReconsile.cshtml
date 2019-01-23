@@ -15,7 +15,7 @@
         @if (@reconsileReportList.TemplateSpilt == dashBoardClorCount)
         {
             <div class="table-responsive col-md-6">
-                <table id="reconsileDatatable" class="table table-striped table-bordered">
+                <table id="manualReconsileDatatable" class="table table-striped table-bordered">
                     <text style="font-weight:bold">@reconsileReportList.TemplateName</text>
                     <thead>
                         <tr>
@@ -34,7 +34,7 @@
                             {
                                 <tbody>
                                     <tr class="success">
-                                        <td><input type="checkbox" id="primaryCheckBox" value="@reconsileReportList2.Id" onclick="onPrimaryCheckBox()" class="chkClass"></td>
+                                        <td><input type="checkbox" id="primaryCheckBox" value="@reconsileReportList2.Id" onclick="onPrimaryCheckBox(this)" class="chkClass"></td>
                                         <td>@reconsileReportList2.RRNNumber</td>
                                         <td>@reconsileReportList2.Amount</td>
                                         <td>@reconsileReportList2.TemplateName</td>
@@ -83,7 +83,7 @@
                                 {
                                     <tbody>
                                         <tr class="danger">
-                                            <td><input type="checkbox" id="nonPrimaryCheckBox" value="@reconsileReportList2.Id" onclick="onNonPrimaryCheckBox()" class="chkNonClass"></td>
+                                            <td><input type="checkbox" id="nonPrimaryCheckBox" value="@reconsileReportList2.Id" onclick="onNonPrimaryCheckBox(this)" class="chkNonClass"></td>
                                             <td>@reconsileReportList2.RRNNumber</td>
                                             <td>@reconsileReportList2.Amount</td>
                                             <td>@reconsileReportList2.TemplateName</td>

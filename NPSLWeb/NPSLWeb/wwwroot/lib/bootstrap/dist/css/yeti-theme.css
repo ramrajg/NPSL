@@ -5255,6 +5255,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
     font-size: 19px;
     line-height: 21px;
     height: 45px;
+    color:white;
 }
 
     .navbar-brand:hover,
@@ -5519,7 +5520,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 
     .navbar-default .navbar-brand {
-        color: #ffffff;
+        color: #d6d6d6;
     }
 
         .navbar-default .navbar-brand:hover,
@@ -5637,7 +5638,8 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 
     .navbar-inverse .navbar-brand {
-        color: #ffffff;
+        color: white;
+        background-color :white;
     }
 
         .navbar-inverse .navbar-brand:hover,

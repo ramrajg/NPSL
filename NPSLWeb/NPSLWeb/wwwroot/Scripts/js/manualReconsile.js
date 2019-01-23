@@ -76,54 +76,50 @@ function onNonReconsileSearchClick() {
         }
     });
 }
-function onPrimaryCheckBox() {
+function onPrimaryCheckBox(primaryChk) {
     primaryresult = []
     singleObj = {};
     var currentPrimaryId = 0;
-    $('input.chkClass').on('change', function () {
-        currentPrimaryId = parseInt($(this).closest('tr').find('td:last').text());
-        $('input.chkClass').not(this).prop('checked', false);
-        primaryresult = []
-        if (tableSplitValuePrimary == 0) {
-            tableSplitValuePrimary = parseInt(currentPrimaryId);
-            $.each($("input[id='primaryCheckBox']:checked"), function () {
-                singleObj['Id'] = $(this).val();
-                singleObj['Type'] = 'P';
-                singleObj['ReasonDesc'] = "";
-            });
-        }
-        else if (tableSplitValuePrimary == parseInt(currentPrimaryId)) {
-            tableSplitValuePrimary = parseInt(currentPrimaryId);
-            $.each($("input[id='primaryCheckBox']:checked"), function () {
-                singleObj['Id'] = $(this).val();
-                singleObj['Type'] = 'P';
-                singleObj['ReasonDesc'] = "";
-            });
-        }
-        else {
-            nonPrimaryresult = [];
-            nonPrimaryAmount = 0;
-            tableSplitValuePrimary = parseInt(currentPrimaryId);
-            $.each($("input[id='primaryCheckBox']:checked"), function () {
-                singleObj['Id'] = $(this).val();
-                singleObj['Type'] = 'P';
-                singleObj['ReasonDesc'] = "";
-            });
-            $('input.chkNonClass').prop('checked', false);
-        }
-        primaryresult.push(singleObj);
-        SetButtonStatus();
-    });
+    currentPrimaryId = parseInt($(primaryChk).closest('tr').find('td:last').text());
+    $('input.chkClass').not(primaryChk).prop('checked', false);
+    primaryresult = []
+    if (tableSplitValuePrimary == 0) {
+        tableSplitValuePrimary = parseInt(currentPrimaryId);
+        $.each($("input[id='primaryCheckBox']:checked"), function () {
+            singleObj['Id'] = $(this).val();
+            singleObj['Type'] = 'P';
+            singleObj['ReasonDesc'] = "";
+        });
+    }
+    else if (tableSplitValuePrimary == parseInt(currentPrimaryId)) {
+        tableSplitValuePrimary = parseInt(currentPrimaryId);
+        $.each($("input[id='primaryCheckBox']:checked"), function () {
+            singleObj['Id'] = $(this).val();
+            singleObj['Type'] = 'P';
+            singleObj['ReasonDesc'] = "";
+        });
+    }
+    else {
+        nonPrimaryresult = [];
+        nonPrimaryAmount = 0;
+        tableSplitValuePrimary = parseInt(currentPrimaryId);
+        $.each($("input[id='primaryCheckBox']:checked"), function () {
+            singleObj['Id'] = $(this).val();
+            singleObj['Type'] = 'P';
+            singleObj['ReasonDesc'] = "";
+        });
+        $('input.chkNonClass').prop('checked', false);
+    }
+    primaryresult.push(singleObj);
+    SetButtonStatus();
 }
-function onNonPrimaryCheckBox() {
+function onNonPrimaryCheckBox(nonPrimaryChk) {
     nonPrimaryresult = [];
     nonPrimaryAmount = 0;
     tableSplitValueNonPrimary = 0;
-    $('input.chkNonClass').on('change', function () {
-        if (parseInt($(this).closest('tr').find('td:last').text()) != tableSplitValuePrimary + 1) {
-            $(this).prop('checked', false);
-        }
-    });
+    if (parseInt($(nonPrimaryChk).closest('tr').find('td:last').text()) != tableSplitValuePrimary + 1) {
+        $(nonPrimaryChk).prop('checked', false);
+    }
     $.each($("input[id='nonPrimaryCheckBox']:checked"), function () {
         singleObj = {};
         singleObj['Id'] = $(this).val();
