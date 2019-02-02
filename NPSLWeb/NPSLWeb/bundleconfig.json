@@ -60,7 +60,9 @@
     "outputFileName": "wwwroot/js/exportDataBundle.js",
     "inputFiles": [
       "wwwroot/lib/jquery/table2Excel.js",
+      "wwwroot/Scripts/js/FileSaver.js",
       "wwwroot/Scripts/js/exportData.js"
+
     ]
   },
   {

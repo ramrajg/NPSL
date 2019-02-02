@@ -1,15 +1,17 @@
 ﻿function exportClickCSV() {
     var titles = [];
     var data = [];
-
+    var header = "\r\n";
+    header = header + $('#header1').val() + "\r\n" + $('#header2').val() + "\r\n" + $('#header3').val() + "\r\n\r\n";
     $('#reconsileDatatable th').each(function () {
         titles.push($(this).text());
     });
     $('#reconsileDatatable td').each(function () {
         data.push($(this).text());
     });
-    var CSVString = prepCSVRow(titles, titles.length, '');
+    var CSVString = prepCSVRow(titles, titles.length, header);
     CSVString = prepCSVRow(data, titles.length, CSVString);
+   
     var downloadLink = document.createElement("a");
     var blob = new Blob(["\ufeff", CSVString]);
     var url = URL.createObjectURL(blob);
@@ -77,41 +79,38 @@
 }
 function exportClickXLS() {
 
-    $("#reconsileDatatable").table2excel();
-    //var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
-    //tab_text = tab_text + '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
-    //tab_text = tab_text + '<x:Name>Test Sheet</x:Name>';
-    //tab_text = tab_text + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
-    //tab_text = tab_text + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
-    //tab_text = tab_text + "<table border='2px'><tr bgcolor='#87AFC6'>";
-    //var textRange; var j = 0;
-    //tab = document.getElementById('reconsileDatatable'); // id of table
+    //$("#reconsileDatatable").table2excel({
+    //    exclude: "",
+    //    name: "Test12345",
+    //});
 
-    //for (j = 0; j < tab.rows.length; j++) {
-    //    tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
-    //    //tab_text=tab_text+"</tr>";
-    //}
+    var header = "<br>";
+    header = header + $('#header1').val() + "<br>" + $('#header2').val() + "<br>" + $('#header3').val() + "<br><br><br><br>";
 
-    //tab_text = tab_text + "</table>";
-    //tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
-    //tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
-    //tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
 
-    //var ua = window.navigator.userAgent;
-    //var msie = ua.indexOf("MSIE ");
+    var tab_text = '<html xmlns:x="urn:schemas-microsoft-com:office:excel">';
+    tab_text = tab_text + '<head><xml><x:ExcelWorkbook><x:ExcelWorksheets><x:ExcelWorksheet>';
+    tab_text = tab_text + '<x:Name>Reconsile Report</x:Name>';
+    tab_text = tab_text + '<x:WorksheetOptions><x:Panes></x:Panes></x:WorksheetOptions></x:ExcelWorksheet>';
+    tab_text = tab_text + '</x:ExcelWorksheets></x:ExcelWorkbook></xml></head><body>';
+    tab_text = tab_text + "<table border='2px'>";
+    tab_text = tab_text + header;
+    var textRange; var j = 0;
+    tab = document.getElementById('reconsileDatatable'); // id of table
 
-    //if (msie > 0 || !!navigator.userAgent.match(/Trident.*rv\:11\./))      // If Internet Explorer
-    //{
-    //    txtArea1.document.open("txt/html", "replace");
-    //    txtArea1.document.write(tab_text);
-    //    txtArea1.document.close();
-    //    txtArea1.focus();
-    //    sa = txtArea1.document.execCommand("SaveAs", true, "Say Thanks to Sumit.xls");
-    //}
-    //else                 //other browser not tested on IE 11
-    //    sa = window.open('data:application/vnd.ms-excel,' + encodeURIComponent(tab_text));
-
-    //return (sa);
+    for (j = 0; j < tab.rows.length; j++) {
+        tab_text = tab_text + tab.rows[j].innerHTML + "</tr>";
+    }
+   
+    tab_text = tab_text + "</table></body></html>";
+    tab_text = tab_text.replace(/<A[^>]*>|<\/A>/g, "");//remove if u want links in your table
+    tab_text = tab_text.replace(/<img[^>]*>/gi, ""); // remove if u want images in your table
+    tab_text = tab_text.replace(/<input[^>]*>|<\/input>/gi, ""); // reomves input params
+    var blob = new Blob([tab_text], {
+        type: "application/vnd.ms-excel"
+    });
+    saveAs(blob, "ReconsileReport.xls", true);
+  
 }
 function base64_encode(data) {
     var b64 = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=";

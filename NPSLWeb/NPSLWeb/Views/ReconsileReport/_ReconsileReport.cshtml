@@ -21,13 +21,17 @@
 
             @if (@reconsileReportList.denseCount == tempRowCount)
             {
+                <input type="hidden" id="header1" name="header1" value="Reconsile Between : @reconsileReportList.PrimaryTemplateName And @reconsileReportList.NonPrimaryTemplateName">
+                <input type="hidden" id="header2" name="header2" value="Total No of Transaction : @reconsileReportList.TotalTrx">
+                <input type="hidden" id="header3" name="header3" value="Total Amount : @reconsileReportList.SumAmount">
                 <table id="reconsileDatatable" class="table table-striped table-bordered">
-                    <text style="font-weight:bold">Reconsile Between : @reconsileReportList.PrimaryTemplateName And @reconsileReportList.NonPrimaryTemplateName </text>
-                    <br>
-                    <text style="font-weight:bold">Total No of Transaction : @reconsileReportList.TotalTrx </text>
-                    <br>
-                    <text style="font-weight:bold">Total Amount : @reconsileReportList.SumAmount  </text>
                     <thead>
+
+                        <text style="font-weight:bold">Reconsile Between : @reconsileReportList.PrimaryTemplateName And @reconsileReportList.NonPrimaryTemplateName</text>
+                        <br>
+                        <text style="font-weight:bold">Total No of Transaction : @reconsileReportList.TotalTrx</text>
+                        <br>
+                        <text style="font-weight:bold">Total Amount : @reconsileReportList.SumAmount </text>
                         <tr class="warning">
                             <th>RRN - Primary</th>
                             <th>Amount - Primary</th>
@@ -36,6 +40,7 @@
                             <th>Amount -Non Primary</th>
                             <th>Date - Non Primary</th>
                             <th>Reconsile Type</th>
+                            <th>Manual Reconsile Reason</th>
                         </tr>
                     </thead>
                     @if (tempRowCount % 2 != 0)
@@ -54,6 +59,7 @@
                                         <td>@reconsileReportListPrimary.NonPrimaryAmount</td>
                                         <td>@reconsileReportListPrimary.NonPrimaryDate.ToString("dd-MMM-yyyy")</td>
                                         <td>@(@reconsileReportListPrimary.NonPrimaryReconsileType == "A" ? "Auto" : "Manual")</td>
+                                        <td>@(@reconsileReportListPrimary.PrimaryReconsileDesc)</td>
                                     </tr>
                                 </tbody>
 
@@ -75,6 +81,7 @@
                                         <td>@reconsileReportListPrimary.NonPrimaryAmount</td>
                                         <td>@reconsileReportListPrimary.NonPrimaryDate.ToString("dd-MMM-yyyy")</td>
                                         <td>@(@reconsileReportListPrimary.NonPrimaryReconsileType == "A" ? "Auto" : "Manual")</td>
+                                        <td>@(@reconsileReportListPrimary.PrimaryReconsileDesc)</td>
                                     </tr>
                                 </tbody>
                             }
